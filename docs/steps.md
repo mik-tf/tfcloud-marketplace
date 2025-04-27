@@ -111,6 +111,7 @@ For end-to-end automation (including initial site creation), use a GitHub PAT:
    permissions:
      contents: read
      pages: write
+     id-token: write
 
    jobs:
      build-and-deploy:
@@ -157,6 +158,7 @@ To create a fine-grained PAT for fully automated Pages deployment:
 
 #### Troubleshooting `Get Pages site failed`
 
+- If you see `Error: Unable to get ACTIONS_ID_TOKEN_REQUEST_URL`, ensure the `permissions` block in your workflow includes `id-token: write`.
 - If you see `Error: Get Pages site failed` in your workflow logs, ensure your `PAGES_PAT` secret has **repo**, **workflow**, and **pages: write** scopes.
 - If the error persists, manually bootstrap your Pages site:
   1. Go to **Settings → Pages → Build and deployment**.
