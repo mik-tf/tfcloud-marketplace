@@ -62,15 +62,16 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
 
 > We’ll use **main** for production (`cloud.domain.com`) and **development** for staging (`cloud.dev.domain.com`).
 
-1. Configure your custom FQDN:
-   - Create a file `CNAME` at project root containing your **production subdomain**, e.g.: 
+1. Configure your custom FQDN (manual method):
+   - Create a file `CNAME` at project root containing your **production subdomain**, e.g.:
      ```
      cloud.domain.com
      ```
-   - In the **development** branch, update `CNAME` to your **staging subdomain**, e.g.: 
+   - In the **development** branch, update `CNAME` to your **staging subdomain**, e.g.:
      ```
      cloud.dev.domain.com
      ```
+   **Note:** If you’re using the **Fully Automated Deployment** workflow (PAT-based), you can **skip** this manual CNAME step. The CI workflow will automatically generate a `CNAME` file in `frontend/dist` at build time based on the branch.
 
 2. Add a GitHub Actions workflow (`.github/workflows/deploy.yml`):
    ```yaml
