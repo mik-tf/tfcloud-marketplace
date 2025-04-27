@@ -33,7 +33,7 @@ jobs:
           enablement: workflow
           custom-domain: ${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist
       - name: Deploy Pages

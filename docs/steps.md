@@ -60,16 +60,16 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
 > - **User/Organization site:** repository must be named `<username>.github.io`.
 > - **Project site:** repository can have any name (e.g., `tfcloud-marketplace`) and is served at `https://<username>.github.io/<repo>`.
 
-> We’ll use **main** for production (`cloud.domain.com`) and **development** for staging (`cloud.dev.domain.com`).
+> We’ll use **main** for production (`example.com`) and **development** for staging (`dev.example.com`).
 
 1. Configure your custom FQDN (manual method):
    - Create a file `CNAME` at project root containing your **production subdomain**, e.g.:
      ```
-     cloud.domain.com
+     example.com
      ```
    - In the **development** branch, update `CNAME` to your **staging subdomain**, e.g.:
      ```
-     cloud.dev.domain.com
+     dev.example.com
      ```
    **Note:** If you’re using the **Fully Automated Deployment** workflow (PAT-based), you can **skip** this manual CNAME step. The CI workflow will automatically generate a `CNAME` file in `frontend/dist` at build time based on the branch.
 
@@ -96,7 +96,7 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
              github_token: ${{ secrets.GITHUB_TOKEN }}
              publish_dir: ./dist
              # Auto-set CNAME based on branch
-             cname: ${{ github.ref == 'refs/heads/main' && 'cloud.domain.com' || 'cloud.dev.domain.com' }}
+             cname: ${{ github.ref == 'refs/heads/main' && 'example.com' || 'dev.example.com' }}
    ```
 
 ### Fully Automated Deployment with Personal Access Token
@@ -184,7 +184,7 @@ To create a fine-grained PAT for fully automated Pages deployment:
      Value: <username>.github.io
      ```
 
-4. Push to `main`. GitHub Actions builds and deploys via the Pages Actions workflow—**no `gh-pages` branch** is created. You can verify deployment in **Settings → Pages** under **Build and Deployment** or visit your custom domain (e.g., `https://cloud.domain.com`) once the job completes.
+4. Push to `main`. GitHub Actions builds and deploys via the Pages Actions workflow—**no `gh-pages` branch** is created. You can verify deployment in **Settings → Pages** under **Build and Deployment** or visit your custom domain (e.g., `https://example.com`) once the job completes.
    
 Enjoy automated CI/CD and custom-domain hosting!  
 
