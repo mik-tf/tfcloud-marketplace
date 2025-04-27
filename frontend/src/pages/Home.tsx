@@ -20,7 +20,7 @@ const Home: React.FC = () => (
     <section className="py-12 px-4 bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl font-extrabold mb-2 text-gray-900 dark:text-gray-100">ThreeFold Cloud Marketplace</h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400">A Three-Layer Ecosystem</p>
+        <p className="text-xl text-gray-600 dark:text-gray-400">Deploy Apps on the ThreeFold Grid Easily</p>
         <div className="flex justify-center space-x-4 mt-6">
           <Link to="/signup" className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded">Get Started</Link>
           <Link to="/login" className="bg-white hover:bg-gray-100 text-green-500 border border-green-500 px-6 py-3 rounded">Login</Link>
@@ -32,20 +32,20 @@ const Home: React.FC = () => (
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Three-Layer Ecosystem</h2>
         <div className="flex flex-col items-center space-y-8">
-          <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
+          <div className="w-full flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
             <span className="text-5xl mb-4">👤</span>
             <h3 className="text-xl font-semibold mb-2">Dashboard Users</h3>
             <p className="text-center">Deploy apps on the cloud marketplace seamlessly using credit/debit cards.</p>
           </div>
-          <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
+          <div className="w-full flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
             <span className="text-5xl mb-4">📊</span>
             <h3 className="text-xl font-semibold mb-2">Dashboard Operators</h3>
-            <p className="text-gray-700 dark:text-gray-400 text-center">Host and orchestrate the cloud marketplace platform.</p>
+            <p className="text-center">Host and orchestrate the cloud marketplace platform.</p>
           </div>
-          <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
+          <div className="w-full flex flex-col items-center p-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
             <span className="text-5xl mb-4">🖥️</span>
             <h3 className="text-xl font-semibold mb-2">Node Operators</h3>
-            <p className="text-gray-700 dark:text-gray-400 text-center">Provide nodes with compute, storage, and network resources.</p>
+            <p className="text-center">Provide nodes with compute, storage, and network resources.</p>
           </div>
         </div>
       </div>

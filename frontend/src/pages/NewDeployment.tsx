@@ -126,7 +126,7 @@ const NewDeployment: React.FC = () => {
             <p className="text-sm text-gray-500 mb-1">Default: <span className="font-mono">{name}</span> (editable)</p>
             <input
               type="text"
-              className="w-full px-3 py-2 border rounded"
+              className="w-full px-3 py-2 border rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
               value={name}
               onChange={e => setName(e.target.value)}
               required
@@ -177,7 +177,7 @@ const NewDeployment: React.FC = () => {
             <p className="text-sm text-gray-500 mb-1">Default: <span className="font-mono">{name}</span> (editable)</p>
             <input
               type="text"
-              className="w-full px-3 py-2 border rounded"
+              className="w-full px-3 py-2 border rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
               value={name}
               onChange={e => setName(e.target.value)}
               required

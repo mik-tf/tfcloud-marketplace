@@ -15,6 +15,9 @@ const Ops: React.FC = () => {
   const [totalCost, setTotalCost] = useState<number>(0);
   const [autoSwap, setAutoSwap] = useState<boolean>(false);
   const [alertsEnabled, setAlertsEnabled] = useState<boolean>(false);
+  const [swapAmount, setSwapAmount] = useState<number>(() => parseFloat(localStorage.getItem('swapAmount') || '0'));
+  const [swapPeriod, setSwapPeriod] = useState<string>(() => localStorage.getItem('swapPeriod') || 'hour');
+  const [tftPrice, setTftPrice] = useState<number>(0);
 
   useEffect(() => {
     // TODO: fetch real data for operators
@@ -49,6 +52,21 @@ const Ops: React.FC = () => {
     localStorage.setItem('alertsEnabled', String(alertsEnabled));
   }, [alertsEnabled]);
 
+  useEffect(() => {
+    localStorage.setItem('swapAmount', String(swapAmount));
+  }, [swapAmount]);
+
+  useEffect(() => {
+    localStorage.setItem('swapPeriod', swapPeriod);
+  }, [swapPeriod]);
+
+  useEffect(() => {
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=threefold-token&vs_currencies=usd')
+      .then(res => res.json())
+      .then(data => setTftPrice(data['threefold-token']?.usd || 0))
+      .catch(() => {});
+  }, []);
+
   const handleSaveMnemonic = () => {
     localStorage.setItem('mnemonic', mnemonic);
     alert('Mnemonic saved');
@@ -59,7 +77,15 @@ const Ops: React.FC = () => {
       alert('Please enable auto-swap payments before initiating an automated swap.');
       return;
     }
-    alert('Automated swap initiated');
+    alert(`Automated swap initiated: $${swapAmount} per ${swapPeriod}`);
+  };
+
+  const handleSendAlerts = () => {
+    if (!alertsEnabled) {
+      alert('Please enable low-balance alerts before sending alerts.');
+      return;
+    }
+    alert('Low-balance alerts sent');
   };
 
   return (
@@ -91,6 +117,9 @@ const Ops: React.FC = () => {
         <h2 className="text-xl font-semibold mb-2">Tokens per Hour</h2>
         <p className="text-gray-900 dark:text-gray-100">
           Estimated token usage per hour: <span className="font-bold">{totalCost}</span> TFT
+          {tftPrice > 0 && (
+            <span> (~${(totalCost * tftPrice).toFixed(2)} USD)</span>
+          )}
         </p>
       </section>
       <section className="mb-8">
@@ -108,13 +137,49 @@ const Ops: React.FC = () => {
             Enable auto-swap payments
           </label>
         </div>
+        {autoSwap && (
+          <div className="flex items-center space-x-4 mt-2">
+            <input
+              type="number"
+              min="0"
+              className="w-1/3 p-2 border rounded dark:bg-gray-700 dark:text-gray-100"
+              value={swapAmount}
+              onChange={e => setSwapAmount(parseFloat(e.target.value) || 0)}
+              placeholder="Amount (USD)"
+            />
+            <select
+              className="p-2 border rounded dark:bg-gray-700 dark:text-gray-100"
+              value={swapPeriod}
+              onChange={e => setSwapPeriod(e.target.value)}
+            >
+              <option value="hour">Hour</option>
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+            </select>
+          </div>
+        )}
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          This cross-swap swaps USDC (on Stellar) to TFT and bridges it to TFChain for a specified amount every period (e.g., per hour or day) to pay for TFChain deployments.
+        </p>
       </section>
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Alerts</h2>
-        <label className="inline-flex items-center">
-          <input type="checkbox" checked={alertsEnabled} onChange={e => setAlertsEnabled(e.target.checked)} className="mr-2" />
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={handleSendAlerts}
+            disabled={!alertsEnabled}
+            className={`px-4 py-2 rounded text-white ${alertsEnabled ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}
+          >
+            Send Low-Balance Alerts
+          </button>
+          <label className="inline-flex items-center">
+            <input type="checkbox" checked={alertsEnabled} onChange={e => setAlertsEnabled(e.target.checked)} className="mr-2" />
+            Enable low-balance alerts
+          </label>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
           Send low-balance alerts to TF Connect App (if TFT balance &lt; threshold within 24h)
-        </label>
+        </p>
       </section>
       {operators.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-400">No operators yet.</p>
