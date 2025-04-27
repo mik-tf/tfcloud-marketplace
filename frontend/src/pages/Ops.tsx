@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 interface Operator {
@@ -6,6 +6,32 @@ interface Operator {
   name: string;
   status: string;
   createdAt: string;
+}
+
+interface JoinRequest {
+  id: string;
+  nodeId: string;
+  network: string;
+  apps: string[];
+  email: string;
+  slaAgreed: boolean;
+  comment: string;
+  requestedAt: string;
+}
+
+interface NodeEntry {
+  id: string;
+  specs: string;
+  apps: string[];
+}
+
+interface MaintenanceRequest {
+  id: string;
+  nodeId: string;
+  start: string;
+  end: string;
+  comment?: string;
+  requestedAt: string;
 }
 
 const Ops: React.FC = () => {
@@ -18,6 +44,11 @@ const Ops: React.FC = () => {
   const [swapAmount, setSwapAmount] = useState<number>(() => parseFloat(localStorage.getItem('swapAmount') || '0'));
   const [swapPeriod, setSwapPeriod] = useState<string>(() => localStorage.getItem('swapPeriod') || 'hour');
   const [tftPrice, setTftPrice] = useState<number>(0);
+  const [tftBalance, setTftBalance] = useState<number>(0);
+  const [joinRequests, setJoinRequests] = useState<JoinRequest[]>([]);
+  const [messageDrafts, setMessageDrafts] = useState<{ [key: string]: string }>({});
+  const [acceptedNodes, setAcceptedNodes] = useState<NodeEntry[]>([]);
+  const [maintenanceRequests, setMaintenanceRequests] = useState<MaintenanceRequest[]>([]);
 
   useEffect(() => {
     // TODO: fetch real data for operators
@@ -64,8 +95,49 @@ const Ops: React.FC = () => {
     fetch('https://api.coingecko.com/api/v3/simple/price?ids=threefold-token&vs_currencies=usd')
       .then(res => res.json())
       .then(data => setTftPrice(data['threefold-token']?.usd || 0))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
+
+  useEffect(() => {
+    // Load TFT balance (placeholder - replace with TFChain API)
+    const saved = parseFloat(localStorage.getItem('tftBalance') || '0');
+    setTftBalance(saved);
+  }, []);
+
+  useEffect(() => {
+    setJoinRequests([
+      { id: 'req1', nodeId: '1', network: 'Main', apps: ['Virtual Machine', 'Nextcloud'], email: 'node1@example.com', slaAgreed: true, comment: 'Please review my node for co-op', requestedAt: '2025-04-27' },
+      { id: 'req2', nodeId: '2', network: 'Test', apps: ['LiveKit'], email: 'node2@example.com', slaAgreed: false, comment: '', requestedAt: '2025-04-26' },
+    ]);
+  }, []);
+
+  useEffect(() => {
+    setAcceptedNodes([
+      { id: '1', specs: '4 cores, 16GB RAM', apps: ['HDD-backed QSFS Storage'] },
+      { id: '13', specs: '8 cores, 32GB RAM', apps: ['LiveKit Video Conferencing', 'GPU-optimized AI & WebUI'] },
+      { id: '432', specs: '16 cores, 64GB RAM', apps: ['GPU-optimized AI & WebUI'] },
+    ]);
+  }, []);
+
+  useEffect(() => {
+    setMaintenanceRequests([
+      { id: 'mw1', nodeId: '13', start: '2025-05-01T10:00', end: '2025-05-01T12:00', comment: 'Storage update', requestedAt: '2025-04-27' },
+      { id: 'mw2', nodeId: '432', start: '2025-05-02T02:00', end: '2025-05-02T04:00', requestedAt: '2025-04-27' },
+    ]);
+  }, []);
+
+  const discountTiers = useMemo(() => {
+    const hoursPerMonth = 24 * 30;
+    return [
+      { months: 0, discount: 0, required: 0 },
+      { months: 3, discount: 20, required: totalCost * hoursPerMonth * 3 },
+      { months: 6, discount: 30, required: totalCost * hoursPerMonth * 6 },
+      { months: 12, discount: 40, required: totalCost * hoursPerMonth * 12 },
+      { months: 36, discount: 60, required: totalCost * hoursPerMonth * 36 },
+    ];
+  }, [totalCost]);
+  const currentTier = discountTiers.filter(t => t.required <= tftBalance).pop() || discountTiers[0];
+  const nextTier = discountTiers.find(t => t.required > tftBalance);
 
   const handleSaveMnemonic = () => {
     localStorage.setItem('mnemonic', mnemonic);
@@ -86,6 +158,22 @@ const Ops: React.FC = () => {
       return;
     }
     alert('Low-balance alerts sent');
+  };
+
+  const handleDraftChange = (id: string, msg: string) => {
+    setMessageDrafts(prev => ({ ...prev, [id]: msg }));
+  };
+
+  const handleAcceptRequest = (id: string) => {
+    const msg = messageDrafts[id] || '';
+    setJoinRequests(prev => prev.filter(r => r.id !== id));
+    alert(`Accepted request ${id}${msg ? ` with message: ${msg}` : ''}`);
+  };
+
+  const handleRejectRequest = (id: string) => {
+    const msg = messageDrafts[id] || '';
+    setJoinRequests(prev => prev.filter(r => r.id !== id));
+    alert(`Rejected request ${id}${msg ? ` with message: ${msg}` : ''}`);
   };
 
   return (
@@ -111,6 +199,15 @@ const Ops: React.FC = () => {
           <button onClick={handleSaveMnemonic} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
             Save Mnemonic
           </button>
+        </div>
+        <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+          <p className="text-gray-900 dark:text-gray-100">Current TFChain balance: <strong>{tftBalance} TFT</strong></p>
+          <p className="text-gray-900 dark:text-gray-100">Current discount: <strong>{currentTier.discount}%</strong></p>
+          {nextTier && (
+            <p className="text-gray-900 dark:text-gray-100">
+              Stake <strong>{(nextTier.required - tftBalance).toFixed(2)} TFT</strong> more to reach the {nextTier.discount}% tier ({nextTier.months} months).
+            </p>
+          )}
         </div>
       </section>
       <section className="mb-8">
@@ -181,36 +278,74 @@ const Ops: React.FC = () => {
           Send low-balance alerts to TF Connect App (if TFT balance &lt; threshold within 24h)
         </p>
       </section>
-      {operators.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400">No operators yet.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow rounded-lg overflow-hidden dark:bg-gray-800">
-            <thead className="bg-gray-100 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Name</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Created At</th>
-                <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {operators.map(op => (
-                <tr key={op.id} className="border-b border-gray-200 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{op.name}</td>
-                  <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{op.status}</td>
-                  <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{op.createdAt}</td>
-                  <td className="px-4 py-2 text-right">
-                    <Link to={`/dashboard-ops/${op.id}`} className="text-green-500 dark:text-green-300 hover:underline">
-                      View
-                    </Link>
-                  </td>
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Node Operator Join Requests</h2>
+        {joinRequests.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-400">No pending requests.</p>
+        ) : (
+          <div className="space-y-4">
+            {joinRequests.map(req => (
+              <div key={req.id} className="p-4 bg-white dark:bg-gray-700 rounded shadow">
+                <div className="mb-2">
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Node ID: {req.nodeId}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Network: {req.network}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Apps: {req.apps.join(', ')}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Email: {req.email}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">SLA Agreed: {req.slaAgreed ? 'Yes' : 'No'}</p>
+                  {req.comment && <p className="text-sm text-gray-600 dark:text-gray-400">Comment: {req.comment}</p>}
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Requested At: {req.requestedAt}</p>
+                </div>
+                <textarea
+                  className="w-full p-2 mb-2 border border-gray-300 rounded bg-white dark:bg-gray-800 dark:text-gray-100"
+                  placeholder="Message to requester"
+                  value={messageDrafts[req.id] || ''}
+                  onChange={e => handleDraftChange(req.id, e.target.value)}
+                />
+                <div className="flex space-x-2">
+                  <button onClick={() => handleAcceptRequest(req.id)} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Accept</button>
+                  <button onClick={() => handleRejectRequest(req.id)} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Reject</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Accepted Co-op Nodes</h2>
+        {acceptedNodes.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-400">No nodes accepted yet.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white shadow rounded-lg overflow-hidden dark:bg-gray-800">
+              <thead className="bg-gray-100 dark:bg-gray-700">
+                <tr>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Node ID</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Specs</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Apps</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Maintenance</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody>
+                {acceptedNodes.map(node => (
+                  <tr key={node.id} className="border-b border-gray-200 dark:border-gray-700">
+                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.id}</td>
+                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.specs}</td>
+                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.apps.join(', ')}</td>
+                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">
+                      {maintenanceRequests.filter(req => req.nodeId === node.id).length > 0
+                        ? maintenanceRequests.filter(req => req.nodeId === node.id).map(req => (
+                            <p key={req.id}>{req.start} to {req.end}</p>
+                          ))
+                        : <span className="text-gray-500 dark:text-gray-400">None</span>
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 };

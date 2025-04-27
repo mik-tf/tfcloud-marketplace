@@ -39,6 +39,16 @@ This ecosystem fosters a circular economy:
 2. **For the people**: Transparent revenue sharing, co-op governance, and open collaboration.
 3. **Synergy**: Operators and users co-create value, driving adoption and grid expansion.
 
+## Co-op Collaborations
+
+A **co-op** is a strategic alliance between **Node Operators** and **Dashboard Operators**, combining infrastructure and interface expertise to deliver specialized services:
+
+- **HDD-backed QSFS Storage**: High-capacity, cost-effective storage clusters for QSFS workloads.
+- **GPU-optimized AI & WebUI**: Nodes equipped with GPUs (e.g. NVIDIA 4090) efficient at machine learning, inference, and open WebUI applications.
+- **LiveKit Video Conferencing**: Nodes with superior bandwidth and low latency optimized for real-time video streaming and conferencing.
+
+> By pooling resources and expertise, co-ops enable custom service tiers, improved SLAs, and competitive pricing for end users.
+
 ## Best Practices
 
 - Establish and document SLAs and governance within co-ops.

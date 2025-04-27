@@ -67,7 +67,20 @@ const Home: React.FC = () => (
         } />
         <FAQItem question="What do Dashboard Operators do?" answer="Dashboard Operators host and manage the marketplace interface, integrate payment gateways, and orchestrate deployments. They unlock up to 60% discounts by staking tokens." />
         <FAQItem question="What is a Node Operator?" answer="Node Operators provision and maintain TFGrid nodes, delivering compute, storage, and network resources. Earn 50% of the TFChain portion of deployment costs." />
-
+        <FAQItem
+          question="What are ThreeFold co-ops?"
+          answer={
+            <>
+              <p>Node Operators can partner with Dashboard Operators to form <strong>co-ops</strong>, alliances that combine infrastructure and interface expertise to offer specialized services tailored to different workloads.</p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
+                <li><strong>HDD-backed QSFS Storage</strong>: cost-effective, high-capacity storage solutions for QSFS.</li>
+                <li><strong>GPU-optimized AI & WebUI Workloads</strong>: Nodes with NVIDIA 0490 and other top-tier GPUs tuned for machine learning and open WebUI applications.</li>
+                <li><strong>High-bandwidth LiveKit Video Conferencing</strong>: Nodes with superior network throughput and low latency for real-time video applications.</li>
+              </ul>
+              <p>By forming co-ops, operators can create custom service tiers, improve SLAs, and offer competitive pricing through shared resources and pooled expertise.</p>
+            </>
+          }
+        />
       </div>
     </section>
   </>

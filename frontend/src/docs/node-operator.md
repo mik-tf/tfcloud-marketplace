@@ -15,3 +15,22 @@
 - Use monitoring tools to track performance and health metrics.
 - Establish SLAs with co-op members for clear availability and service guarantees.
 - Participate in governance and feedback to improve node operations.
+
+## Node Operator Interface
+
+### 1. Request Participation in Co-op
+- Go to the **Nodes** page and click **Submit Request**.
+- Fill in **Node ID**, select **Network** (Main/Test), check one or more **Apps** to deploy, enter your **Contact Email**, agree to the **SLA**, and add any **Comment**.
+
+### 2. View Pending Participation Requests
+- Below the form, see **Pending Participation Requests** listing each request’s Node ID, Network, Apps, Email, SLA status, Comment, and date.
+
+### 3. View Accepted Nodes (Nodes in Co-ops)
+- Review the **Nodes in Co-ops** table showing each member’s **Name**, **Node ID**, **Apps Accepted**, and any scheduled **Maintenance** windows.
+
+### 4. Schedule Maintenance Windows
+- In the **Nodes in Co-ops** table, click **Schedule Maintenance** for a node.
+- Enter **Start** and **End** date/time and an optional **Comment**, then submit.
+
+### 5. View Pending Maintenance Windows
+- See **Pending Maintenance Windows** section listing each scheduled window with Node ID, Start, End, Comment, and request date.
