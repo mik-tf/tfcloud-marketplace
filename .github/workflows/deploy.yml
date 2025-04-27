@@ -31,7 +31,7 @@ jobs:
         with:
           token: ${{ secrets.PAGES_PAT }}
           enablement: workflow
-          custom-domain: ${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}
+          custom-domain: ${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
