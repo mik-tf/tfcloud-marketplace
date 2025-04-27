@@ -96,7 +96,7 @@ const Ops: React.FC = () => {
       <section className="mb-8">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-semibold">TFChain Mnemonic</h2>
-          <button type="button" onClick={() => setShowMnemonic(!showMnemonic)} className="text-sm text-blue-500 hover:underline">
+          <button type="button" onClick={() => setShowMnemonic(!showMnemonic)} className="text-sm text-green-500 hover:underline">
             {showMnemonic ? 'Hide' : 'Show'} Mnemonic
           </button>
         </div>
@@ -201,7 +201,7 @@ const Ops: React.FC = () => {
                   <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{op.status}</td>
                   <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{op.createdAt}</td>
                   <td className="px-4 py-2 text-right">
-                    <Link to={`/ops/${op.id}`} className="text-green-500 dark:text-green-300 hover:underline">
+                    <Link to={`/dashboard-ops/${op.id}`} className="text-green-500 dark:text-green-300 hover:underline">
                       View
                     </Link>
                   </td>
