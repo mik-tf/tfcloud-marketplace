@@ -10,8 +10,12 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -26,29 +30,19 @@ jobs:
         run: npm run build
       - name: Setup CNAME
         run: echo "${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}" > frontend/dist/CNAME
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: frontend/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: frontend/dist
       - name: Configure Pages
         uses: actions/configure-pages@v3
         with:
           token: ${{ secrets.PAGES_PAT }}
           enablement: workflow
           custom-domain: ${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+          artifact_name: github-pages
       - name: Deploy Pages
         uses: actions/deploy-pages@v1
         with:
           token: ${{ secrets.PAGES_PAT }}
-          artifact_name: dist
+          artifact_name: github-pages
