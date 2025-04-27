@@ -141,6 +141,14 @@ For end-to-end automation (including initial site creation), use a GitHub PAT:
              token: ${{ secrets.PAGES_PAT }}
    ```
 
+#### Troubleshooting `Get Pages site failed`
+
+- If you see `Error: Get Pages site failed` in your workflow logs, ensure your `PAGES_PAT` secret has **repo**, **workflow**, and **pages: write** scopes.
+- If the error persists, manually bootstrap your Pages site:
+  1. Go to **Settings → Pages → Build and deployment**.
+  2. Under **Source**, select **GitHub Actions** and click **Save**.
+  3. Rerun the workflow; subsequent runs will now succeed without manual steps.
+
 3. Configure DNS records at your registrar:
    - For an **apex** domain (e.g., `yourdomain.com`), add **A** records:
      ```
