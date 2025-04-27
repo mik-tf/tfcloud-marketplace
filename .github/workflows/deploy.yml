@@ -21,11 +21,13 @@ jobs:
         run: npm run build
       - name: Setup CNAME
         run: echo "${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}" > frontend/dist/CNAME
+      - name: Configure Pages
+        uses: actions/configure-pages@v2
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
           path: frontend/dist
       - name: Deploy Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
