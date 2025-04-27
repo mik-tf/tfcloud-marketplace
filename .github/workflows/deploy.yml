@@ -51,3 +51,4 @@ jobs:
         uses: actions/deploy-pages@v1
         with:
           token: ${{ secrets.PAGES_PAT }}
+          artifact_name: dist
