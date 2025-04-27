@@ -141,6 +141,20 @@ For end-to-end automation (including initial site creation), use a GitHub PAT:
              token: ${{ secrets.PAGES_PAT }}
    ```
 
+#### Creating a Fine-Grained Personal Access Token
+
+To create a fine-grained PAT for fully automated Pages deployment:
+
+1. In GitHub, go to **Settings > Developer settings > Personal access tokens > Fine-grained tokens**.
+2. Set **Token name** to `PAGES_PAT`.
+3. Choose **Resource owner** as your GitHub account.
+4. Under **Repository access**, select **Only select repositories** and pick `tfcloud-marketplace`.
+5. Expand **Permissions > Repository permissions** and set:
+   - **Pages**: Write
+   - **Actions**: Write
+6. Set the desired **Expiration** date.
+7. Click **Generate token**, copy it, and add it under **Settings > Secrets and variables > Actions** as `PAGES_PAT`.
+
 #### Troubleshooting `Get Pages site failed`
 
 - If you see `Error: Get Pages site failed` in your workflow logs, ensure your `PAGES_PAT` secret has **repo**, **workflow**, and **pages: write** scopes.
@@ -168,7 +182,7 @@ For end-to-end automation (including initial site creation), use a GitHub PAT:
      Value: <username>.github.io
      ```
 
-4. Push to `main`. GitHub Actions builds and publishes to `gh-pages` branch. Your site is live at `https://www.yourdomain.com`.
+4. Push to `main`. GitHub Actions builds and deploys via the Pages Actions workflow—**no `gh-pages` branch** is created. You can verify deployment in **Settings → Pages** under **Build and Deployment** or visit your custom domain (e.g., `https://cloud.domain.com`) once the job completes.
    
 Enjoy automated CI/CD and custom-domain hosting!  
 
