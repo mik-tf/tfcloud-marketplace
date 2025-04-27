@@ -56,14 +56,21 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
 
 ## 6. Deployment
 
-Host the site as a static website on GitHub Pages with a custom domain and CI/CD:
+> **Note:** GitHub Pages supports two site types:
+> - **User/Organization site:** repository must be named `<username>.github.io`.
+> - **Project site:** repository can have any name (e.g., `tfcloud-marketplace`) and is served at `https://<username>.github.io/<repo>`.
+
+> We’ll use **main** for production (`cloud.domain.com`) and **development** for staging (`cloud.dev.domain.com`).
 
 1. Configure your custom FQDN:
-   - Create a file `CNAME` at project root containing your domain, e.g.:
+   - Create a file `CNAME` at project root containing your **production subdomain**, e.g.: 
      ```
-     www.yourdomain.com
+     cloud.domain.com
      ```
-   - Commit and push. GitHub Pages reads this for custom domains.
+   - In the **development** branch, update `CNAME` to your **staging subdomain**, e.g.: 
+     ```
+     cloud.dev.domain.com
+     ```
 
 2. Add a GitHub Actions workflow (`.github/workflows/deploy.yml`):
    ```yaml
@@ -72,6 +79,7 @@ Host the site as a static website on GitHub Pages with a custom domain and CI/CD
      push:
        branches:
          - main
+         - development
    jobs:
      build-and-deploy:
        runs-on: ubuntu-latest
@@ -81,22 +89,33 @@ Host the site as a static website on GitHub Pages with a custom domain and CI/CD
            run: npm install
          - name: Build
            run: npm run build
-         - name: Deploy
+         - name: Deploy to GitHub Pages
            uses: peaceiris/actions-gh-pages@v3
            with:
              github_token: ${{ secrets.GITHUB_TOKEN }}
              publish_dir: ./dist
+             # Auto-set CNAME based on branch
+             cname: ${{ github.ref == 'refs/heads/main' && 'cloud.domain.com' || 'cloud.dev.domain.com' }}
    ```
 
 3. Configure DNS records at your registrar:
-   - **A** records pointing to GitHub Pages IPs:
+   - For an **apex** domain (e.g., `yourdomain.com`), add **A** records:
      ```
      185.199.108.153
      185.199.109.153
      185.199.110.153
      185.199.111.153
      ```
-   - **CNAME** record for `www` pointing to `yourdomain.com`.
+   - For **subdomains** on GitHub Pages (e.g., `cloud.threefold.pro`, `cloud.dev.threefold.pro`), add **CNAME** records:
+     ```
+     Host: cloud
+     Type: CNAME
+     Value: <username>.github.io
+
+     Host: cloud.dev
+     Type: CNAME
+     Value: <username>.github.io
+     ```
 
 4. Push to `main`. GitHub Actions builds and publishes to `gh-pages` branch. Your site is live at `https://www.yourdomain.com`.
    
