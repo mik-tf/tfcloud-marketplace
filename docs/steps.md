@@ -165,27 +165,22 @@ To create a fine-grained PAT for fully automated Pages deployment:
   2. Under **Source**, select **GitHub Actions** and click **Save**.
   3. Rerun the workflow; subsequent runs will now succeed without manual steps.
 
-3. Configure DNS records at your registrar:
-   - For an **apex** domain (e.g., `yourdomain.com`), add **A** records:
-     ```
-     185.199.108.153
-     185.199.109.153
-     185.199.110.153
-     185.199.111.153
-     ```
-   - For **subdomains** on GitHub Pages (e.g., `cloud.threefold.pro`, `cloud.dev.threefold.pro`), add **CNAME** records:
-     ```
-     Host: cloud
-     Type: CNAME
-     Value: <username>.github.io
+3. Configure DNS records at your registrar (`example.com`):
+   | Type         | Host | Value             | TTL       |
+   | ------------ | ---- | ----------------- | --------- |
+   | A Record     | @    | 185.199.108.153   | Automatic |
+   | A Record     | @    | 185.199.109.153   | Automatic |
+   | A Record     | @    | 185.199.110.153   | Automatic |
+   | A Record     | @    | 185.199.111.153   | Automatic |
+   | CNAME Record | www  | mik-tf.github.io. | Automatic |
 
-     Host: cloud.dev
-     Type: CNAME
-     Value: <username>.github.io
-     ```
+   > **Note:** Point the CNAME value to `<username>.github.io` without `/repo-name`.
 
-4. Push to `main`. GitHub Actions builds and deploys via the Pages Actions workflow—**no `gh-pages` branch** is created. You can verify deployment in **Settings → Pages** under **Build and Deployment** or visit your custom domain (e.g., `https://example.com`) once the job completes.
-   
+4. Push to `main`. GitHub Actions builds and deploys via the Pages Actions workflow—**no `gh-pages` branch** is created. You can verify deployment in **Settings → Pages** under **Build and Deployment** or visit your custom domain (e.g., `https://threefold.store`) once the job completes.
+5. Enable HTTPS:
+   - In **Settings → Pages**, under **Custom domain**, toggle on **Enforce HTTPS**.
+   - Wait a few minutes for GitHub to issue and install your TLS certificate.
+
 Enjoy automated CI/CD and custom-domain hosting!  
 
 ---
