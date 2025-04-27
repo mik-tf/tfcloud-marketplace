@@ -5,7 +5,7 @@ on:
       - main
       - development
 permissions:
-  contents: write
+  contents: read
   pages: write
 
 jobs:
@@ -26,7 +26,9 @@ jobs:
       - name: Setup CNAME
         run: echo "${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}" > frontend/dist/CNAME
       - name: Configure Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v3
+        with:
+          token: ${{ secrets.PAGES_PAT }}
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -34,4 +36,4 @@ jobs:
       - name: Deploy Pages
         uses: actions/deploy-pages@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAGES_PAT }}

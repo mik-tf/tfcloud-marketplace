@@ -98,6 +98,48 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
              cname: ${{ github.ref == 'refs/heads/main' && 'cloud.domain.com' || 'cloud.dev.domain.com' }}
    ```
 
+### Fully Automated Deployment with Personal Access Token
+
+For end-to-end automation (including initial site creation), use a GitHub PAT:
+
+1. Create a PAT with `repo` and `workflow` scopes.
+2. Add the PAT as a repository secret `PAGES_PAT`.
+3. Update your workflow to use `actions/configure-pages@v3` and pass the PAT:
+
+   ```yaml
+   permissions:
+     contents: read
+     pages: write
+
+   jobs:
+     build-and-deploy:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - name: Setup Node.js
+           uses: actions/setup-node@v3
+           with:
+             node-version: '18.x'
+         - name: Install dependencies
+           working-directory: frontend
+           run: npm ci
+         - name: Build
+           working-directory: frontend
+           run: npm run build
+         - name: Configure Pages
+           uses: actions/configure-pages@v3
+           with:
+             token: ${{ secrets.PAGES_PAT }}
+         - name: Upload Pages Artifact
+           uses: actions/upload-pages-artifact@v3
+           with:
+             path: frontend/dist
+         - name: Deploy Pages
+           uses: actions/deploy-pages@v1
+           with:
+             token: ${{ secrets.PAGES_PAT }}
+   ```
+
 3. Configure DNS records at your registrar:
    - For an **apex** domain (e.g., `yourdomain.com`), add **A** records:
      ```
