@@ -12,7 +12,11 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
@@ -24,10 +28,10 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v2
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist
       - name: Deploy Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
