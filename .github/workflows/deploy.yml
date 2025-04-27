@@ -4,6 +4,9 @@ on:
     branches:
       - main
       - development
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build-and-deploy:
@@ -16,9 +19,13 @@ jobs:
       - name: Build
         working-directory: frontend
         run: npm run build
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup CNAME
+        run: echo "${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}" > frontend/dist/CNAME
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontend/dist
-          cname: ${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}
+          path: frontend/dist
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
