@@ -25,7 +25,7 @@ jobs:
         working-directory: frontend
         run: npm run build
       - name: Setup CNAME
-        run: echo "${{ github.ref == 'refs/heads/main' && 'cloud.threefold.pro' || 'cloud.dev.threefold.pro' }}" > frontend/dist/CNAME
+        run: echo "${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}" > frontend/dist/CNAME
       - name: Configure Pages
         uses: actions/configure-pages@v3
         with:
