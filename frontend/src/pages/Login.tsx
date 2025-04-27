@@ -14,14 +14,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto py-10">
+    <div className="max-w-md mx-auto py-10 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-gray-700">Email</label>
+          <label className="block text-gray-700 dark:text-gray-300">Email</label>
           <input
             type="email"
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-3 py-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
             placeholder="you@example.com"
             value={email}
             onChange={e => setEmail(e.target.value)}
@@ -29,10 +29,10 @@ const Login: React.FC = () => {
           />
         </div>
         <div>
-          <label className="block text-gray-700">Password</label>
+          <label className="block text-gray-700 dark:text-gray-300">Password</label>
           <input
             type="password"
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-3 py-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
             placeholder="••••••••"
             value={password}
             onChange={e => setPassword(e.target.value)}

@@ -102,7 +102,7 @@ const Ops: React.FC = () => {
         </div>
         <input
           type={showMnemonic ? 'text' : 'password'}
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-100"
+          className="w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
           value={mnemonic}
           onChange={e => setMnemonic(e.target.value)}
           placeholder="Enter your TFChain mnemonic"
@@ -142,13 +142,13 @@ const Ops: React.FC = () => {
             <input
               type="number"
               min="0"
-              className="w-1/3 p-2 border rounded dark:bg-gray-700 dark:text-gray-100"
+              className="w-1/3 p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
               value={swapAmount}
               onChange={e => setSwapAmount(parseFloat(e.target.value) || 0)}
               placeholder="Amount (USD)"
             />
             <select
-              className="p-2 border rounded dark:bg-gray-700 dark:text-gray-100"
+              className="p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
               value={swapPeriod}
               onChange={e => setSwapPeriod(e.target.value)}
             >
