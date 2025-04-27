@@ -42,7 +42,7 @@ jobs:
           path: frontend/dist
           artifact_name: github-pages
       - name: Deploy Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.PAGES_PAT }}
           artifact_name: github-pages
