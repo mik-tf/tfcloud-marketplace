@@ -26,6 +26,13 @@
 - **Open WebUI Nodes**: GPU-equipped (e.g., NVIDIA RTX 4090/5090) with sufficient RAM and SSD for serving interactive WebUI applications.
 - **LiveKit / Video Conference Nodes**: High-bandwidth (≥1 Gbps symmetric), low-latency network, moderate compute, and memory for real-time video.
 
+## Acquiring a Node
+
+You can set up your own TFGrid node or purchase from an official partner:
+
+- **DIY Node**: Follow the step-by-step guide at [manual.grid.tf](https://manual.grid.tf).
+- **Official Vendor**: Get started with an officially supported node via [ThreeFold Farming Docs](https://docs.threefold.io/docs/become-a-farmer/get_started).
+
 ## Node Operator Interface
 
 ### 1. Request Participation in Co-op
