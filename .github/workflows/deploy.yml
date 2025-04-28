@@ -28,6 +28,8 @@ jobs:
       - name: Build
         working-directory: frontend
         run: npm run build
+      - name: Copy index.html to 404.html for SPA fallback
+        run: cp frontend/dist/index.html frontend/dist/404.html
       - name: Setup CNAME
         run: echo "${{ github.ref == 'refs/heads/main' && 'threefold.store' || 'dev.threefold.store' }}" > frontend/dist/CNAME
       - name: Configure Pages
