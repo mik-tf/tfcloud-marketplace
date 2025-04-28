@@ -16,6 +16,12 @@
 - Establish SLAs with co-op members for clear availability and service guarantees.
 - Participate in governance and feedback to improve node operations.
 
+## Types of Nodes
+
+- **QSFS-Focused Nodes**: Optimized for Quantum Safe File System storage, with large HDD capacity and basic SSD.
+- **AI / LLM Chat Nodes**: Equipped with high-performance GPUs (e.g., NVIDIA RTX 4090, 5090) and ample VRAM (≥24GB), plus SSDs for fast model loading and checkpointing.
+- **LiveKit / Video Conference Nodes**: Provisioned with high-bandwidth (e.g., 1 Gbps symmetric) network connections and low-latency routing to handle real-time video streams.
+
 ## Node Operator Interface
 
 ### 1. Request Participation in Co-op
