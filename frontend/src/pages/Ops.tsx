@@ -49,6 +49,23 @@ const Ops: React.FC = () => {
   const [messageDrafts, setMessageDrafts] = useState<{ [key: string]: string }>({});
   const [acceptedNodes, setAcceptedNodes] = useState<NodeEntry[]>([]);
   const [maintenanceRequests, setMaintenanceRequests] = useState<MaintenanceRequest[]>([]);
+  const appList = useMemo(() => [
+    { id: 'vm', name: 'Virtual Machine', defaultPrice: 10 },
+    { id: 'kubernetes', name: 'Kubernetes', defaultPrice: 20 },
+    { id: 'basic-storage', name: 'Basic Storage', defaultPrice: 5 },
+    { id: 'quantum-safe-storage', name: 'Quantum Safe Storage', defaultPrice: 7 },
+    { id: 'nextcloud', name: 'Nextcloud', defaultPrice: 8 },
+    { id: 'open-webui', name: 'Open WebUI', defaultPrice: 6 },
+    { id: 'livekit', name: 'LiveKit', defaultPrice: 9 },
+  ], []);
+  const [pricingConfig, setPricingConfig] = useState<Record<string, { percent: number; amount: number }>>(() => {
+    const saved = localStorage.getItem('pricingConfig');
+    if (saved) return JSON.parse(saved);
+    const initial: Record<string, { percent: number; amount: number }> = {};
+    appList.forEach(app => { initial[app.id] = { percent: 0, amount: 0 }; });
+    return initial;
+  });
+  useEffect(() => { localStorage.setItem('pricingConfig', JSON.stringify(pricingConfig)); }, [pricingConfig]);
 
   useEffect(() => {
     // TODO: fetch real data for operators
@@ -181,6 +198,49 @@ const Ops: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Dashboard Ops</h1>
       </div>
+      {/* Pricing Settings */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Pricing Settings</h2>
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 p-4 rounded-lg">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left">App</th>
+                <th className="px-4 py-2 text-left">% Markup</th>
+                <th className="px-4 py-2 text-left">$ Markup</th>
+                <th className="px-4 py-2 text-left">Base Price</th>
+                <th className="px-4 py-2 text-left">Final Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appList.map(app => {
+                const cfg = pricingConfig[app.id];
+                const base = app.defaultPrice;
+                const final = base * (1 + cfg.percent/100) + cfg.amount;
+                return (
+                  <tr key={app.id} className="border-t border-gray-200 dark:border-gray-700">
+                    <td className="px-4 py-2">{app.name}</td>
+                    <td className="px-4 py-2">
+                      <input type="number" value={cfg.percent} onChange={e => {
+                        const v = parseFloat(e.target.value)||0;
+                        setPricingConfig(prev => ({ ...prev, [app.id]: { ...prev[app.id], percent: v } }));
+                      }} className="w-20 p-1 border rounded bg-white dark:bg-gray-700 dark:text-gray-100" />
+                    </td>
+                    <td className="px-4 py-2">
+                      <input type="number" value={cfg.amount} onChange={e => {
+                        const v = parseFloat(e.target.value)||0;
+                        setPricingConfig(prev => ({ ...prev, [app.id]: { ...prev[app.id], amount: v } }));
+                      }} className="w-24 p-1 border rounded bg-white dark:bg-gray-700 dark:text-gray-100" />
+                    </td>
+                    <td className="px-4 py-2">${base.toFixed(2)}</td>
+                    <td className="px-4 py-2">${final.toFixed(2)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
       <section className="mb-8">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-semibold">TFChain Mnemonic</h2>
