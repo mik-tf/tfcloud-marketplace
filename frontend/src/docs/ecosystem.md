@@ -5,6 +5,9 @@ The ThreeFold Cloud Marketplace implements a robust three-layer system to delive
 ```mermaid
 graph BT
   TN["Node Operators\nProvision and maintain scalable cloud infrastructure"] --> DO["Dashboard Operators\nHost and configure the cloud marketplace"] --> DU["Dashboard Users\nDeploy and manage applications seamlessly"]
+  click TN "/docs/node-operator"
+  click DO "/docs/dashboard-operator"
+  click DU "/docs/dashboard-user"
 ```
 
 ## Layer 1: Node Operators

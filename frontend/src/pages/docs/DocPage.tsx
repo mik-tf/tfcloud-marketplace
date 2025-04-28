@@ -13,8 +13,17 @@ import ecosystemMd from '../../docs/ecosystem.md?raw';
 
 // Hook to detect light/dark mode changes
 function useDarkMode(): boolean {
-  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') return true;
+      if (saved === 'light') return false;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
   useEffect(() => {
+    // Update state when <html> class changes
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains('dark'));
     });
@@ -41,7 +50,12 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
         // swallow parse errors silently
       });
   }, [chart, isDark]);
-  return <div ref={containerRef} className="my-4 bg-white dark:bg-gray-800 p-4 rounded-lg" />;
+  // Center diagram within styled container
+  return (
+    <div className="my-4 bg-white dark:bg-gray-800 p-4 rounded-lg flex justify-center">
+      <div ref={containerRef} />
+    </div>
+  );
 };
 
 const contentMap: Record<string, string> = {
