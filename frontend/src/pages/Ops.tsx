@@ -198,6 +198,36 @@ const Ops: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Dashboard Ops</h1>
       </div>
+      {/* TFChain Mnemonic */}
+      <section className="mb-8">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-xl font-semibold">TFChain Mnemonic</h2>
+          <button type="button" onClick={() => setShowMnemonic(!showMnemonic)} className="text-sm text-green-500 hover:underline">
+            {showMnemonic ? 'Hide' : 'Show'} Mnemonic
+          </button>
+        </div>
+        <input
+          type={showMnemonic ? 'text' : 'password'}
+          className="w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
+          value={mnemonic}
+          onChange={e => setMnemonic(e.target.value)}
+          placeholder="Enter your TFChain mnemonic"
+        />
+        <div className="flex items-center mt-2">
+          <button onClick={handleSaveMnemonic} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+            Save Mnemonic
+          </button>
+        </div>
+        <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+          <p className="text-gray-900 dark:text-gray-100">Current TFChain balance: <strong>{tftBalance} TFT</strong></p>
+          <p className="text-gray-900 dark:text-gray-100">Current discount: <strong>{currentTier.discount}%</strong></p>
+          {nextTier && (
+            <p className="text-gray-900 dark:text-gray-100">
+              Stake <strong>{(nextTier.required - tftBalance).toFixed(2)} TFT</strong> more to reach the {nextTier.discount}% tier ({nextTier.months} months).
+            </p>
+          )}
+        </div>
+      </section>
       {/* Pricing Settings */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Pricing Settings</h2>
@@ -239,35 +269,6 @@ const Ops: React.FC = () => {
               })}
             </tbody>
           </table>
-        </div>
-      </section>
-      <section className="mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="text-xl font-semibold">TFChain Mnemonic</h2>
-          <button type="button" onClick={() => setShowMnemonic(!showMnemonic)} className="text-sm text-green-500 hover:underline">
-            {showMnemonic ? 'Hide' : 'Show'} Mnemonic
-          </button>
-        </div>
-        <input
-          type={showMnemonic ? 'text' : 'password'}
-          className="w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400"
-          value={mnemonic}
-          onChange={e => setMnemonic(e.target.value)}
-          placeholder="Enter your TFChain mnemonic"
-        />
-        <div className="flex items-center mt-2">
-          <button onClick={handleSaveMnemonic} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-            Save Mnemonic
-          </button>
-        </div>
-        <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
-          <p className="text-gray-900 dark:text-gray-100">Current TFChain balance: <strong>{tftBalance} TFT</strong></p>
-          <p className="text-gray-900 dark:text-gray-100">Current discount: <strong>{currentTier.discount}%</strong></p>
-          {nextTier && (
-            <p className="text-gray-900 dark:text-gray-100">
-              Stake <strong>{(nextTier.required - tftBalance).toFixed(2)} TFT</strong> more to reach the {nextTier.discount}% tier ({nextTier.months} months).
-            </p>
-          )}
         </div>
       </section>
       <section className="mb-8">
