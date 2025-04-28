@@ -10,16 +10,12 @@ graph BT
 
   NO --> DO
   DO --> DU
+
+  click NO "/docs/node-operator"
+  click DO "/docs/dashboard-operator"
+  click DU "/docs/dashboard-user"
 ```
 
-Use the sidebar to explore each role in detail.
+## Overview
 
-## What's New
-
-- Enhanced **Node Operator Request Form**: specify Node ID, Network (Main/Test), multi-app selection, Contact Email, SLA agreement, and comments.
-- **Pending Participation Requests** view for Node Operators and Dashboard Operators detailing Node ID, Network, Apps, Email, SLA status, comments, and request date.
-- **Nodes in Co-ops** table: shows accepted co-op nodes with Name, Node ID, and Apps Accepted.
-- **Maintenance Scheduling**: Node Operators can schedule maintenance windows (start/end times + comments) per node; forms and listings available.
-- **Pending Maintenance Windows** view for pending maintenance requests.
-- **Dashboard Operator** management: handle join requests (approve/deny) and manage maintenance windows.
-- **Dashboard User** notifications: users are informed of scheduled maintenance windows affecting their deployments.
+The ThreeFold Cloud Marketplace is an open, decentralized platform that unites community-driven infrastructure with streamlined application services. Node Operators supply the underlying compute and storage resources, Dashboard Operators deploy and manage applications on that infrastructure, and Dashboard Users leverage these applications to deliver workloads globally.

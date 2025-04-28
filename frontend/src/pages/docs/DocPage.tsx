@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -56,28 +56,60 @@ const DocPage: React.FC = () => {
   const { slug } = useParams<{ slug?: string }>();
   const key = slug || 'welcome';
   const content = contentMap[key] || '# Not Found\n\nContent not found.';
+  const toc = useMemo(() => {
+    const lines = content.split('\n').filter(line => /^(#{2,3})\s+/.test(line));
+    return lines.map(line => {
+      const match = line.match(/^(#{2,3})\s+(.*)/);
+      const level = match ? match[1].length : 2;
+      const text = match ? match[2] : '';
+      const id = text.toLowerCase().replace(/[^\w]+/g, '-');
+      return { level, text, id };
+    });
+  }, [content]);
 
   return (
     <DocsLayout>
-      <article className="prose dark:prose-invert max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children: React.ReactNode; [key: string]: any }) {
-              const match = /language-mermaid/.exec(className || '');
-              if (!inline && match) {
-                const chart = Array.isArray(children)
-                  ? children.map(c => String(c)).join('\n')
-                  : String(children);
-                return <MermaidChart chart={chart.trim()} />;
+      <div className="md:grid md:grid-cols-4 gap-8">
+        <article className="col-span-3 prose dark:prose-invert max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              code({ inline, className, children, ...props }) {
+                const match = /language-mermaid/.exec(className || '');
+                if (!inline && match) {
+                  const chart = Array.isArray(children)
+                    ? children.map(c => String(c)).join('\n')
+                    : String(children);
+                  return <MermaidChart chart={chart.trim()} />;
+                }
+                return <code className={className} {...props}>{children}</code>;
+              },
+              h2({ node, children, ...props }) {
+                const text = Array.isArray(children) ? children.join('') : String(children);
+                const id = text.toLowerCase().replace(/[^\w]+/g, '-');
+                return <h2 id={id} {...props}>{children}</h2>;
+              },
+              h3({ node, children, ...props }) {
+                const text = Array.isArray(children) ? children.join('') : String(children);
+                const id = text.toLowerCase().replace(/[^\w]+/g, '-');
+                return <h3 id={id} {...props}>{children}</h3>;
               }
-              return <code className={className} {...props}>{children}</code>;
-            }
-          }}
-        >
-          {content}
-        </ReactMarkdown>
-      </article>
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        </article>
+        <aside className="hidden lg:block col-span-1 sticky top-24 max-h-screen overflow-auto">
+          <p className="font-semibold mb-2 text-gray-900 dark:text-gray-100">Contents</p>
+          <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
+            {toc.map(item => (
+              <li key={item.id} className={`pl-${(item.level - 2) * 4}`}>
+                <a href={`#${item.id}`} className="hover:underline">{item.text}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
     </DocsLayout>
   );
 };

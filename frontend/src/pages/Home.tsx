@@ -81,6 +81,7 @@ const Home: React.FC = () => (
             </>
           }
         />
+        <FAQItem question="Where can I learn more?" answer={<span>You can learn more by reading the documentation <Link to="/docs/welcome" className="text-green-500 hover:underline">here</Link>.</span>} />
       </div>
     </section>
   </>
