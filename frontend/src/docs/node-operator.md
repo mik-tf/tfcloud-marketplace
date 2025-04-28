@@ -18,9 +18,13 @@
 
 ## Types of Nodes
 
-- **QSFS-Focused Nodes**: Optimized for Quantum Safe File System storage, with large HDD capacity and basic SSD.
-- **AI / LLM Chat Nodes**: Equipped with high-performance GPUs (e.g., NVIDIA RTX 4090, 5090) and ample VRAM (≥24GB), plus SSDs for fast model loading and checkpointing.
-- **LiveKit / Video Conference Nodes**: Provisioned with high-bandwidth (e.g., 1 Gbps symmetric) network connections and low-latency routing to handle real-time video streams.
+- **Virtual Machine Nodes**: Balanced CPU cores (e.g., 8+), ample RAM (≥32 GB), and NVMe SSD storage for general compute workloads.
+- **Kubernetes Nodes**: Container-optimized with multiple CPU cores (e.g., 16+), high RAM (≥64 GB), fast SSD storage, and reliable networking.
+- **Basic Storage Nodes**: SSD-focused with high-capacity NVMe drives, moderate CPU and RAM for simple storage services.
+- **Quantum Safe Storage (QSFS) Nodes**: HDD-heavy configuration for large-scale data, with SSD caching for metadata and improved I/O.
+- **Nextcloud Nodes**: All-around nodes with gigabit network, ample RAM (≥32 GB), SSD storage, and optional GPU for Nextcloud AI features.
+- **Open WebUI Nodes**: GPU-equipped (e.g., NVIDIA RTX 4090/5090) with sufficient RAM and SSD for serving interactive WebUI applications.
+- **LiveKit / Video Conference Nodes**: High-bandwidth (≥1 Gbps symmetric), low-latency network, moderate compute, and memory for real-time video.
 
 ## Node Operator Interface
 
