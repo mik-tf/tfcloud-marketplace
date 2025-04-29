@@ -53,6 +53,7 @@ const NewDeployment: React.FC = () => {
   const [backup, setBackup] = useState(false);
   const [storageType, setStorageType] = useState<'basic'|'quantum'>('basic');
   const [mode, setMode] = useState<'basic' | 'advanced'>('basic');
+  const [slaAgreed, setSlaAgreed] = useState<boolean>(false);
   const [nodes, setNodes] = useState<string[]>([]);
   const [selectedNode, setSelectedNode] = useState<string>('');
   const navigate = useNavigate();
@@ -98,6 +99,16 @@ const NewDeployment: React.FC = () => {
     );
   }
 
+  const handleBasicSwitch = () => {
+    setMode('basic');
+    setSlaAgreed(false);
+  };
+
+  const handleAdvancedSwitch = () => {
+    setMode('advanced');
+    setSlaAgreed(false);
+  };
+
   return (
     <div className="max-w-md mx-auto py-10">
       <div className="text-center mb-6">
@@ -106,14 +117,14 @@ const NewDeployment: React.FC = () => {
           <button
             type="button"
             className={`px-4 py-2 rounded ${mode === 'basic' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-            onClick={() => setMode('basic')}
+            onClick={handleBasicSwitch}
           >
             Basic
           </button>
           <button
             type="button"
             className={`px-4 py-2 rounded ${mode === 'advanced' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-            onClick={() => setMode('advanced')}
+            onClick={handleAdvancedSwitch}
           >
             Advanced
           </button>
@@ -163,9 +174,26 @@ const NewDeployment: React.FC = () => {
               </label>
             </div>
           )}
+          <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+            <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
+            <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
+              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from our co-ops.</li>
+              <li>Farmers aim to ensure 99.9% uptime for their node, and maintenance windows may arise.</li>
+              <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
+              <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
+              <li>You can also make local backup to your own machine if you want.</li>
+              <li>Apart from this, if the app VM and the backup VM go down, you can lose all your data and progress.</li>
+              <li>Be aware of this before continuing.</li>
+            </ul>
+          </div>
+          <div className="flex items-center mb-4">
+            <input id="sla-basic" type="checkbox" checked={slaAgreed} onChange={e => setSlaAgreed(e.target.checked)} className="mr-2" />
+            <label htmlFor="sla-basic" className="text-gray-700 dark:text-gray-300">I have read and agree to the SLA</label>
+          </div>
           <button
             type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+            disabled={!slaAgreed}
+            className={`w-full px-3 py-2 rounded text-white ${slaAgreed ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}
           >
             Deploy
           </button>
@@ -215,9 +243,26 @@ const NewDeployment: React.FC = () => {
               </label>
             </div>
           )}
+          <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+            <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
+            <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
+              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from our co-ops.</li>
+              <li>Farmers aim to ensure 99.9% uptime for their node, and maintenance windows may arise.</li>
+              <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
+              <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
+              <li>You can also make local backup to your own machine if you want.</li>
+              <li>Apart from this, if the app VM and the backup VM go down, you can lose all your data and progress.</li>
+              <li>Be aware of this before continuing.</li>
+            </ul>
+          </div>
+          <div className="flex items-center mb-4">
+            <input id="sla-adv" type="checkbox" checked={slaAgreed} onChange={e => setSlaAgreed(e.target.checked)} className="mr-2" />
+            <label htmlFor="sla-adv" className="text-gray-700 dark:text-gray-300">I have read and agree to the SLA</label>
+          </div>
           <button
             type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+            disabled={!slaAgreed}
+            className={`w-full px-3 py-2 rounded text-white ${slaAgreed ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}
           >
             Deploy
           </button>

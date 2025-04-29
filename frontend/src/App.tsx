@@ -18,10 +18,10 @@ import ScrollToTop from '@components/ScrollToTop';
 import OperatorDetail from '@pages/OperatorDetail'; // Added import statement for OperatorDetail
 
 const App: React.FC = () => (
-  <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+  <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
     <ScrollToTop />
     <NavBar />
-    <main className="container mx-auto p-4 text-gray-900 dark:text-gray-100">
+    <main className="flex-grow container mx-auto p-4 text-gray-900 dark:text-gray-100">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
