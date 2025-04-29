@@ -74,7 +74,7 @@ const Home: React.FC = () => (
               <p>Node Operators can partner with Dashboard Operators to form <strong>co-ops</strong>, alliances that combine infrastructure and interface expertise to offer specialized services tailored to different workloads.</p>
               <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                 <li><strong>HDD-backed QSFS Storage</strong>: cost-effective, high-capacity storage solutions for QSFS.</li>
-                <li><strong>GPU-optimized AI & WebUI Workloads</strong>: Nodes with NVIDIA 0490 and other top-tier GPUs tuned for machine learning and open WebUI applications.</li>
+                <li><strong>GPU-optimized AI & WebUI Workloads</strong>: Nodes with NVIDIA 4090 and other top-tier GPUs tuned for machine learning and open WebUI applications.</li>
                 <li><strong>High-bandwidth LiveKit Video Conferencing</strong>: Nodes with superior network throughput and low latency for real-time video applications.</li>
               </ul>
               <p>By forming co-ops, operators can create custom service tiers, improve SLAs, and offer competitive pricing through shared resources and pooled expertise.</p>
