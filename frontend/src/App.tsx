@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@context/AuthContext';
 import RequireRole from '@components/RequireRole';
 import NavBar from '@components/NavBar';
@@ -35,7 +35,7 @@ const App: React.FC = () => (
             <Route path="new" element={<NewDeployment />} />
             <Route path="new/:appType" element={<NewDeployment />} />
             <Route path="ops" element={<RequireRole role="admin"><Ops /></RequireRole>} />
-            <Route path="nodes" element={<Nodes />} />
+            <Route path="nodes" element={<RequireRole role="node-operator"><Nodes /></RequireRole>} />
             <Route path="settings" element={<Settings />} />
             <Route path=":id" element={<DeploymentDetail />} />
           </Route>

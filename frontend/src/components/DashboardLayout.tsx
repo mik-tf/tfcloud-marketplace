@@ -1,12 +1,24 @@
 import React, { useContext, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@context/AuthContext';
-import { FiUploadCloud, FiServer, FiSettings, FiShield } from 'react-icons/fi';
+import { FiUploadCloud, FiServer, FiSettings, FiShield, FiLogOut } from 'react-icons/fi';
 
 const DashboardLayout: React.FC = () => {
-  const { roles } = useContext(AuthContext);
+  const { roles, isAuthenticated, logout } = useContext(AuthContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
+  // If not authenticated, only render the Outlet (which will show the login prompt)
+  if (!isAuthenticated) {
+    return <Outlet />;
+  }
+
+  // If authenticated, render the full dashboard layout with sidebar
   return (
     <div className="flex min-h-screen">
       {/* Mobile sidebar overlay */}
@@ -37,6 +49,12 @@ const DashboardLayout: React.FC = () => {
               <NavLink to="/dashboard/settings" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                 <FiSettings className="w-5 h-5" /><span>Settings</span>
               </NavLink>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-4 py-2 rounded text-gray-700 dark:text-gray-300 hover:text-red-600 w-full text-left"
+              >
+                <FiLogOut className="w-5 h-5" /><span>Logout</span>
+              </button>
             </nav>
           </aside>
         </div>
@@ -64,6 +82,13 @@ const DashboardLayout: React.FC = () => {
             <FiSettings className="w-5 h-5" />
             <span>Settings</span>
           </NavLink>
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-2 px-4 py-2 rounded text-gray-700 dark:text-gray-300 hover:text-red-600 w-full text-left mt-8"
+          >
+            <FiLogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
         </nav>
       </aside>
       <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
