@@ -23,15 +23,21 @@ const DashboardLayout: React.FC = () => {
     <div className="flex min-h-screen">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div className="md:hidden fixed inset-0 z-40 flex">
+        <div className="md:hidden fixed inset-0 z-50 flex">
           <div className="fixed inset-0 bg-black opacity-50" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative w-60 bg-gray-100 dark:bg-gray-900 p-6 overflow-y-auto">
-            <button onClick={() => setSidebarOpen(false)} className="absolute top-4 right-4 text-gray-700 dark:text-gray-200 focus:outline-none" aria-label="Close menu">
-              <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Dashboard</h2>
+          <aside className="relative w-72 max-w-[80%] bg-gray-100 dark:bg-gray-900 p-4 overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h2>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none"
+                aria-label="Close menu"
+              >
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
             <nav className="space-y-2">
               <NavLink to="/dashboard" end className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                 <FiUploadCloud className="w-5 h-5" /><span>Deploy</span>
@@ -91,7 +97,7 @@ const DashboardLayout: React.FC = () => {
           </button>
         </nav>
       </aside>
-      <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+      <main className="flex-1 p-4 sm:p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 overflow-x-hidden">
         {/* Mobile navbar toggle */}
         <div className="md:hidden mb-4">
           <button onClick={() => setSidebarOpen(true)} className="flex items-center text-gray-700 dark:text-gray-200 focus:outline-none">

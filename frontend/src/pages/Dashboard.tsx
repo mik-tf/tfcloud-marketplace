@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="max-w-6xl mx-auto py-20 text-center text-gray-900 dark:text-gray-100">
+      <div className="w-full max-w-6xl mx-auto py-10 sm:py-20 px-4 text-center text-gray-900 dark:text-gray-100">
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-10 max-w-2xl mx-auto">
           <h1 className="text-3xl font-bold mb-6">Welcome to ThreeFold Cloud Marketplace</h1>
           <p className="text-lg mb-8">
@@ -94,12 +94,12 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-10 text-gray-900 dark:text-gray-100">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Deploy</h1>
+    <div className="w-full max-w-6xl mx-auto py-6 px-4 sm:px-6 md:py-10 text-gray-900 dark:text-gray-100">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Deploy</h1>
         <Link
           to="/dashboard/new"
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-center"
         >
           New Deployment
         </Link>
@@ -107,69 +107,91 @@ const Dashboard: React.FC = () => {
       {deployments.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-400">No deployments yet.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow rounded-lg overflow-hidden dark:bg-gray-800">
-            <thead className="bg-gray-100 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Name</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Created At</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Maintenance Status</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Next Window</th>
-                <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {deployments.map(deployment => {
-                const mw = maintenanceWindows.find(w => w.deploymentId === deployment.id);
-                const now = new Date();
-                let statusLabel: 'None' | 'Scheduled' | 'Ongoing' | 'Completed' = 'None';
-                if (mw) {
-                  const start = new Date(mw.start);
-                  const end = new Date(mw.end);
-                  if (now < start) statusLabel = 'Scheduled';
-                  else if (now >= start && now <= end) statusLabel = 'Ongoing';
-                  else statusLabel = 'Completed';
-                }
-                return (
-                  <tr key={deployment.id} className="border-b border-gray-200 dark:border-gray-700">
-                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{deployment.name}</td>
-                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{deployment.status}</td>
-                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{deployment.createdAt}</td>
-                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          statusLabel === 'Ongoing'   ? 'bg-red-500 text-white' :
-                          statusLabel === 'Scheduled' ? 'bg-yellow-300 text-gray-800' :
-                          statusLabel === 'Completed' ? 'bg-blue-300 dark:bg-blue-700 text-white' :
-                           'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                        } cursor-pointer`}
-                        onClick={mw ? () => setSelectedWindow(mw) : undefined}
-                      >{statusLabel}</span>
-                    </td>
-                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">
-                      {mw ? `${new Date(mw.start).toLocaleString()} - ${new Date(mw.end).toLocaleString()}` : '—'}
-                    </td>
-                    <td className="px-4 py-2 text-right">
-                      <Link to={`/dashboard/${deployment.id}`} className="text-green-500 dark:text-green-300 hover:underline">
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <div className="inline-block min-w-full align-middle">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white shadow rounded-lg overflow-hidden dark:bg-gray-800">
+              <thead className="bg-gray-100 dark:bg-gray-700">
+                <tr>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Name</th>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">Created</th>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Maintenance</th>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 hidden lg:table-cell">Next Window</th>
+                  <th scope="col" className="px-2 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {deployments.map(deployment => {
+                  const mw = maintenanceWindows.find(w => w.deploymentId === deployment.id);
+                  const now = new Date();
+                  let statusLabel: 'None' | 'Scheduled' | 'Ongoing' | 'Completed' = 'None';
+                  if (mw) {
+                    const start = new Date(mw.start);
+                    const end = new Date(mw.end);
+                    if (now < start) statusLabel = 'Scheduled';
+                    else if (now >= start && now <= end) statusLabel = 'Ongoing';
+                    else statusLabel = 'Completed';
+                  }
+                  return (
+                    <tr key={deployment.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 font-medium">{deployment.name}</td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{deployment.status}</td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hidden md:table-cell">{deployment.createdAt}</td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            statusLabel === 'Ongoing'   ? 'bg-red-500 text-white' :
+                            statusLabel === 'Scheduled' ? 'bg-yellow-300 text-gray-800' :
+                            statusLabel === 'Completed' ? 'bg-blue-300 dark:bg-blue-700 text-white' :
+                             'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                          } cursor-pointer`}
+                          onClick={mw ? () => setSelectedWindow(mw) : undefined}
+                        >{statusLabel}</span>
+                      </td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hidden lg:table-cell">
+                        {mw ? `${new Date(mw.start).toLocaleString()} - ${new Date(mw.end).toLocaleString()}` : '—'}
+                      </td>
+                      <td className="px-2 sm:px-4 py-2 text-right">
+                        <Link to={`/dashboard/${deployment.id}`} className="text-green-500 dark:text-green-300 hover:underline">
+                          View
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
       {selectedWindow && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Maintenance Details</h3>
-            <p><span className="font-semibold">Start:</span> {new Date(selectedWindow.start).toLocaleString()}</p>
-            <p><span className="font-semibold">End:</span> {new Date(selectedWindow.end).toLocaleString()}</p>
-            {selectedWindow.comment && (<p className="mt-2"><span className="font-semibold">Comment:</span> {selectedWindow.comment}</p>)}
-            <button onClick={() => setSelectedWindow(null)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Close</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg max-w-md w-full">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">Maintenance Details</h3>
+              <button
+                onClick={() => setSelectedWindow(null)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                aria-label="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="space-y-2 mb-4">
+              <p><span className="font-semibold">Start:</span> {new Date(selectedWindow.start).toLocaleString()}</p>
+              <p><span className="font-semibold">End:</span> {new Date(selectedWindow.end).toLocaleString()}</p>
+              {selectedWindow.comment && (<p className="mt-2"><span className="font-semibold">Comment:</span> {selectedWindow.comment}</p>)}
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setSelectedWindow(null)}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
