@@ -9,9 +9,10 @@ const Footer: React.FC = () => (
           <h4 className="text-sm font-semibold mb-2 dark:text-gray-200">Menu</h4>
           <ul className="space-y-1 text-sm">
             <li><Link to="/" className="hover:underline">Home</Link></li>
+            <li><Link to="/dashboard" className="hover:underline">Dashboard</Link></li>
+            <li><Link to="/docs" className="hover:underline">Docs</Link></li>
             <li><Link to="/login" className="hover:underline">Login</Link></li>
             <li><Link to="/signup" className="hover:underline">Sign Up</Link></li>
-            <li><Link to="/docs" className="hover:underline">Docs</Link></li>
           </ul>
         </div>
         <div>

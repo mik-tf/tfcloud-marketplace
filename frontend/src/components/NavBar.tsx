@@ -38,9 +38,7 @@ const NavBar: React.FC = () => {
             <img src={theme === 'dark' ? logoDarkShort : logoLightShort} alt="TF" className="h-8 md:hidden" />
           </Link>
           <Link to="/" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Home</Link>
-          <Link to="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Deploy</Link>
-          <Link to="/dashboard-ops" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Admin</Link>
-          <Link to="/node-ops" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Nodes</Link>
+          <Link to="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Dashboard</Link>
           <Link to="/docs" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Docs</Link>
         </div>
         <div className="hidden md:flex items-center space-x-4 pr-4 border-r border-gray-300 dark:border-gray-600">
@@ -86,9 +84,7 @@ const NavBar: React.FC = () => {
             </button>
             <nav className="mt-4 space-y-1 flex-1 overflow-y-auto">
               <Link to="/" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Home</Link>
-              <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Deploy</Link>
-              <Link to="/dashboard-ops" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Admin</Link>
-              <Link to="/node-ops" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Nodes</Link>
+              <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Dashboard</Link>
               <Link to="/docs" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Docs</Link>
             </nav>
             <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1">

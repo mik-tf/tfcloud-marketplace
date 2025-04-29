@@ -40,17 +40,17 @@ FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enab
 
 ## 2. Roles & Revenue  
 - **Dashboard User** (Layer 3)  
-  - Pays fiat
-  - 1-click apps
-- **Dashboard Operator** (Layer 2)  
-  - Collects fiat
-  - Tops TFT via TF Connect USDC-2-TFT automated swap features
-  - Configures node pool by select allowed TFGrid node IDs for each apps hosted ensuring optimal efficiency
-  - Picks markup & enjoys up to 60% TFT‐cost discount  
-- **Node Operator** (Layer 1)  
-  - Runs self-healing TFGrid nodes  
-  - Opts nodes into dashboards’ pools  
-  - Receives 50% of the TFChain portion of each deployment cost  
+  - Roles loaded via JWT / serverless API  
+  - Pays fiat & deploys apps  
+- **Node Operator** (Role)  
+  - Runs TFGrid nodes, opts into dashboard pools  
+  - Requests access via UI; approval managed via serverless functions  
+  - Receives 50% of TFT portion per deployment  
+- **Dashboard Operator** (Admin, Layer 2)  
+  - Hosts dashboard & collects fiat via Stripe  
+  - Auto-top TFT via TF Connect  
+  - Configures node pools & discount tiers  
+  - Approves Node Operator requests & manages roles  
 
 ---
 
@@ -78,24 +78,24 @@ FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enab
 
 ---
 
-## 4. Tech Stack
-
+## 4. Tech Stack & Architecture  
 **Frontend**  
-- Next.js + TypeScript  
-- Tailwind CSS or MUI  
-- Stripe Elements  
-- ethers.js / web3.js  
+- Create React App + TypeScript  
+- React Router for navigation  
+- Tailwind CSS + React Icons  
+- Context API (AuthContext) for roles & settings  
+- Stripe Elements & ethers.js for deployments & TFT interactions  
 
-**Backend**  
-- Node.js + Express (or NestJS)  
-- PostgreSQL + Prisma or TypeORM  
-- Stripe SDK, TF Connect SDK / HTTP  
-- JWT auth (or Auth0)  
+**Backend (Serverless)**  
+- AWS Lambda / Vercel Functions for API endpoints (`/me`, `/request-node-operator`, `/approve-request`)  
+- JWT auth for stateless sessions & roles  
+- Database (DynamoDB / Fauna) for users, roles, requests  
+- Stripe webhooks & TF Connect integration  
 
-**Infra & CI**  
-- Docker & docker-compose  
-- GitHub Actions: build, lint, tests  
-- HTTPS (Let’s Encrypt), Vault/env-vars for secrets  
+**Infrastructure & CI**  
+- Docker & docker-compose for local dev  
+- GitHub Actions for build, lint, test  
+- HTTPS (Let’s Encrypt) & env-vars for secrets  
 
 ---
 

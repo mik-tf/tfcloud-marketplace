@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '@context/AuthContext';
 
 interface Deployment {
   id: string;
@@ -17,6 +18,7 @@ interface MaintenanceWindow {
 }
 
 const Dashboard: React.FC = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [maintenanceWindows, setMaintenanceWindows] = useState<MaintenanceWindow[]>([]);
   const [selectedWindow, setSelectedWindow] = useState<MaintenanceWindow | null>(null);
@@ -46,6 +48,50 @@ const Dashboard: React.FC = () => {
       { id: 'mw4', deploymentId: '10', start: '2025-05-05T08:00', end: '2025-05-05T10:00', comment: 'Performance patch' },// Scheduled
     ]);
   }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-6xl mx-auto py-20 text-center text-gray-900 dark:text-gray-100">
+        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-10 max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6">Welcome to ThreeFold Cloud Marketplace</h1>
+          <p className="text-lg mb-8">
+            Please log in or create an account to access the dashboard.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              to="/login"
+              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium text-lg transition-colors duration-200"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/signup"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium text-lg transition-colors duration-200"
+            >
+              Sign Up
+            </Link>
+          </div>
+          <div className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <h2 className="text-xl font-semibold mb-4">Why ThreeFold Cloud?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              <div className="p-4">
+                <h3 className="font-medium mb-2">Decentralized</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Deploy on a truly decentralized infrastructure powered by the ThreeFold Grid.</p>
+              </div>
+              <div className="p-4">
+                <h3 className="font-medium mb-2">Secure</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">End-to-end encryption and Zero-OS technology for maximum security.</p>
+              </div>
+              <div className="p-4">
+                <h3 className="font-medium mb-2">Sustainable</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Up to 90% more energy-efficient than traditional cloud providers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto py-10 text-gray-900 dark:text-gray-100">
