@@ -62,8 +62,11 @@ const Nodes: React.FC = () => {
 
   useEffect(() => {
     setNodes([
-      { id: '1', name: 'Node #1', status: 'Active', createdAt: '2025-04-26' },
+      { id: '1', name: 'Node #1', status: 'Online', createdAt: '2025-04-26' },
       { id: '2', name: 'Node #2', status: 'Offline', createdAt: '2025-04-25' },
+      { id: '13', name: 'Node #13', status: 'Online', createdAt: '2025-04-24' },
+      { id: '14', name: 'Node #14', status: 'Offline', createdAt: '2025-04-23' },
+      { id: '15', name: 'Node #15', status: 'Online', createdAt: '2025-04-22' },
     ]);
   }, []);
 
@@ -77,7 +80,10 @@ const Nodes: React.FC = () => {
   useEffect(() => {
     setAcceptedNodes([
       { id: '1', name: 'Node #1', apps: ['Virtual Machine', 'Nextcloud'] },
+      { id: '2', name: 'Node #2', apps: ['Basic Storage'] },
       { id: '13', name: 'Node #13', apps: ['Livekit', 'Open WebUI'] },
+      { id: '14', name: 'Node #14', apps: ['Kubernetes'] },
+      { id: '15', name: 'Node #15', apps: ['Quantum Safe Storage'] },
     ]);
   }, []);
 
@@ -274,6 +280,7 @@ Comment: ${comment}`);
                 <tr>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Name</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Node ID</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Apps Accepted</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Maintenance</th>
                   <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400">Actions</th>
@@ -284,6 +291,15 @@ Comment: ${comment}`);
                   <tr key={node.id} className="border-b border-gray-200 dark:border-gray-700">
                     <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.name}</td>
                     <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.id}</td>
+                    <td className="px-4 py-2 text-gray-900 dark:text-gray-100">
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        nodes.find(n => n.id === node.id)?.status === 'Online'
+                          ? 'bg-green-500 text-white'
+                          : 'bg-red-500 text-white'
+                      }`}>
+                        {nodes.find(n => n.id === node.id)?.status || 'Offline'}
+                      </span>
+                    </td>
                     <td className="px-4 py-2 text-gray-900 dark:text-gray-100">{node.apps.join(', ')}</td>
                     <td className="px-4 py-2 text-gray-900 dark:text-gray-100">
                       {maintenanceRequests.filter(req => req.nodeId === node.id).length > 0

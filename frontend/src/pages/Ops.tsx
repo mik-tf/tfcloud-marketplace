@@ -23,6 +23,7 @@ interface NodeEntry {
   id: string;
   specs: string;
   apps: string[];
+  status: string;
 }
 
 interface MaintenanceRequest {
@@ -130,9 +131,12 @@ const Ops: React.FC = () => {
 
   useEffect(() => {
     setAcceptedNodes([
-      { id: '1', specs: '4 cores, 16GB RAM', apps: ['HDD-backed QSFS Storage'] },
-      { id: '13', specs: '8 cores, 32GB RAM', apps: ['LiveKit Video Conferencing', 'GPU-optimized AI & WebUI'] },
-      { id: '432', specs: '16 cores, 64GB RAM', apps: ['GPU-optimized AI & WebUI'] },
+      { id: '1', specs: '4 cores, 16GB RAM', apps: ['HDD-backed QSFS Storage'], status: 'Online' },
+      { id: '2', specs: '2 cores, 8GB RAM', apps: ['Basic Storage'], status: 'Offline' },
+      { id: '13', specs: '8 cores, 32GB RAM', apps: ['LiveKit Video Conferencing', 'GPU-optimized AI & WebUI'], status: 'Online' },
+      { id: '14', specs: '6 cores, 16GB RAM', apps: ['Kubernetes'], status: 'Offline' },
+      { id: '15', specs: '12 cores, 48GB RAM', apps: ['Quantum Safe Storage'], status: 'Online' },
+      { id: '432', specs: '16 cores, 64GB RAM', apps: ['GPU-optimized AI & WebUI'], status: 'Offline' },
     ]);
   }, []);
 
@@ -383,6 +387,7 @@ const Ops: React.FC = () => {
                   <tr>
                     <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Node ID</th>
                     <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Specs</th>
+                    <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
                     <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Apps</th>
                     <th scope="col" className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Maintenance</th>
                   </tr>
@@ -392,6 +397,13 @@ const Ops: React.FC = () => {
                     <tr key={node.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{node.id}</td>
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{node.specs}</td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                          node.status === 'Online' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                        }`}>
+                          {node.status}
+                        </span>
+                      </td>
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 max-w-[150px] truncate">{node.apps.join(', ')}</td>
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                         {maintenanceRequests.filter(req => req.nodeId === node.id).length > 0
