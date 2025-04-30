@@ -135,7 +135,15 @@ const Dashboard: React.FC = () => {
                   return (
                     <tr key={deployment.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 font-medium">{deployment.name}</td>
-                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{deployment.status}</td>
+                      <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                          deployment.status === 'Running'
+                            ? 'bg-green-500 text-white'
+                            : 'bg-red-500 text-white'
+                        }`}>
+                          {deployment.status}
+                        </span>
+                      </td>
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hidden md:table-cell">{deployment.createdAt}</td>
                       <td className="px-2 sm:px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                         <span
