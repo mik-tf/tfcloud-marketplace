@@ -39,20 +39,20 @@ const DashboardLayout: React.FC = () => {
               </button>
             </div>
             <nav className="space-y-2">
-              <NavLink to="/dashboard" end className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+              <NavLink to="/dashboard" end className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                 <FiUploadCloud className="w-5 h-5" /><span>User</span>
               </NavLink>
               {roles.includes('cloud-provider') && (
-                <NavLink to="/dashboard/provider" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+                <NavLink to="/dashboard/provider" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                   <FiServer className="w-5 h-5" /><span>Provider</span>
                 </NavLink>
               )}
               {roles.includes('cloud-operator') && (
-                <NavLink to="/dashboard/operator" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+                <NavLink to="/dashboard/operator" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                   <FiShield className="w-5 h-5" /><span>Operator</span>
                 </NavLink>
               )}
-              <NavLink to="/dashboard/settings" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+              <NavLink to="/dashboard/settings" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
                 <FiSettings className="w-5 h-5" /><span>Settings</span>
               </NavLink>
               <button
@@ -68,23 +68,23 @@ const DashboardLayout: React.FC = () => {
       <aside className="hidden md:block w-60 bg-gray-100 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Dashboard</h2>
         <nav className="space-y-2 flex-grow overflow-y-auto">
-          <NavLink to="/dashboard" end className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+          <NavLink to="/dashboard" end className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
             <FiUploadCloud className="w-5 h-5" />
             <span>User</span>
           </NavLink>
           {roles.includes('cloud-provider') && (
-            <NavLink to="/dashboard/provider" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+            <NavLink to="/dashboard/provider" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
               <FiServer className="w-5 h-5" />
               <span>Provider</span>
             </NavLink>
           )}
           {roles.includes('cloud-operator') && (
-            <NavLink to="/dashboard/operator" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+            <NavLink to="/dashboard/operator" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
               <FiShield className="w-5 h-5" />
               <span>Operator</span>
             </NavLink>
           )}
-          <NavLink to="/dashboard/settings" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
+          <NavLink to="/dashboard/settings" className={({ isActive }) => `flex items-center space-x-2 px-4 py-2 rounded ${isActive ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}>
             <FiSettings className="w-5 h-5" />
             <span>Settings</span>
           </NavLink>

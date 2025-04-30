@@ -135,11 +135,11 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
     const styleEl = document.createElement('style');
     styleEl.innerHTML = `
       @media (max-width: 768px) {
-        .mermaid-container {
+        .docs-container .mermaid-container {
           max-width: 100vw !important;
           overflow-x: hidden !important;
         }
-        svg.mobile-diagram {
+        .docs-content svg.mobile-diagram {
           max-width: 100% !important;
           width: 100% !important;
         }
@@ -193,8 +193,8 @@ const DocPage: React.FC = () => {
 
   return (
     <DocsLayout>
-      <div className="md:grid md:grid-cols-5 gap-8 overflow-hidden">
-        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full overflow-hidden" style={{ maxWidth: '100vw' }}>
+      <div className="md:grid md:grid-cols-5 gap-8 docs-container">
+        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full docs-content">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{

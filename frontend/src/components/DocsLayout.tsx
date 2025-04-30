@@ -18,7 +18,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="flex min-h-screen overflow-hidden">
+    <div className="flex min-h-screen docs-container">
       <aside className="hidden md:block w-64 bg-gray-100 dark:bg-gray-900 p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Docs</h2>
         <nav className="space-y-2">
@@ -26,7 +26,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
             <Link
               key={link.to}
               to={link.to}
-              className={`block px-2 py-1 rounded ${location.pathname === link.to ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}
+              className={`block px-2 py-1 rounded ${location.pathname === link.to ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}
             >
               {link.label}
             </Link>
@@ -50,7 +50,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
                   key={link.to}
                   to={link.to}
                   onClick={() => setSidebarOpen(false)}
-                  className={`block px-2 py-1 rounded ${location.pathname === link.to ? 'bg-green-200 dark:bg-green-700 text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}
+                  className={`block px-2 py-1 rounded ${location.pathname === link.to ? 'bg-green-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600'}`}
                 >
                   {link.label}
                 </Link>
@@ -59,7 +59,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
           </aside>
         </div>
       )}
-      <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 overflow-hidden">
+      <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 docs-content">
         {/* Mobile docs toggle */}
         <div className="md:hidden mb-4">
           <button onClick={() => setSidebarOpen(true)} className="flex items-center text-gray-700 dark:text-gray-200 focus:outline-none">
