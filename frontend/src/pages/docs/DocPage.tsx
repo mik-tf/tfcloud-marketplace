@@ -79,28 +79,40 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
             svgElement.style.width = '100%';
             
             // Handle specific diagram types that need to be larger
-            if (isSequenceDiagram || isTokenEconomics || isDeploymentFlow || isNodeTypes) {
-              svgElement.style.minWidth = '550px';
-              svgElement.style.maxWidth = isExpanded ? '1100px' : '800px';
-              svgElement.classList.add('medium-large-diagram');
-            }
-            // Simple diagrams (few nodes) should be smaller
-            else if (nodeCount <= 5) {
-              svgElement.style.minWidth = '300px';
-              svgElement.style.maxWidth = isExpanded ? '600px' : '400px';
-              svgElement.classList.add('simple-diagram');
-            }
-            // Complex diagrams should be larger
-            else if (nodeCount >= 10) {
-              svgElement.style.minWidth = '600px';
-              svgElement.style.maxWidth = isExpanded ? '1200px' : '900px';
-              svgElement.classList.add('complex-diagram');
-            }
-            // Medium complexity diagrams
-            else {
-              svgElement.style.minWidth = '500px';
-              svgElement.style.maxWidth = isExpanded ? '1000px' : '750px';
-              svgElement.classList.add('medium-diagram');
+            // Check if we're on a mobile device
+            const isMobile = window.innerWidth < 768;
+            
+            if (isMobile) {
+              // On mobile, make all diagrams fit the screen width
+              svgElement.style.minWidth = 'auto';
+              svgElement.style.maxWidth = '100%';
+              svgElement.style.width = '100%';
+              svgElement.classList.add('mobile-diagram');
+            } else {
+              // On desktop, use different sizes based on diagram type
+              if (isSequenceDiagram || isTokenEconomics || isDeploymentFlow || isNodeTypes) {
+                svgElement.style.minWidth = '550px';
+                svgElement.style.maxWidth = isExpanded ? '1100px' : '800px';
+                svgElement.classList.add('medium-large-diagram');
+              }
+              // Simple diagrams (few nodes) should be smaller
+              else if (nodeCount <= 5) {
+                svgElement.style.minWidth = '300px';
+                svgElement.style.maxWidth = isExpanded ? '600px' : '400px';
+                svgElement.classList.add('simple-diagram');
+              }
+              // Complex diagrams should be larger
+              else if (nodeCount >= 10) {
+                svgElement.style.minWidth = '600px';
+                svgElement.style.maxWidth = isExpanded ? '1200px' : '900px';
+                svgElement.classList.add('complex-diagram');
+              }
+              // Medium complexity diagrams
+              else {
+                svgElement.style.minWidth = '500px';
+                svgElement.style.maxWidth = isExpanded ? '1000px' : '750px';
+                svgElement.classList.add('medium-diagram');
+              }
             }
             
             svgElement.style.height = 'auto';
@@ -119,7 +131,7 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
     <div className="my-6 bg-white dark:bg-gray-800 p-4 rounded-lg text-center">
       <div
         ref={containerRef}
-        className="w-full overflow-auto mx-auto"
+        className="w-full mx-auto overflow-hidden md:overflow-auto"
         title={isExpanded ? "Click to reduce size" : "Click to expand"}
       />
     </div>
@@ -157,7 +169,7 @@ const DocPage: React.FC = () => {
   return (
     <DocsLayout>
       <div className="md:grid md:grid-cols-5 gap-8">
-        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full">
+        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full overflow-hidden">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
