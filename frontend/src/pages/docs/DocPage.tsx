@@ -87,6 +87,9 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
               svgElement.style.minWidth = 'auto';
               svgElement.style.maxWidth = '100%';
               svgElement.style.width = '100%';
+              // Force SVG to stay within viewport width
+              svgElement.setAttribute('viewBox', svgElement.getAttribute('viewBox') || '0 0 100 100');
+              svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
               svgElement.classList.add('mobile-diagram');
             } else {
               // On desktop, use different sizes based on diagram type
@@ -127,11 +130,33 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
   }, [chart, isDark, isExpanded]);
   
   // Center diagram within styled container with more width
+  // Add a style element to handle mobile-specific styling
+  useEffect(() => {
+    const styleEl = document.createElement('style');
+    styleEl.innerHTML = `
+      @media (max-width: 768px) {
+        .mermaid-container {
+          max-width: 100vw !important;
+          overflow-x: hidden !important;
+        }
+        svg.mobile-diagram {
+          max-width: 100% !important;
+          width: 100% !important;
+        }
+      }
+    `;
+    document.head.appendChild(styleEl);
+    return () => {
+      document.head.removeChild(styleEl);
+    };
+  }, []);
+
   return (
-    <div className="my-6 bg-white dark:bg-gray-800 p-4 rounded-lg text-center">
+    <div className="my-6 bg-white dark:bg-gray-800 p-4 rounded-lg text-center mermaid-container">
       <div
         ref={containerRef}
-        className="w-full mx-auto overflow-hidden md:overflow-auto"
+        className="w-full mx-auto overflow-hidden"
+        style={{ maxWidth: '100%' }}
         title={isExpanded ? "Click to reduce size" : "Click to expand"}
       />
     </div>
@@ -168,8 +193,8 @@ const DocPage: React.FC = () => {
 
   return (
     <DocsLayout>
-      <div className="md:grid md:grid-cols-5 gap-8">
-        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full overflow-hidden">
+      <div className="md:grid md:grid-cols-5 gap-8 overflow-hidden">
+        <article className="col-span-4 prose dark:prose-invert max-w-none prose-img:my-8 prose-img:w-full overflow-hidden" style={{ maxWidth: '100vw' }}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{

@@ -18,7 +18,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-hidden">
       <aside className="hidden md:block w-64 bg-gray-100 dark:bg-gray-900 p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Docs</h2>
         <nav className="space-y-2">
@@ -59,7 +59,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
           </aside>
         </div>
       )}
-      <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+      <main className="flex-1 p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 overflow-hidden">
         {/* Mobile docs toggle */}
         <div className="md:hidden mb-4">
           <button onClick={() => setSidebarOpen(true)} className="flex items-center text-gray-700 dark:text-gray-200 focus:outline-none">
