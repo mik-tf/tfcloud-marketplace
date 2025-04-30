@@ -10,6 +10,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const links = [
     { to: '/docs', label: 'Welcome' },
+    { to: '/docs/the-big-picture', label: 'The Big Picture' },
     { to: '/docs/ecosystem', label: 'Ecosystem' },
     { to: '/docs/cloud-user', label: 'Cloud User' },
     { to: '/docs/cloud-operator', label: 'Cloud Operator' },

@@ -2,19 +2,11 @@
 
 The ThreeFold Cloud Marketplace is built on a three-layer ecosystem to ensure a cohesive and complete circular economy—by the people, for the people. Below is a three-layer vertical flow from bottom to top, illustrating how each layer builds upon the previous one:
 
-```mermaid
-graph BT
-  CP["Cloud Providers<br/>Provide nodes: Internet & cloud resources"]
-  CO["Cloud Operators<br/>Provide app platform for users built on the nodes"]
-  CU["Cloud Users<br/>Deploy apps on the cloud marketplace"]
+The ThreeFold Cloud Marketplace connects three essential participants in a circular economy:
 
-  CP --> CO
-  CO --> CU
-
-  click CP "/docs/cloud-provider"
-  click CO "/docs/cloud-operator"
-  click CU "/docs/cloud-user"
-```
+- **[Cloud Providers](/docs/cloud-provider)**: Provision and maintain the infrastructure
+- **[Cloud Operators](/docs/cloud-operator)**: Host and manage the marketplace interface
+- **[Cloud Users](/docs/cloud-user)**: Deploy and use applications and services
 
 ## Overview
 

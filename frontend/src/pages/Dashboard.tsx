@@ -80,11 +80,11 @@ const Dashboard: React.FC = () => {
               </div>
               <div className="p-4">
                 <h3 className="font-medium mb-2">Secure</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">End-to-end encryption and Zero-OS technology for maximum security.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Obtain end-to-end encryption and Zero-OS technology for maximum security.</p>
               </div>
               <div className="p-4">
                 <h3 className="font-medium mb-2">Sustainable</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Up to 90% more energy-efficient than traditional cloud providers.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Save up to 90% more energy-efficient than traditional cloud providers.</p>
               </div>
             </div>
           </div>

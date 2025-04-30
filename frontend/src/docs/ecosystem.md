@@ -16,7 +16,7 @@ Cloud Providers provision and maintain scalable TFGrid nodes, delivering compute
 
 - Earn **50%** of the TFChain portion of each deployment cost.
 - Ensure high availability, security, and automatic updates.
-- Form co-ops to pool resources and establish clear Service Level Agreements (SLAs).
+- Form alliances to pool resources and establish clear Service Level Agreements (SLAs).
 
 ## Layer 2: Cloud Operators
 
@@ -39,7 +39,7 @@ Cloud Users enjoy a seamless, non-crypto deployment experience using credit or d
 This ecosystem fosters a circular economy:
 
 1. **By the people**: Anyone can join as a provider or contributor at any layer.
-2. **For the people**: Transparent revenue sharing, co-op governance, and open collaboration.
+2. **For the people**: Transparent revenue sharing, alliances, and open collaborations.
 3. **Synergy**: Operators and users co-create value, driving adoption and grid expansion.
 
 ## Cloud Alliances
@@ -54,7 +54,7 @@ A **Cloud alliance** is a formal strategic partnership between **Cloud Providers
 
 ## Best Practices
 
-- Establish and document SLAs and governance within co-ops.
+- Establish and document SLAs and governance within alliances.
 - Continuously monitor performance and collect user feedback.
 - Automate updates, backups, and security checks for reliability.
 - Leverage token-based incentives to optimize pricing and revenue-sharing.
