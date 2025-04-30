@@ -1,19 +1,19 @@
-# Node Operator Documentation
+# Cloud Provider Documentation
 
-**Node Operators** run and maintain TFGrid nodes to provide compute and storage resources.
+**Cloud Providers** run and maintain TFGrid nodes to provide compute and storage resources.
 
 ## Role and Responsibilities
 
 - Run TFGrid nodes and maintain uptime, updates, and security.
 - Provide compute and storage resources to the ThreeFold Grid.
 - Earn **50%** of the TFChain portion of each deployment cost.
-- Collaborate in co-ops with Dashboard Operators to pool infrastructure and share revenue.
+- Collaborate in Cloud alliances with Cloud Operators to pool infrastructure and share revenue.
 
 ## Best Practices
 
 - Keep nodes online, updated, and monitored for reliability.
 - Use monitoring tools to track performance and health metrics.
-- Establish SLAs with co-op members for clear availability and service guarantees.
+- Establish SLAs with alliance members for clear availability and service guarantees.
 - Participate in governance and feedback to improve node operations.
 
 ## Types of Nodes
@@ -33,20 +33,20 @@ You can set up your own TFGrid node or purchase from an official partner:
 - **DIY Node**: Follow the step-by-step guide at [manual.grid.tf](https://manual.grid.tf).
 - **Official Vendor**: Get started with an officially supported node via [ThreeFold Farming Docs](https://docs.threefold.io/docs/become-a-farmer/get_started).
 
-## Node Operator Interface
+## Cloud Provider Interface
 
-### 1. Request Participation in Co-op
-- Go to the **Nodes** page and click **Submit Request**.
+### 1. Request Cloud Alliance
+- Go to the **Provider** page and click **Submit Request**.
 - Fill in **Node ID**, select **Network** (Main/Test), check one or more **Apps** to deploy, enter your **Contact Email**, agree to the **SLA**, and add any **Comment**.
 
 ### 2. View Pending Participation Requests
-- Below the form, see **Pending Participation Requests** listing each request’s Node ID, Network, Apps, Email, SLA status, Comment, and date.
+- Below the form, see **Pending Participation Requests** listing each request's Node ID, Network, Apps, Email, SLA status, Comment, and date.
 
-### 3. View Accepted Nodes (Nodes in Co-ops)
-- Review the **Nodes in Co-ops** table showing each member’s **Name**, **Node ID**, **Apps Accepted**, and any scheduled **Maintenance** windows.
+### 3. View Accepted Nodes
+- Review the **Providers in Cloud Alliances** table showing each member's **Name**, **Node ID**, **Apps Accepted**, and any scheduled **Maintenance** windows.
 
 ### 4. Schedule Maintenance Windows
-- In the **Nodes in Co-ops** table, click **Schedule Maintenance** for a node.
+- In the **Providers in Cloud Alliances** table, click **Schedule Maintenance** for a node.
 - Enter **Start** and **End** date/time and an optional **Comment**, then submit.
 
 ### 5. View Pending Maintenance Windows

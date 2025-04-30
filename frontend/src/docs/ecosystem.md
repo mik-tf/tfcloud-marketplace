@@ -4,31 +4,31 @@ The ThreeFold Cloud Marketplace implements a robust three-layer system to delive
 
 ```mermaid
 graph BT
-  TN["Node Operators\nProvision and maintain scalable cloud infrastructure"] --> DO["Dashboard Operators\nHost and configure the cloud marketplace"] --> DU["Dashboard Users\nDeploy and manage applications seamlessly"]
-  click TN "/docs/node-operator"
-  click DO "/docs/dashboard-operator"
-  click DU "/docs/dashboard-user"
+  TN["Cloud Providers\nProvision and maintain scalable cloud infrastructure"] --> DO["Cloud Operators\nHost and configure the cloud marketplace"] --> DU["Cloud Users\nDeploy and manage applications seamlessly"]
+  click TN "/docs/cloud-provider"
+  click DO "/docs/cloud-operator"
+  click DU "/docs/cloud-user"
 ```
 
-## Layer 1: Node Operators
+## Layer 1: Cloud Providers
 
-Node Operators provision and maintain scalable TFGrid nodes, delivering compute, storage, and network resources to the grid.
+Cloud Providers provision and maintain scalable TFGrid nodes, delivering compute, storage, and network resources to the grid.
 
 - Earn **50%** of the TFChain portion of each deployment cost.
 - Ensure high availability, security, and automatic updates.
 - Form co-ops to pool resources and establish clear Service Level Agreements (SLAs).
 
-## Layer 2: Dashboard Operators
+## Layer 2: Cloud Operators
 
-Dashboard Operators host and configure the fiat-to-blockchain marketplace interface, enabling seamless user deployments.
+Cloud Operators host and configure the fiat-to-blockchain marketplace interface, enabling seamless user deployments.
 
 - Integrate payment gateways (e.g., Stripe) and automate token acquisition via TF Connect.
 - Define pricing models, node-selection filters, and Basic/Advanced deployment options.
 - Unlock **up to 60%** deployment discounts by staking or holding tokens.
 
-## Layer 3: Dashboard Users
+## Layer 3: Cloud Users
 
-Dashboard Users enjoy a seamless, non-crypto deployment experience using credit or debit cards.
+Cloud Users enjoy a seamless, non-crypto deployment experience using credit or debit cards.
 
 - Deploy applications using **Basic** (auto node assignment) or **Advanced** (custom filters) modes.
 - Configure backups and Quantum Safe File System (QSFS) for data resilience.
@@ -42,15 +42,15 @@ This ecosystem fosters a circular economy:
 2. **For the people**: Transparent revenue sharing, co-op governance, and open collaboration.
 3. **Synergy**: Operators and users co-create value, driving adoption and grid expansion.
 
-## Co-op Collaborations
+## Cloud Alliances
 
-A **co-op** is a strategic alliance between **Node Operators** and **Dashboard Operators**, combining infrastructure and interface expertise to deliver specialized services:
+A **Cloud alliance** is a formal strategic partnership between **Cloud Providers** and **Cloud Operators**, combining infrastructure and interface expertise to deliver specialized services:
 
 - **HDD-backed QSFS Storage**: High-capacity, cost-effective storage clusters for QSFS workloads.
 - **GPU-optimized AI & WebUI**: Nodes equipped with GPUs (e.g. NVIDIA 4090) efficient at machine learning, inference, and open WebUI applications.
 - **LiveKit Video Conferencing**: Nodes with superior bandwidth and low latency optimized for real-time video streaming and conferencing.
 
-> By pooling resources and expertise, co-ops enable custom service tiers, improved SLAs, and competitive pricing for end users.
+> By pooling resources and expertise, these Cloud alliances enable custom service tiers, improved SLAs, and competitive pricing for end users.
 
 ## Best Practices
 

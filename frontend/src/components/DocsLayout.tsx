@@ -11,9 +11,9 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
   const links = [
     { to: '/docs', label: 'Welcome' },
     { to: '/docs/ecosystem', label: 'Ecosystem' },
-    { to: '/docs/dashboard-user', label: 'Dashboard User' },
-    { to: '/docs/dashboard-operator', label: 'Dashboard Operator' },
-    { to: '/docs/node-operator', label: 'Node Operator' },
+    { to: '/docs/cloud-user', label: 'Cloud User' },
+    { to: '/docs/cloud-operator', label: 'Cloud Operator' },
+    { to: '/docs/cloud-provider', label: 'Cloud Provider' },
   ];
 
   return (

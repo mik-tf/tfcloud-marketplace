@@ -7,7 +7,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<boolean>;
   signup: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  requestNodeOperator: () => Promise<void>;
+  requestCloudProvider: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue>({
@@ -16,7 +16,7 @@ export const AuthContext = createContext<AuthContextValue>({
   login: async () => false,
   signup: async () => false,
   logout: () => {},
-  requestNodeOperator: async () => {},
+  requestCloudProvider: async () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -33,16 +33,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // TODO: replace with real API call
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    // Check for admin credentials
+    // Check for cloud operator credentials
     if (email === 'admin@example.com' && password === 'password') {
-      setRoles(['user', 'node-operator', 'admin']);
+      setRoles(['user', 'cloud-provider', 'cloud-operator']);
       setIsAuthenticated(true);
       return true;
     }
     
-    // Check for node operator credentials
+    // Check for cloud provider credentials
     if (email === 'nodeoperator@example.com' && password === 'password') {
-      setRoles(['user', 'node-operator']);
+      setRoles(['user', 'cloud-provider']);
       setIsAuthenticated(true);
       return true;
     }
@@ -68,11 +68,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsAuthenticated(false);
   };
 
-  const requestNodeOperator = async () => {
+  const requestCloudProvider = async () => {
     // TODO: replace with real API call
     await new Promise(resolve => setTimeout(resolve, 500));
-    if (!roles.includes('node-operator')) {
-      const updated = [...roles, 'node-operator'];
+    if (!roles.includes('cloud-provider')) {
+      const updated = [...roles, 'cloud-provider'];
       setRoles(updated);
     }
   };
@@ -83,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [roles, isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ roles, isAuthenticated, login, signup, logout, requestNodeOperator }}>
+    <AuthContext.Provider value={{ roles, isAuthenticated, login, signup, logout, requestCloudProvider }}>
       {children}
     </AuthContext.Provider>
   );

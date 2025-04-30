@@ -123,8 +123,11 @@ Comment: ${comment}`);
 
   return (
     <div className="max-w-6xl mx-auto py-10 text-gray-900 dark:text-gray-100">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Node Ops</h1>
+      <div className="flex flex-col gap-4 mb-6">
+        <h1 className="text-3xl font-bold">Cloud Provider</h1>
+        <p className="text-gray-600 dark:text-gray-400">
+          As a Cloud Provider, you supply the foundational infrastructure for the ThreeFold Grid. Manage your nodes, form Cloud alliances with Cloud Operators, and earn revenue by providing compute, storage, and network resources to the ecosystem.
+        </p>
       </div>
       <section className="mb-6">
         <h2 className="text-lg font-semibold mb-2">Service Level Agreement</h2>
@@ -134,12 +137,12 @@ Comment: ${comment}`);
             <li>Maintain node uptime of at least 99.9%.</li>
             <li>Ensure your node is securely configured and updated.</li>
             <li>Provide support and timely communication for your node.</li>
-            <li>Comply with the policies set by the dashboard operator.</li>
+            <li>Comply with the policies set by the cloud operator.</li>
           </ul>
         </div>
       </section>
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Request Node Participation</h2>
+        <h2 className="text-xl font-semibold mb-2">Request Cloud Alliance</h2>
         {!showForm ? (
           <button
             onClick={() => setShowForm(true)}
@@ -211,7 +214,7 @@ Comment: ${comment}`);
                 <textarea
                   value={comment}
                   onChange={e => setComment(e.target.value)}
-                  placeholder="Any message to the dashboard operator"
+                  placeholder="Any message to the cloud operator"
                   className="mt-1 p-2 border rounded w-full dark:bg-gray-700 dark:text-gray-100"
                 />
               </label>
@@ -270,9 +273,9 @@ Comment: ${comment}`);
         )}
       </section>
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Nodes in Co-ops</h2>
+        <h2 className="text-xl font-semibold mb-2">Providers in Cloud Alliances</h2>
         {acceptedNodes.length === 0 ? (
-          <p className="text-gray-600 dark:text-gray-400">No nodes in co-ops.</p>
+          <p className="text-gray-600 dark:text-gray-400">No providers in Cloud alliances.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white shadow rounded-lg overflow-hidden dark:bg-gray-800">

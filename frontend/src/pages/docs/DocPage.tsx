@@ -6,9 +6,9 @@ import mermaid from 'mermaid';
 import DocsLayout from '@components/DocsLayout';
 
 import welcomeMd from '../../docs/welcome.md?raw';
-import dashboardUserMd from '../../docs/dashboard-user.md?raw';
-import dashboardOperatorMd from '../../docs/dashboard-operator.md?raw';
-import nodeOperatorMd from '../../docs/node-operator.md?raw';
+import cloudUserMd from '../../docs/cloud-user.md?raw';
+import cloudOperatorMd from '../../docs/cloud-operator.md?raw';
+import cloudProviderMd from '../../docs/cloud-provider.md?raw';
 import ecosystemMd from '../../docs/ecosystem.md?raw';
 
 // Hook to detect light/dark mode changes
@@ -61,9 +61,13 @@ const MermaidChart: React.FC<{ chart: string }> = ({ chart }) => {
 const contentMap: Record<string, string> = {
   'welcome': welcomeMd,
   'ecosystem': ecosystemMd,
-  'dashboard-user': dashboardUserMd,
-  'dashboard-operator': dashboardOperatorMd,
-  'node-operator': nodeOperatorMd,
+  'cloud-user': cloudUserMd,
+  'cloud-operator': cloudOperatorMd,
+  'cloud-provider': cloudProviderMd,
+  // Keep old paths for backward compatibility
+  'dashboard-user': cloudUserMd,
+  'dashboard-operator': cloudOperatorMd,
+  'node-operator': cloudProviderMd,
 };
 
 const DocPage: React.FC = () => {

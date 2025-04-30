@@ -95,14 +95,19 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto py-6 px-4 sm:px-6 md:py-10 text-gray-900 dark:text-gray-100">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">Deploy</h1>
-        <Link
-          to="/dashboard/new"
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-center"
-        >
-          New Deployment
-        </Link>
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold">Cloud User</h1>
+          <Link
+            to="/dashboard/new"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-center"
+          >
+            New Deployment
+          </Link>
+        </div>
+        <p className="text-gray-600 dark:text-gray-400">
+          Deploy and manage your applications on the ThreeFold Grid with a seamless, user-friendly interface. Monitor your deployments, view resource usage, and receive maintenance notifications all in one place.
+        </p>
       </div>
       {deployments.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-400">No deployments yet.</p>

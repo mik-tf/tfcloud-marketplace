@@ -1,6 +1,6 @@
-# Dashboard User Documentation
+# Cloud User Documentation
 
-**Dashboard Users** interact with the Fiat-Commercial Dashboards to deploy applications on the ThreeFold Grid.
+**Cloud Users** interact with the ThreeFold Cloud Marketplace to deploy applications on the ThreeFold Grid.
 
 ## Role and Responsibilities
 
@@ -11,11 +11,11 @@
 
 ## Best Practices
 
-- Review pricing and SLAs provided by Dashboard Operators before deploying.
+- Review pricing and SLAs provided by Cloud Operators before deploying.
 - Use the **Backup** and **QSFS** options to ensure data durability.
 - Provide feedback on dashboard usability and features to help improve the UI and workflow.
 
-## Dashboard User Interface
+## Cloud User Interface
 
 ### 1. Deploy Applications
 - Use **Basic** (auto node selection) or **Advanced** (custom filters) modes on the deployment page.
@@ -27,10 +27,10 @@
 - View logs, resource usage, and scaling options.
 
 ### 3. Receive Maintenance Notifications
-- When a Node Operator schedules maintenance, receive in-app alerts and email notifications.
+- When a Cloud Provider schedules maintenance, receive in-app alerts and email notifications.
 - Maintenance windows display **Start** and **End** times along with any **Comments**.
 - Plan usage around maintenance windows to minimize downtime.
 
 ### 4. Feedback and Support
 - Provide feedback on dashboard features and usability.
-- Contact Dashboard Operators for SLA or billing inquiries.
+- Contact Cloud Operators for SLA or billing inquiries.

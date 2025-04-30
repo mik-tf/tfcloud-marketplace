@@ -4,18 +4,18 @@ The ThreeFold Cloud Marketplace is built on a three-layer ecosystem to ensure a 
 
 ```mermaid
 graph BT
-  NO["Node Operators<br/>Provide nodes: Internet & cloud resources"]
-  DO["Dashboard Operators<br/>Provide app platform for users built on the nodes"]
-  DU["Dashboard Users<br/>Deploy apps on the cloud marketplace"]
+  CP["Cloud Providers<br/>Provide nodes: Internet & cloud resources"]
+  CO["Cloud Operators<br/>Provide app platform for users built on the nodes"]
+  CU["Cloud Users<br/>Deploy apps on the cloud marketplace"]
 
-  NO --> DO
-  DO --> DU
+  CP --> CO
+  CO --> CU
 
-  click NO "/docs/node-operator"
-  click DO "/docs/dashboard-operator"
-  click DU "/docs/dashboard-user"
+  click CP "/docs/cloud-provider"
+  click CO "/docs/cloud-operator"
+  click CU "/docs/cloud-user"
 ```
 
 ## Overview
 
-The ThreeFold Cloud Marketplace is an open, decentralized platform that unites community-driven infrastructure with streamlined application services. Node Operators supply the underlying compute and storage resources, Dashboard Operators deploy and manage applications on that infrastructure, and Dashboard Users leverage these applications to deliver workloads globally.
+The ThreeFold Cloud Marketplace is an open, decentralized platform that unites community-driven infrastructure with streamlined application services. Cloud Providers supply the underlying compute and storage resources, Cloud Operators deploy and manage applications on that infrastructure, and Cloud Users leverage these applications to deliver workloads globally.

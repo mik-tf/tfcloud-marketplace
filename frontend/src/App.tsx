@@ -34,8 +34,8 @@ const App: React.FC = () => (
             <Route index element={<Dashboard />} />
             <Route path="new" element={<NewDeployment />} />
             <Route path="new/:appType" element={<NewDeployment />} />
-            <Route path="ops" element={<RequireRole role="admin"><Ops /></RequireRole>} />
-            <Route path="nodes" element={<RequireRole role="node-operator"><Nodes /></RequireRole>} />
+            <Route path="operator" element={<RequireRole role="cloud-operator"><Ops /></RequireRole>} />
+            <Route path="provider" element={<RequireRole role="cloud-provider"><Nodes /></RequireRole>} />
             <Route path="settings" element={<Settings />} />
             <Route path=":id" element={<DeploymentDetail />} />
           </Route>

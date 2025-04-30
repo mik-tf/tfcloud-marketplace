@@ -90,9 +90,9 @@ const Login: React.FC = () => {
       
       <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-700 rounded">
         <h3 className="text-lg font-semibold mb-2">Demo Credentials</h3>
-        <p className="text-sm mb-1"><strong>Admin:</strong> admin@example.com / password</p>
-        <p className="text-sm mb-1"><strong>Node Operator:</strong> nodeoperator@example.com / password</p>
-        <p className="text-sm"><strong>Regular User:</strong> user@example.com / password</p>
+        <p className="text-sm mb-1"><strong>Cloud Operator:</strong> admin@example.com / password</p>
+        <p className="text-sm mb-1"><strong>Cloud Provider:</strong> nodeoperator@example.com / password</p>
+        <p className="text-sm"><strong>Cloud User:</strong> user@example.com / password</p>
       </div>
     </div>
   );

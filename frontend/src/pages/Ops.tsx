@@ -199,8 +199,11 @@ const Ops: React.FC = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto py-6 px-4 sm:px-6 md:py-10 text-gray-900 dark:text-gray-100">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Dashboard Ops</h1>
+      <div className="flex flex-col gap-4 mb-6">
+        <h1 className="text-3xl font-bold">Cloud Operator</h1>
+        <p className="text-gray-600 dark:text-gray-400">
+          As a Cloud Operator, you bridge the gap between infrastructure and users. Configure pricing, manage Cloud alliances with Cloud Providers, and create a seamless experience for Cloud Users while benefiting from staking discounts and revenue sharing.
+        </p>
       </div>
       {/* TFChain Mnemonic */}
       <section className="mb-6 md:mb-8">
@@ -344,7 +347,7 @@ const Ops: React.FC = () => {
         </p>
       </section>
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Node Operator Join Requests</h2>
+        <h2 className="text-xl font-semibold mb-2">Cloud Provider Join Requests</h2>
         {joinRequests.length === 0 ? (
           <p className="text-gray-600 dark:text-gray-400">No pending requests.</p>
         ) : (
@@ -376,9 +379,9 @@ const Ops: React.FC = () => {
         )}
       </section>
       <section className="mb-6 md:mb-8">
-        <h2 className="text-xl font-semibold mb-2">Accepted Co-op Nodes</h2>
+        <h2 className="text-xl font-semibold mb-2">Accepted Cloud Alliance Providers</h2>
         {acceptedNodes.length === 0 ? (
-          <p className="text-gray-600 dark:text-gray-400">No nodes accepted yet.</p>
+          <p className="text-gray-600 dark:text-gray-400">No cloud providers accepted yet.</p>
         ) : (
           <div className="overflow-x-auto -mx-4 sm:mx-0">
             <div className="inline-block min-w-full align-middle">
