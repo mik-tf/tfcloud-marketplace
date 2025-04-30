@@ -41,10 +41,7 @@ const NavBar: React.FC = () => {
           <Link to="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Dashboard</Link>
           <Link to="/docs" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Docs</Link>
         </div>
-        <div className="hidden md:flex items-center space-x-4 pr-4 border-r border-gray-300 dark:border-gray-600">
-          <Link to="/login" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Login</Link>
-          <Link to="/signup" className="text-gray-700 dark:text-gray-200 hover:text-green-600">Signup</Link>
-        </div>
+        {/* Removed the separate div for login/signup */}
         <div className="flex md:hidden items-center justify-between w-full">
           <Link to="/" onClick={() => setMenuOpen(false)}>
             <img src={theme === 'dark' ? logoDarkShort : logoLightShort} alt="TF" className="h-8" />
@@ -61,7 +58,8 @@ const NavBar: React.FC = () => {
             )}
           </button>
         </div>
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-6">
+          {/* Theme toggle */}
           <label className="inline-flex items-center cursor-pointer">
             <span className="mr-3 text-sm text-gray-700 dark:text-gray-300">Light</span>
             <div className="relative">
@@ -71,6 +69,10 @@ const NavBar: React.FC = () => {
             </div>
             <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">Dark</span>
           </label>
+          
+          {/* Auth buttons with industry-standard styling */}
+          <Link to="/login" className="px-4 py-2 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 rounded-md transition-colors">Log In</Link>
+          <Link to="/signup" className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md transition-colors">Sign Up</Link>
         </div>
       </div>
       {menuOpen && (
@@ -88,8 +90,8 @@ const NavBar: React.FC = () => {
               <Link to="/docs" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Docs</Link>
             </nav>
             <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1">
-              <Link to="/login" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Login</Link>
-              <Link to="/signup" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-green-600 rounded">Signup</Link>
+              <Link to="/login" onClick={() => setMenuOpen(false)} className="block px-3 py-2 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 rounded-md mb-2">Log In</Link>
+              <Link to="/signup" onClick={() => setMenuOpen(false)} className="block px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md mb-2">Sign Up</Link>
               <label className="inline-flex items-center cursor-pointer px-3 py-2">
                 <span className="mr-3 text-sm text-gray-700 dark:text-gray-300">Light</span>
                 <div className="relative">

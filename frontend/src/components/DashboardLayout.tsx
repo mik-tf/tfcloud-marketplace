@@ -59,7 +59,7 @@ const DashboardLayout: React.FC = () => {
                 onClick={handleLogout}
                 className="flex items-center space-x-2 px-4 py-2 rounded text-gray-700 dark:text-gray-300 hover:text-red-600 w-full text-left"
               >
-                <FiLogOut className="w-5 h-5" /><span>Logout</span>
+                <FiLogOut className="w-5 h-5" /><span>Log Out</span>
               </button>
             </nav>
           </aside>
@@ -93,7 +93,7 @@ const DashboardLayout: React.FC = () => {
             className="flex items-center space-x-2 px-4 py-2 rounded text-gray-700 dark:text-gray-300 hover:text-red-600 w-full text-left mt-8"
           >
             <FiLogOut className="w-5 h-5" />
-            <span>Logout</span>
+            <span>Log Out</span>
           </button>
         </nav>
       </aside>

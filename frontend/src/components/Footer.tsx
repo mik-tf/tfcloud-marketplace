@@ -11,7 +11,7 @@ const Footer: React.FC = () => (
             <li><Link to="/" className="hover:underline">Home</Link></li>
             <li><Link to="/dashboard" className="hover:underline">Dashboard</Link></li>
             <li><Link to="/docs" className="hover:underline">Docs</Link></li>
-            <li><Link to="/login" className="hover:underline">Login</Link></li>
+            <li><Link to="/login" className="hover:underline">Log In</Link></li>
             <li><Link to="/signup" className="hover:underline">Sign Up</Link></li>
           </ul>
         </div>

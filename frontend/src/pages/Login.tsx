@@ -32,7 +32,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto py-10 text-gray-900 dark:text-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
+      <h1 className="text-2xl font-bold mb-4">Log In</h1>
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
@@ -77,7 +77,7 @@ const Login: React.FC = () => {
               Logging in...
             </>
           ) : (
-            'Login'
+            'Log In'
           )}
         </button>
       </form>

@@ -23,7 +23,7 @@ const Home: React.FC = () => (
         <p className="text-xl text-gray-600 dark:text-gray-400">Deploy Apps on the ThreeFold Grid Easily</p>
         <div className="flex justify-center space-x-4 mt-6">
           <Link to="/signup" className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded">Get Started</Link>
-          <Link to="/login" className="bg-white hover:bg-gray-100 text-green-500 border border-green-500 px-6 py-3 rounded">Login</Link>
+          <Link to="/login" className="bg-white hover:bg-gray-100 text-green-500 border border-green-500 px-6 py-3 rounded">Log In</Link>
         </div>
       </div>
     </section>
