@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
+// SLA Disclaimer component to avoid duplication
+const SLADisclaimer: React.FC = () => (
+  <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+    <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
+    <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
+      <li>The app you are deploying is on the ThreeFold Grid deployed on a node from one of our Cloud provider partners.</li>
+      <li>Cloud providers aim to ensure 99.9% uptime for their nodes, and maintenance windows may arise.</li>
+      <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
+      <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
+      <li>You can also make local backup to your own machine if you want.</li>
+      <li>Apart from this, if the app VM and the backup VM go down, you can lose all your data and progress.</li>
+      <li>Be aware of this before continuing.</li>
+    </ul>
+  </div>
+);
+
 const NewDeployment: React.FC = () => {
   const { appType } = useParams<{ appType?: string }>();
   // Available application templates
@@ -174,18 +190,7 @@ const NewDeployment: React.FC = () => {
               </label>
             </div>
           )}
-          <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
-            <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
-            <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
-              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from one of our Cloud provider partners.</li>
-              <li>Cloud providers aim to ensure 99.9% uptime for their nodes, and maintenance windows may arise.</li>
-              <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
-              <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
-              <li>You can also make local backup to your own machine if you want.</li>
-              <li>Apart from this, if the app VM and the backup VM go down, you can lose all your data and progress.</li>
-              <li>Be aware of this before continuing.</li>
-            </ul>
-          </div>
+          <SLADisclaimer />
           <div className="flex items-center mb-4">
             <input id="sla-basic" type="checkbox" checked={slaAgreed} onChange={e => setSlaAgreed(e.target.checked)} className="mr-2" />
             <label htmlFor="sla-basic" className="text-gray-700 dark:text-gray-300">I have read and agree to the SLA</label>
@@ -243,18 +248,7 @@ const NewDeployment: React.FC = () => {
               </label>
             </div>
           )}
-          <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
-            <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
-            <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
-            <li>The app you are deploying is on the ThreeFold Grid deployed on a node from one of our Cloud provider partners.</li>
-              <li>Cloud providers aim to ensure 99.9% uptime for their nodes, and maintenance windows may arise.</li>
-              <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
-              <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
-              <li>You can also make local backup to your own machine if you want.</li>
-              <li>Apart from this, if the app VM and the backup VM go down, you can lose all your data and progress.</li>
-              <li>Be aware of this before continuing.</li>
-            </ul>
-          </div>
+          <SLADisclaimer />
           <div className="flex items-center mb-4">
             <input id="sla-adv" type="checkbox" checked={slaAgreed} onChange={e => setSlaAgreed(e.target.checked)} className="mr-2" />
             <label htmlFor="sla-adv" className="text-gray-700 dark:text-gray-300">I have read and agree to the SLA</label>
