@@ -177,8 +177,8 @@ const NewDeployment: React.FC = () => {
           <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
             <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
             <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
-              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from our co-ops.</li>
-              <li>Farmers aim to ensure 99.9% uptime for their node, and maintenance windows may arise.</li>
+              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from one of our Cloud provider partners.</li>
+              <li>Cloud providers aim to ensure 99.9% uptime for their nodes, and maintenance windows may arise.</li>
               <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
               <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
               <li>You can also make local backup to your own machine if you want.</li>
@@ -246,8 +246,8 @@ const NewDeployment: React.FC = () => {
           <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
             <h3 className="text-lg font-semibold mb-2">Service Level Agreement</h3>
             <ul className="list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300">
-              <li>The app you are deploying is on the ThreeFold Grid deployed on a node from our co-ops.</li>
-              <li>Farmers aim to ensure 99.9% uptime for their node, and maintenance windows may arise.</li>
+            <li>The app you are deploying is on the ThreeFold Grid deployed on a node from one of our Cloud provider partners.</li>
+              <li>Cloud providers aim to ensure 99.9% uptime for their nodes, and maintenance windows may arise.</li>
               <li>In the case of a maintenance window, you will be notified on this Dashboard.</li>
               <li>You can set a basic or quantum safe storage backup of your app, the same uptime applies for those nodes.</li>
               <li>You can also make local backup to your own machine if you want.</li>
