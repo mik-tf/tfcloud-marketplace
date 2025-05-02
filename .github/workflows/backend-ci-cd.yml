@@ -1,14 +1,20 @@
-name: CI/CD Pipeline
+name: Backend CI/CD Pipeline
 
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci-cd.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci-cd.yml'
 
 jobs:
   test:
-    name: Test
+    name: Test Backend
     runs-on: ubuntu-latest
     
     steps:
@@ -41,11 +47,11 @@ jobs:
       - name: Upload test coverage
         uses: actions/upload-artifact@v3
         with:
-          name: coverage
+          name: backend-coverage
           path: backend/coverage
   
   lint:
-    name: Lint
+    name: Lint Backend
     runs-on: ubuntu-latest
     
     steps:
@@ -68,7 +74,7 @@ jobs:
         run: npx eslint . --ext .js,.ts
 
   deploy:
-    name: Deploy
+    name: Deploy Backend
     needs: [test, lint]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

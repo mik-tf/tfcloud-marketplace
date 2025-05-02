@@ -2,6 +2,26 @@
 
 This guide provides comprehensive instructions on how to use the ThreeFold Cloud Marketplace, covering both the frontend and backend components. It's designed for developers, operators, and users who want to understand how to work with the platform.
 
+## Repository Structure
+
+```
+tfcloud-marketplace/
+├── .github/                # GitHub configuration
+│   └── workflows/          # GitHub Actions workflows
+│       ├── backend-ci-cd.yml   # Backend CI/CD workflow
+│       └── frontend-ci-cd.yml  # Frontend CI/CD workflow
+├── backend/                # Backend code
+│   ├── functions/          # Netlify Functions
+│   ├── scripts/            # Setup scripts
+│   ├── src/                # Source code
+│   └── tests/              # Test files
+├── frontend/               # Frontend code
+│   ├── public/             # Static assets
+│   └── src/                # Source code
+├── USAGE_GUIDE.md          # This file
+└── README.md               # Project overview
+```
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -377,6 +397,22 @@ const processPayment = async (amount, description) => {
 8. If approved, user is assigned provider role
 
 ## Deployment Guide
+
+### CI/CD Workflows
+
+The project includes GitHub Actions workflows for continuous integration and deployment:
+
+1. **Backend Workflow** (`.github/workflows/backend-ci-cd.yml`):
+   - Triggered by changes to backend files
+   - Runs tests and linting
+   - Deploys to Netlify on successful merge to main branch
+   - Sets up FaunaDB collections and indexes
+
+2. **Frontend Workflow** (`.github/workflows/frontend-ci-cd.yml`):
+   - Triggered by changes to frontend files
+   - Runs tests and linting
+   - Builds the frontend application
+   - Deploys to GitHub Pages on successful merge to main branch
 
 ### Backend Deployment
 
