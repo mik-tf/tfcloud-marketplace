@@ -112,7 +112,6 @@ After creating the API:
 7. Select your API
 8. Assign the following permissions:
    - `read:marketplace`
-9. Click **Add Permissions**
 
 ### cloud-provider Role
 
@@ -127,7 +126,6 @@ After creating the API:
    - `read:marketplace`
    - `write:marketplace`
    - `delete:marketplace`
-9. Click **Add Permissions**
 
 ### cloud-operator Role
 
