@@ -139,9 +139,29 @@ export class CloudOperatorController {
     try {
       const status = req.query.status as string || 'pending';
       
-      const requests = await this.faunaService.getProviderRequestsByStatus(status);
+      // Parse pagination parameters
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
       
-      res.status(200).json({ requests });
+      // Validate pagination parameters
+      if (page < 1 || limit < 1 || limit > 100) {
+        return res.status(400).json({
+          error: 'Invalid pagination parameters',
+          message: 'Page must be >= 1 and limit must be between 1 and 100'
+        });
+      }
+      
+      const result = await this.faunaService.getProviderRequestsByStatus(status, page, limit);
+      
+      res.status(200).json({
+        requests: result.requests,
+        pagination: {
+          page,
+          limit,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages
+        }
+      });
     } catch (error) {
       console.error('Error fetching provider requests:', error);
       res.status(500).json({ error: 'Failed to fetch provider requests' });
@@ -190,11 +210,28 @@ export class CloudOperatorController {
    */
   public getUsers = async (req: Request, res: Response) => {
     try {
-      // TODO: Implement getAllUsers in FaunaService
-      // For now, return a not implemented response
-      res.status(501).json({ 
-        error: 'Not implemented yet',
-        message: 'User listing functionality will be implemented in a future update'
+      // Parse pagination parameters
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+      
+      // Validate pagination parameters
+      if (page < 1 || limit < 1 || limit > 100) {
+        return res.status(400).json({
+          error: 'Invalid pagination parameters',
+          message: 'Page must be >= 1 and limit must be between 1 and 100'
+        });
+      }
+      
+      const result = await this.faunaService.getAllUsers(page, limit);
+      
+      res.status(200).json({
+        users: result.users,
+        pagination: {
+          page,
+          limit,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages
+        }
       });
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -207,11 +244,28 @@ export class CloudOperatorController {
    */
   public getAllDeployments = async (req: Request, res: Response) => {
     try {
-      // TODO: Implement getAllDeployments in FaunaService
-      // For now, return a not implemented response
-      res.status(501).json({ 
-        error: 'Not implemented yet',
-        message: 'Deployment listing functionality will be implemented in a future update'
+      // Parse pagination parameters
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+      
+      // Validate pagination parameters
+      if (page < 1 || limit < 1 || limit > 100) {
+        return res.status(400).json({
+          error: 'Invalid pagination parameters',
+          message: 'Page must be >= 1 and limit must be between 1 and 100'
+        });
+      }
+      
+      const result = await this.faunaService.getAllDeployments(page, limit);
+      
+      res.status(200).json({
+        deployments: result.deployments,
+        pagination: {
+          page,
+          limit,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages
+        }
       });
     } catch (error) {
       console.error('Error fetching deployments:', error);

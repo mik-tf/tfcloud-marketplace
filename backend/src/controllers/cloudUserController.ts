@@ -20,9 +20,29 @@ export class CloudUserController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      const deployments = await this.faunaService.getUserDeployments(userId);
+      // Parse pagination parameters
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
       
-      res.status(200).json({ deployments });
+      // Validate pagination parameters
+      if (page < 1 || limit < 1 || limit > 100) {
+        return res.status(400).json({
+          error: 'Invalid pagination parameters',
+          message: 'Page must be >= 1 and limit must be between 1 and 100'
+        });
+      }
+
+      const result = await this.faunaService.getUserDeployments(userId, page, limit);
+      
+      res.status(200).json({
+        deployments: result.deployments,
+        pagination: {
+          page,
+          limit,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages
+        }
+      });
     } catch (error) {
       console.error('Error fetching deployments:', error);
       res.status(500).json({ error: 'Failed to fetch deployments' });
@@ -86,13 +106,16 @@ export class CloudUserController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement getDeploymentById in FaunaService
-      // For now, we'll fetch all deployments and filter
-      const deployments = await this.faunaService.getUserDeployments(userId);
-      const deployment = deployments.find(d => d.id === deploymentId);
+      // Get deployment by ID
+      const deployment = await this.faunaService.getDeploymentById(deploymentId);
       
       if (!deployment) {
         return res.status(404).json({ error: 'Deployment not found' });
+      }
+      
+      // Check if the deployment belongs to the user
+      if (deployment.userId !== userId) {
+        return res.status(403).json({ error: 'Forbidden' });
       }
       
       res.status(200).json({ deployment });
@@ -114,9 +137,33 @@ export class CloudUserController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement updateDeployment in FaunaService
-      // For now, return a not implemented response
-      res.status(501).json({ error: 'Not implemented yet' });
+      // Get deployment by ID
+      const deployment = await this.faunaService.getDeploymentById(deploymentId);
+      
+      if (!deployment) {
+        return res.status(404).json({ error: 'Deployment not found' });
+      }
+      
+      // Check if the deployment belongs to the user
+      if (deployment.userId !== userId) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+      
+      // Extract update data
+      const { name, description, resources, billing } = req.body;
+      
+      // Create update object
+      const updates: Partial<Deployment> = {};
+      
+      if (name !== undefined) updates.name = name;
+      if (description !== undefined) updates.description = description;
+      if (resources !== undefined) updates.resources = resources;
+      if (billing !== undefined) updates.billing = billing;
+      
+      // Update deployment
+      const updatedDeployment = await this.faunaService.updateDeployment(deploymentId, updates);
+      
+      res.status(200).json({ deployment: updatedDeployment });
     } catch (error) {
       console.error('Error updating deployment:', error);
       res.status(500).json({ error: 'Failed to update deployment' });
@@ -135,9 +182,25 @@ export class CloudUserController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement deleteDeployment in FaunaService
-      // For now, return a not implemented response
-      res.status(501).json({ error: 'Not implemented yet' });
+      // Get deployment by ID
+      const deployment = await this.faunaService.getDeploymentById(deploymentId);
+      
+      if (!deployment) {
+        return res.status(404).json({ error: 'Deployment not found' });
+      }
+      
+      // Check if the deployment belongs to the user
+      if (deployment.userId !== userId) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+      
+      // Delete deployment
+      await this.faunaService.deleteDeployment(deploymentId);
+      
+      res.status(200).json({
+        success: true,
+        message: `Deployment "${deployment.name}" deleted successfully`
+      });
     } catch (error) {
       console.error('Error deleting deployment:', error);
       res.status(500).json({ error: 'Failed to delete deployment' });

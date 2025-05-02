@@ -8,6 +8,9 @@ import cloudOperatorRoutes from '../src/routes/cloud-operator';
 import paymentRoutes from '../src/routes/payments';
 import { errorHandler } from '../src/middleware/errorHandler';
 import { jwtCheck } from '../src/middleware/auth';
+import { ipRateLimiter, authRateLimiter, paymentRateLimiter } from '../src/middleware/rateLimiter';
+import { httpLogger, errorLogger } from '../src/middleware/logger';
+import logger from '../src/utils/logger';
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +19,8 @@ dotenv.config();
 const app = express();
 
 // Middleware
+app.use(httpLogger);
+app.use(ipRateLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,14 +44,20 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 // API routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRateLimiter, authRoutes);
 app.use('/api/cloud-user', jwtCheck, cloudUserRoutes);
 app.use('/api/cloud-provider', jwtCheck, cloudProviderRoutes);
 app.use('/api/cloud-operator', jwtCheck, cloudOperatorRoutes);
-app.use('/api/payments', jwtCheck, paymentRoutes);
+app.use('/api/payments', jwtCheck, paymentRateLimiter, paymentRoutes);
+
+// Error logging middleware
+app.use(errorLogger);
 
 // Error handling middleware
 app.use(errorHandler);
+
+// Log application startup
+logger.info(`API server initialized in ${process.env.NODE_ENV || 'development'} mode`);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
