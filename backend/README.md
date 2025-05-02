@@ -26,6 +26,18 @@ This is the backend for the ThreeFold Cloud Marketplace, implemented using a ser
 - **Testing**: Jest for unit, integration, and end-to-end testing
 - **Security**: Rate limiting, input validation, and logging
 
+## Role-Based Access Control
+
+The system implements three distinct user roles:
+
+| Role | Description | Assignment |
+|------|-------------|------------|
+| `cloud-user` | Regular end users who deploy applications | Can be assigned during signup |
+| `cloud-provider` | Node operators providing infrastructure | Assigned after approval by a cloud operator |
+| `cloud-operator` | Marketplace administrators | Manually assigned to trusted admins only |
+
+**Important**: The Cloud Operator role should only be assigned to trusted administrators who deploy and manage the marketplace. This role has full administrative access to the platform and controls which users can become cloud providers.
+
 ## Prerequisites
 
 - Node.js (v16 or later)
@@ -72,8 +84,14 @@ Edit the `.env` file and fill in your credentials.
    - `cloud-user`
    - `cloud-provider`
    - `cloud-operator`
-5. Create roles in Auth0 and assign permissions to them
-6. Update your `.env` file with the Auth0 credentials
+5. Create the following roles in Auth0:
+   - `cloud-user`: For regular end users (can be assigned during signup)
+   - `cloud-provider`: For infrastructure providers (assigned after approval)
+   - `cloud-operator`: For marketplace administrators (manually assigned to trusted admins only)
+6. Assign appropriate permissions to each role
+7. Update your `.env` file with the Auth0 credentials
+
+**Note**: The `cloud-operator` role should be manually assigned in Auth0 only to trusted administrators who deploy and manage the marketplace. This role has full administrative access to the platform.
 
 ### 5. FaunaDB Setup
 
@@ -176,6 +194,8 @@ npm run test:e2e
 | PUT | `/api/cloud-provider/profile` | Update provider profile | Cloud Provider |
 
 ### Cloud Operator Endpoints
+
+These endpoints are restricted to users with the `cloud-operator` role, which should only be assigned to trusted administrators who deploy and manage the marketplace.
 
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|

@@ -111,12 +111,17 @@ Cloud Providers can:
 
 ### Cloud Operator
 
+The Cloud Operator is the person who deploys and manages the ThreeFold Cloud Marketplace. This role should be restricted to the marketplace administrator(s) only.
+
 Cloud Operators can:
 - Manage dashboard settings
 - Update pricing configuration
 - Approve or reject provider requests
 - View all users and deployments
 - Monitor system health
+- Control which cloud providers can deploy on the platform
+
+**Important**: The Cloud Operator role should be manually assigned in Auth0 only to trusted administrators who deploy and manage the marketplace. This role has full administrative access to the platform.
 
 ## Development Environment Setup
 
@@ -126,7 +131,11 @@ Cloud Operators can:
    - Create a new Auth0 application (Regular Web Application)
    - Configure callback URLs, logout URLs, and web origins
    - Create an API with the required permissions
-   - Create roles and assign permissions
+   - Create the following roles in Auth0:
+     - `cloud-user`: For regular end users (can be assigned during signup)
+     - `cloud-provider`: For infrastructure providers (assigned after approval)
+     - `cloud-operator`: For marketplace administrators (manually assigned to trusted admins only)
+   - Assign appropriate permissions to each role
 
 2. **FaunaDB Setup**:
    - Create a new database
@@ -392,9 +401,11 @@ const processPayment = async (amount, description) => {
 3. User submits form
 4. Frontend sends request to backend
 5. Backend creates provider request in FaunaDB
-6. Cloud operator reviews request
+6. Cloud operator reviews request through the cloud operator dashboard
 7. Cloud operator approves or rejects request
-8. If approved, user is assigned provider role
+8. If approved, user is automatically assigned the cloud-provider role in Auth0
+
+This workflow ensures that only the cloud operator (marketplace administrator) can control which users become cloud providers, maintaining the security and integrity of the platform.
 
 ## Deployment Guide
 

@@ -47,7 +47,9 @@ tfcloud-marketplace/
 
 - **Cloud Users**: End users deploying applications
 - **Cloud Providers**: Node operators providing infrastructure
-- **Cloud Operators**: Dashboard operators managing the marketplace
+- **Cloud Operators**: Marketplace administrators who deploy and manage the platform
+
+**Note**: The Cloud Operator role should only be assigned to trusted administrators who deploy the marketplace. This role has full administrative access to the platform and controls which users can become cloud providers.
 
 ## Getting Started
 
