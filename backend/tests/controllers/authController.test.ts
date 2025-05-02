@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import { AuthController } from '../../src/controllers/authController';
-import { FaunaService } from '../../src/services/faunaService';
+import { MongoService } from '../../src/services/mongoService';
 
-// Mock FaunaService
-jest.mock('../../src/services/faunaService');
+// Mock MongoService
+jest.mock('../../src/services/mongoService');
 
 describe('AuthController', () => {
   let authController: AuthController;
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
-  let mockFaunaService: jest.Mocked<FaunaService>;
+  let mockMongoService: jest.Mocked<MongoService>;
 
   beforeEach(() => {
     // Reset mocks
@@ -29,9 +29,9 @@ describe('AuthController', () => {
       redirect: jest.fn().mockReturnThis()
     };
     
-    // Setup mock FaunaService
-    mockFaunaService = new FaunaService() as jest.Mocked<FaunaService>;
-    mockFaunaService.getUserProfile = jest.fn().mockResolvedValue({
+    // Setup mock MongoService
+    mockMongoService = new MongoService() as jest.Mocked<MongoService>;
+    mockMongoService.getUserProfile = jest.fn().mockResolvedValue({
       auth0Id: 'auth0|123456789',
       email: 'test@example.com',
       name: 'Test User',
@@ -45,7 +45,7 @@ describe('AuthController', () => {
     
     // Initialize controller with mocked dependencies
     authController = new AuthController();
-    (authController as any).faunaService = mockFaunaService;
+    (authController as any).mongoService = mockMongoService;
   });
 
   describe('login', () => {
@@ -98,7 +98,7 @@ describe('AuthController', () => {
       await authController.getUserInfo(mockRequest as Request, mockResponse as Response);
       
       // Assertions
-      expect(mockFaunaService.getUserProfile).toHaveBeenCalledWith('auth0|123456789');
+      expect(mockMongoService.getUserProfile).toHaveBeenCalledWith('auth0|123456789');
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith({
         auth0Profile: {

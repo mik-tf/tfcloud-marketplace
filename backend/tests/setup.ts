@@ -4,16 +4,49 @@ import { jest } from '@jest/globals';
 // Load environment variables from .env.test file if it exists
 dotenv.config({ path: '.env.test' });
 
-// Mock FaunaDB
-jest.mock('faunadb', () => {
-  const originalModule = jest.requireActual('faunadb');
+// Mock Mongoose
+jest.mock('mongoose', () => {
+  const originalModule = jest.requireActual('mongoose');
+  
+  // Mock Schema class
+  const mockSchema = jest.fn().mockImplementation(() => ({
+    index: jest.fn().mockReturnThis()
+  }));
+  
+  // Mock model function
+  const mockModel = jest.fn().mockImplementation(() => ({
+    find: jest.fn().mockReturnValue({
+      skip: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([])
+    }),
+    findOne: jest.fn().mockReturnValue({
+      lean: jest.fn().mockResolvedValue(null)
+    }),
+    findOneAndUpdate: jest.fn().mockReturnValue({
+      lean: jest.fn().mockResolvedValue({})
+    }),
+    countDocuments: jest.fn().mockResolvedValue(0),
+    deleteOne: jest.fn().mockResolvedValue({ deletedCount: 1 }),
+    save: jest.fn().mockResolvedValue({}),
+    collection: {
+      createIndex: jest.fn().mockResolvedValue({})
+    }
+  }));
+  
+  // Mock document instance
+  const mockDocument = {
+    save: jest.fn().mockResolvedValue({})
+  };
   
   return {
     __esModule: true,
     ...originalModule,
-    Client: jest.fn().mockImplementation(() => ({
-      query: jest.fn().mockImplementation(() => Promise.resolve({}))
-    }))
+    connect: jest.fn().mockResolvedValue({}),
+    Schema: mockSchema,
+    model: mockModel,
+    models: {},
+    Document: mockDocument
   };
 });
 

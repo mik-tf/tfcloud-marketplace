@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { FaunaService, ProviderRequest } from '../services/faunaService';
+import { MongoService, ProviderRequest } from '../services/mongoService';
 import { v4 as uuidv4 } from 'uuid';
 
 export class CloudProviderController {
-  private faunaService: FaunaService;
+  private mongoService: MongoService;
 
   constructor() {
-    this.faunaService = new FaunaService();
+    this.mongoService = new MongoService();
   }
 
   /**
@@ -41,7 +41,7 @@ export class CloudProviderController {
         contactInfo
       };
 
-      const request = await this.faunaService.createProviderRequest(providerRequest);
+      const request = await this.mongoService.createProviderRequest(providerRequest);
       
       res.status(201).json({ 
         request,
@@ -64,7 +64,7 @@ export class CloudProviderController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement getProviderNodes in FaunaService
+      // TODO: Implement getProviderNodes in MongoService
       // For now, return a placeholder response
       res.status(200).json({ 
         nodes: [],
@@ -87,7 +87,7 @@ export class CloudProviderController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement addNode in FaunaService
+      // TODO: Implement addNode in MongoService
       // For now, return a not implemented response
       res.status(501).json({ error: 'Not implemented yet' });
     } catch (error) {
@@ -119,7 +119,7 @@ export class CloudProviderController {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
-      // TODO: Implement scheduleMaintenance in FaunaService
+      // TODO: Implement scheduleMaintenance in MongoService
       // For now, return a not implemented response
       res.status(501).json({ 
         error: 'Not implemented yet',
@@ -142,7 +142,7 @@ export class CloudProviderController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // TODO: Implement getScheduledMaintenance in FaunaService
+      // TODO: Implement getScheduledMaintenance in MongoService
       // For now, return a placeholder response
       res.status(200).json({ 
         maintenance: [],
@@ -165,13 +165,13 @@ export class CloudProviderController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      const userProfile = await this.faunaService.getUserProfile(userId);
+      const userProfile = await this.mongoService.getUserProfile(userId);
       
       if (!userProfile) {
         return res.status(404).json({ error: 'Provider profile not found' });
       }
       
-      // TODO: Implement getProviderDetails in FaunaService
+      // TODO: Implement getProviderDetails in MongoService
       // For now, return the user profile
       res.status(200).json({ providerProfile: userProfile });
     } catch (error) {
@@ -194,7 +194,7 @@ export class CloudProviderController {
       const { name, settings } = req.body;
       
       // Update user profile
-      const updatedProfile = await this.faunaService.updateUserProfile(userId, {
+      const updatedProfile = await this.mongoService.updateUserProfile(userId, {
         name,
         settings,
         updatedAt: new Date().toISOString()

@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
-import { FaunaService } from '../services/faunaService';
+import { MongoService } from '../services/mongoService';
 
 dotenv.config();
 
 export class PaymentController {
   private stripe: Stripe;
-  private faunaService: FaunaService;
+  private mongoService: MongoService;
   private webhookSecret: string;
 
   constructor() {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
       apiVersion: '2023-10-16'
     });
-    this.faunaService = new FaunaService();
+    this.mongoService = new MongoService();
     this.webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
   }
 
@@ -36,7 +36,7 @@ export class PaymentController {
       }
 
       // Get user from database
-      const user = await this.faunaService.getUserProfile(userId);
+      const user = await this.mongoService.getUserProfile(userId);
       
       if (!user) {
         return res.status(404).json({ error: 'User not found' });

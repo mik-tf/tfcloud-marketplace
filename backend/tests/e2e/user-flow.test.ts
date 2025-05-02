@@ -10,7 +10,7 @@ process.env.AUTH0_CLIENT_SECRET = 'test-client-secret';
 process.env.AUTH0_CALLBACK_URL = 'http://localhost:8888/api/auth/callback';
 process.env.AUTH0_AUDIENCE = 'https://test-api';
 process.env.FRONTEND_URL = 'http://localhost:3000';
-process.env.FAUNADB_SECRET = 'test-fauna-secret';
+process.env.MONGODB_URI = 'mongodb://localhost:27017/test-db';
 process.env.STRIPE_SECRET_KEY = 'test-stripe-secret';
 process.env.STRIPE_WEBHOOK_SECRET = 'test-webhook-secret';
 
@@ -40,63 +40,79 @@ jest.mock('auth0', () => ({
   }))
 }));
 
-// Mock FaunaDB
-jest.mock('faunadb', () => {
-  const originalModule = jest.requireActual('faunadb');
+// Mock Mongoose
+jest.mock('mongoose', () => {
+  const mockUser = {
+    auth0Id: 'auth0|123456789',
+    email: 'test@example.com',
+    name: 'Test User',
+    picture: 'https://example.com/picture.jpg',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2023-01-01T00:00:00.000Z',
+    settings: { notifications: true }
+  };
+
+  const mockDeployment = {
+    id: 'test-deployment-id',
+    userId: 'auth0|123456789',
+    name: 'Test Deployment',
+    status: 'active',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2023-01-01T00:00:00.000Z',
+    resources: { cpu: 2, memory: 4, storage: 100 },
+    billing: { planId: 'basic', amount: 10, currency: 'USD', interval: 'monthly' }
+  };
+
+  // Mock Schema class
+  const mockSchema = jest.fn().mockImplementation(() => ({
+    index: jest.fn().mockReturnThis()
+  }));
+  
+  // Mock model function with different responses based on collection name
+  const mockModel = jest.fn().mockImplementation((modelName) => {
+    if (modelName === 'User') {
+      return {
+        findOne: jest.fn().mockImplementation(() => ({
+          lean: jest.fn().mockResolvedValue(mockUser)
+        })),
+        create: jest.fn().mockResolvedValue(mockUser),
+        save: jest.fn().mockResolvedValue(mockUser)
+      };
+    } else if (modelName === 'Deployment') {
+      return {
+        find: jest.fn().mockImplementation(() => ({
+          skip: jest.fn().mockReturnThis(),
+          limit: jest.fn().mockReturnThis(),
+          lean: jest.fn().mockResolvedValue([mockDeployment])
+        })),
+        findOne: jest.fn().mockImplementation(() => ({
+          lean: jest.fn().mockResolvedValue(mockDeployment)
+        })),
+        create: jest.fn().mockResolvedValue(mockDeployment),
+        save: jest.fn().mockResolvedValue(mockDeployment),
+        countDocuments: jest.fn().mockResolvedValue(1)
+      };
+    }
+    
+    return {
+      find: jest.fn().mockReturnValue({
+        skip: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockResolvedValue([])
+      }),
+      findOne: jest.fn().mockReturnValue({
+        lean: jest.fn().mockResolvedValue(null)
+      }),
+      create: jest.fn().mockResolvedValue({}),
+      save: jest.fn().mockResolvedValue({})
+    };
+  });
   
   return {
-    __esModule: true,
-    ...originalModule,
-    Client: jest.fn().mockImplementation(() => ({
-      query: jest.fn().mockImplementation((expr) => {
-        // Mock different query responses based on the expression
-        if (expr.toString().includes('Match(Index("users_by_auth0_id")')) {
-          return Promise.resolve({
-            data: {
-              auth0Id: 'auth0|123456789',
-              email: 'test@example.com',
-              name: 'Test User',
-              picture: 'https://example.com/picture.jpg',
-              createdAt: '2023-01-01T00:00:00.000Z',
-              updatedAt: '2023-01-01T00:00:00.000Z',
-              settings: { notifications: true }
-            }
-          });
-        } else if (expr.toString().includes('Collection("deployments")')) {
-          return Promise.resolve({
-            data: {
-              id: 'test-deployment-id',
-              userId: 'auth0|123456789',
-              name: 'Test Deployment',
-              status: 'active',
-              createdAt: '2023-01-01T00:00:00.000Z',
-              updatedAt: '2023-01-01T00:00:00.000Z',
-              resources: { cpu: 2, memory: 4, storage: 100 },
-              billing: { planId: 'basic', amount: 10, currency: 'USD', interval: 'monthly' }
-            }
-          });
-        } else if (expr.toString().includes('Paginate(Match(Index("deployments_by_user_id")')) {
-          return Promise.resolve({
-            data: [
-              {
-                data: {
-                  id: 'test-deployment-id',
-                  userId: 'auth0|123456789',
-                  name: 'Test Deployment',
-                  status: 'active',
-                  createdAt: '2023-01-01T00:00:00.000Z',
-                  updatedAt: '2023-01-01T00:00:00.000Z',
-                  resources: { cpu: 2, memory: 4, storage: 100 },
-                  billing: { planId: 'basic', amount: 10, currency: 'USD', interval: 'monthly' }
-                }
-              }
-            ]
-          });
-        }
-        
-        return Promise.resolve({});
-      })
-    }))
+    connect: jest.fn().mockResolvedValue({}),
+    Schema: mockSchema,
+    model: mockModel,
+    models: {}
   };
 });
 

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { FaunaService, Deployment, User } from '../services/faunaService';
+import { MongoService, Deployment, User } from '../services/mongoService';
 import { v4 as uuidv4 } from 'uuid';
 
 export class CloudUserController {
-  private faunaService: FaunaService;
+  private mongoService: MongoService;
 
   constructor() {
-    this.faunaService = new FaunaService();
+    this.mongoService = new MongoService();
   }
 
   /**
@@ -32,7 +32,7 @@ export class CloudUserController {
         });
       }
 
-      const result = await this.faunaService.getUserDeployments(userId, page, limit);
+      const result = await this.mongoService.getUserDeployments(userId, page, limit);
       
       res.status(200).json({
         deployments: result.deployments,
@@ -85,7 +85,7 @@ export class CloudUserController {
         billing
       };
 
-      const deployment = await this.faunaService.createDeployment(newDeployment);
+      const deployment = await this.mongoService.createDeployment(newDeployment);
       
       res.status(201).json({ deployment });
     } catch (error) {
@@ -107,7 +107,7 @@ export class CloudUserController {
       }
 
       // Get deployment by ID
-      const deployment = await this.faunaService.getDeploymentById(deploymentId);
+      const deployment = await this.mongoService.getDeploymentById(deploymentId);
       
       if (!deployment) {
         return res.status(404).json({ error: 'Deployment not found' });
@@ -138,7 +138,7 @@ export class CloudUserController {
       }
 
       // Get deployment by ID
-      const deployment = await this.faunaService.getDeploymentById(deploymentId);
+      const deployment = await this.mongoService.getDeploymentById(deploymentId);
       
       if (!deployment) {
         return res.status(404).json({ error: 'Deployment not found' });
@@ -161,7 +161,7 @@ export class CloudUserController {
       if (billing !== undefined) updates.billing = billing;
       
       // Update deployment
-      const updatedDeployment = await this.faunaService.updateDeployment(deploymentId, updates);
+      const updatedDeployment = await this.mongoService.updateDeployment(deploymentId, updates);
       
       res.status(200).json({ deployment: updatedDeployment });
     } catch (error) {
@@ -183,7 +183,7 @@ export class CloudUserController {
       }
 
       // Get deployment by ID
-      const deployment = await this.faunaService.getDeploymentById(deploymentId);
+      const deployment = await this.mongoService.getDeploymentById(deploymentId);
       
       if (!deployment) {
         return res.status(404).json({ error: 'Deployment not found' });
@@ -195,7 +195,7 @@ export class CloudUserController {
       }
       
       // Delete deployment
-      await this.faunaService.deleteDeployment(deploymentId);
+      await this.mongoService.deleteDeployment(deploymentId);
       
       res.status(200).json({
         success: true,
@@ -218,7 +218,7 @@ export class CloudUserController {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      const userProfile = await this.faunaService.getUserProfile(userId);
+      const userProfile = await this.mongoService.getUserProfile(userId);
       
       if (!userProfile) {
         return res.status(404).json({ error: 'User profile not found' });
@@ -245,7 +245,7 @@ export class CloudUserController {
       const { name, settings } = req.body;
       
       // Update user profile
-      const updatedProfile = await this.faunaService.updateUserProfile(userId, {
+      const updatedProfile = await this.mongoService.updateUserProfile(userId, {
         name,
         settings,
         updatedAt: new Date().toISOString()

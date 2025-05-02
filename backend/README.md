@@ -1,6 +1,6 @@
 # ThreeFold Cloud Marketplace Backend
 
-This is the backend for the ThreeFold Cloud Marketplace, implemented using a serverless architecture with Netlify Functions, Auth0 for authentication, FaunaDB for database, and Stripe for payment processing.
+This is the backend for the ThreeFold Cloud Marketplace, implemented using a serverless architecture with Netlify Functions, Auth0 for authentication, MongoDB Atlas for database, and Stripe for payment processing.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ This is the backend for the ThreeFold Cloud Marketplace, implemented using a ser
 
 - **Authentication**: Auth0 for user management and role-based access control
 - **Serverless Functions**: Netlify Functions for API endpoints and business logic
-- **Database**: FaunaDB for persistent data storage
+- **Database**: MongoDB Atlas for persistent data storage
 - **Payment Processing**: Stripe for secure payment handling
 - **Testing**: Jest for unit, integration, and end-to-end testing
 - **Security**: Rate limiting, input validation, and logging
@@ -44,7 +44,7 @@ The system implements three distinct user roles:
 - npm or yarn
 - Netlify CLI (`npm install -g netlify-cli`)
 - Auth0 account
-- FaunaDB account
+- MongoDB Atlas account
 - Stripe account (for payment processing)
 
 ## Setup and Installation
@@ -93,14 +93,15 @@ Edit the `.env` file and fill in your credentials.
 
 **Note**: The `cloud-operator` role should be manually assigned in Auth0 only to trusted administrators who deploy and manage the marketplace. This role has full administrative access to the platform.
 
-### 5. FaunaDB Setup
+### 5. MongoDB Atlas Setup
 
-1. Create a new database in FaunaDB
-2. Generate a server key and add it to your `.env` file
-3. Run the setup script to create collections and indexes:
+1. Create a free MongoDB Atlas account and set up a cluster
+2. Create a database user with appropriate permissions
+3. Get your connection string and add it to your `.env` file
+4. Run the setup script to create collections and indexes:
 
 ```bash
-npm run setup:fauna
+npm run setup:mongodb
 ```
 
 ### 6. Stripe Setup
@@ -319,8 +320,8 @@ AUTH0_CLIENT_SECRET=your-auth0-client-secret
 AUTH0_CALLBACK_URL=https://your-site.netlify.app/api/auth/callback
 AUTH0_AUDIENCE=https://your-api-identifier
 
-# FaunaDB Configuration
-FAUNADB_SECRET=your-faunadb-secret-key
+# MongoDB Configuration
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
 
 # Stripe Configuration
 STRIPE_SECRET_KEY=your-stripe-secret-key
@@ -343,7 +344,8 @@ backend/
 ├── logs/                 # Log files (gitignored)
 ├── public/               # Static files
 ├── scripts/              # Setup scripts
-│   └── setup-fauna.js    # FaunaDB setup script
+│   ├── setup-fauna.js    # Legacy FaunaDB setup script
+│   └── setup-mongodb.js  # MongoDB setup script
 ├── src/                  # Source code
 │   ├── controllers/      # Request handlers
 │   ├── middleware/       # Express middleware
@@ -388,10 +390,10 @@ The backend includes several security features:
    - Verify callback URLs are correctly set up in Auth0 dashboard
    - Check browser console for CORS errors
 
-2. **FaunaDB Connection Issues**
-   - Verify FaunaDB secret key in `.env` file
+2. **MongoDB Connection Issues**
+   - Verify MongoDB connection string in `.env` file
    - Check if collections and indexes are created correctly
-   - Run `npm run setup:fauna` to recreate collections and indexes
+   - Run `npm run setup:mongodb` to recreate collections and indexes
 
 3. **Stripe Payment Issues**
    - Check Stripe API keys in `.env` file

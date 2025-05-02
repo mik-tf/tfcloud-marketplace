@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { FaunaService } from '../services/faunaService';
+import { MongoService } from '../services/mongoService';
 
 export class CloudOperatorController {
-  private faunaService: FaunaService;
+  private mongoService: MongoService;
 
   constructor() {
-    this.faunaService = new FaunaService();
+    this.mongoService = new MongoService();
   }
 
   /**
@@ -13,7 +13,7 @@ export class CloudOperatorController {
    */
   public getSettings = async (req: Request, res: Response) => {
     try {
-      // TODO: Implement getOperatorSettings in FaunaService
+      // TODO: Implement getOperatorSettings in MongoService
       // For now, return placeholder settings
       res.status(200).json({
         settings: {
@@ -45,7 +45,7 @@ export class CloudOperatorController {
         maintenanceMode
       } = req.body;
 
-      // TODO: Implement updateOperatorSettings in FaunaService
+      // TODO: Implement updateOperatorSettings in MongoService
       // For now, return a not implemented response
       res.status(501).json({ 
         error: 'Not implemented yet',
@@ -62,7 +62,7 @@ export class CloudOperatorController {
    */
   public getPricing = async (req: Request, res: Response) => {
     try {
-      // TODO: Implement getPricingConfiguration in FaunaService
+      // TODO: Implement getPricingConfiguration in MongoService
       // For now, return placeholder pricing
       res.status(200).json({
         pricing: {
@@ -120,7 +120,7 @@ export class CloudOperatorController {
         discountTiers
       } = req.body;
 
-      // TODO: Implement updatePricingConfiguration in FaunaService
+      // TODO: Implement updatePricingConfiguration in MongoService
       // For now, return a not implemented response
       res.status(501).json({ 
         error: 'Not implemented yet',
@@ -151,7 +151,7 @@ export class CloudOperatorController {
         });
       }
       
-      const result = await this.faunaService.getProviderRequestsByStatus(status, page, limit);
+      const result = await this.mongoService.getProviderRequestsByStatus(status, page, limit);
       
       res.status(200).json({
         requests: result.requests,
@@ -184,7 +184,7 @@ export class CloudOperatorController {
         return res.status(400).json({ error: 'Invalid status value' });
       }
       
-      const updatedRequest = await this.faunaService.updateProviderRequestStatus(
+      const updatedRequest = await this.mongoService.updateProviderRequestStatus(
         requestId,
         status as 'pending' | 'approved' | 'rejected'
       );
@@ -222,7 +222,7 @@ export class CloudOperatorController {
         });
       }
       
-      const result = await this.faunaService.getAllUsers(page, limit);
+      const result = await this.mongoService.getAllUsers(page, limit);
       
       res.status(200).json({
         users: result.users,
@@ -256,7 +256,7 @@ export class CloudOperatorController {
         });
       }
       
-      const result = await this.faunaService.getAllDeployments(page, limit);
+      const result = await this.mongoService.getAllDeployments(page, limit);
       
       res.status(200).json({
         deployments: result.deployments,

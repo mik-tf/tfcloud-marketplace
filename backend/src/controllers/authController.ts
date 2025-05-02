@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import dotenv from 'dotenv';
-import { FaunaService } from '../services/faunaService';
+import { MongoService } from '../services/mongoService';
 
 dotenv.config();
 
 export class AuthController {
   private auth0: AuthenticationClient;
   private management: ManagementClient;
-  private faunaService: FaunaService;
+  private mongoService: MongoService;
 
   constructor() {
     // Initialize Auth0 clients
@@ -25,8 +25,8 @@ export class AuthController {
       scope: 'read:users update:users'
     });
 
-    // Initialize FaunaDB service
-    this.faunaService = new FaunaService();
+    // Initialize MongoDB service
+    this.mongoService = new MongoService();
   }
 
   /**
@@ -67,7 +67,7 @@ export class AuthController {
       // Get user info
       const userInfo = await this.auth0.getProfile(tokenResponse.access_token);
       
-      // Check if user exists in FaunaDB, create if not
+      // Check if user exists in MongoDB, create if not
       await this.ensureUserInDatabase(userInfo);
 
       // Parse state to get returnTo URL
@@ -125,8 +125,8 @@ export class AuthController {
       // Get user from Auth0
       const user = await this.management.getUser({ id: userId });
       
-      // Get user from FaunaDB to get additional profile data
-      const userProfile = await this.faunaService.getUserProfile(userId);
+      // Get user from MongoDB to get additional profile data
+      const userProfile = await this.mongoService.getUserProfile(userId);
 
       res.status(200).json({
         auth0Profile: user,
@@ -139,16 +139,16 @@ export class AuthController {
   };
 
   /**
-   * Ensure user exists in FaunaDB
+   * Ensure user exists in MongoDB
    */
   private ensureUserInDatabase = async (userInfo: any) => {
     try {
       // Check if user exists
-      const existingUser = await this.faunaService.getUserProfile(userInfo.sub);
+      const existingUser = await this.mongoService.getUserProfile(userInfo.sub);
       
       if (!existingUser) {
-        // Create new user in FaunaDB
-        await this.faunaService.createUser({
+        // Create new user in MongoDB
+        await this.mongoService.createUser({
           auth0Id: userInfo.sub,
           email: userInfo.email,
           name: userInfo.name,
