@@ -32,6 +32,7 @@ tfcloud-marketplace/
 ## Documentation
 
 - [Setup Guide](docs/SETUP_GUIDE.md): Comprehensive guide for setting up and testing the project
+- [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md): Detailed instructions for setting up Auth0 authentication for cloud operators
 - [Testing Guide](docs/TESTING_GUIDE.md): Detailed instructions for testing all components of the project
 - [Backend Documentation](backend/README.md): Detailed instructions on setting up and using the backend
 - [Frontend Documentation](frontend/README.md): Instructions for integrating with the backend API
@@ -55,7 +56,7 @@ tfcloud-marketplace/
 
 ## Getting Started
 
-For a comprehensive setup guide including detailed instructions on environment configuration, Auth0 setup, FaunaDB setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md).
+For a comprehensive setup guide including detailed instructions on environment configuration, FaunaDB setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md). For detailed Auth0 configuration instructions specifically for cloud operators, see the [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md).
 
 ### Prerequisites
 

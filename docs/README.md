@@ -8,6 +8,7 @@ This directory contains comprehensive documentation for the ThreeFold Cloud Mark
 |----------|-------------|
 | [Setup Guide](SETUP_GUIDE.md) | Comprehensive instructions for setting up and testing the project |
 | [Testing Guide](TESTING_GUIDE.md) | Detailed instructions for testing all components of the project |
+| [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md) | Detailed instructions for setting up Auth0 authentication for cloud operators |
 | [Backend Environment Configuration](backend/ENV_CONFIGURATION.md) | Detailed information about backend environment variables |
 | [Frontend Environment Configuration](frontend/ENV_CONFIGURATION.md) | Detailed information about frontend environment variables |
 | [Smoke Test](SMOKE_TEST.md) | Instructions for running smoke tests on the project |
@@ -21,12 +22,14 @@ If you're new to the project, we recommend following these steps:
 1. Start with the [Project Overview](overview.md) to understand the high-level architecture and goals of the project.
 2. Follow the [Setup Guide](SETUP_GUIDE.md) to set up your development environment.
 3. Use the [Testing Guide](TESTING_GUIDE.md) to verify your setup and understand how to test the project.
-4. Refer to the environment configuration guides ([Backend](backend/ENV_CONFIGURATION.md) and [Frontend](frontend/ENV_CONFIGURATION.md)) for detailed information about configuring the project.
+4. If you're a cloud operator, follow the [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md) to set up authentication.
+5. Refer to the environment configuration guides ([Backend](backend/ENV_CONFIGURATION.md) and [Frontend](frontend/ENV_CONFIGURATION.md)) for detailed information about configuring the project.
 
 ## Environment Configuration
 
 The project requires several environment variables to be configured for both the backend and frontend components. These variables control authentication, database connections, payment processing, and application settings.
 
+- [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md) provides detailed instructions for setting up Auth0 authentication, including creating roles and permissions.
 - [Backend Environment Configuration](backend/ENV_CONFIGURATION.md) provides detailed information about which backend environment variables should be changed and which should remain as is.
 - [Frontend Environment Configuration](frontend/ENV_CONFIGURATION.md) provides similar information for the frontend environment variables.
 

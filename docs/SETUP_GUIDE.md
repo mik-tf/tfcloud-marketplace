@@ -124,6 +124,8 @@ FRONTEND_URL=http://localhost:3000                # DO NOT CHANGE for local deve
    - `AUTH0_CLIENT_SECRET`: Your Auth0 application client secret
    - `AUTH0_AUDIENCE`: Your Auth0 API identifier
 
+> **For Cloud Operators**: For a more comprehensive guide on Auth0 configuration, including detailed steps for setting up roles, permissions, and automatic role assignment, please refer to the [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md). This guide provides step-by-step instructions with screenshots and code examples specifically tailored for cloud operators.
+
 ### FaunaDB Setup
 
 1. Create a new database in FaunaDB:
@@ -308,16 +310,19 @@ For more detailed smoke testing procedures and additional testing strategies, se
    - Verify Auth0 credentials in both backend and frontend `.env` files
    - Check that callback URLs, logout URLs, and web origins are correctly set up in Auth0 dashboard
    - Ensure the Auth0 API is properly configured with the correct permissions
+   - For detailed Auth0 configuration steps, refer to the [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md)
 
 2. **Login Redirect Issues**
    - Check that `AUTH0_CALLBACK_URL` in the backend `.env` file is set to `http://localhost:8888/api/auth/callback`
    - Verify that `FRONTEND_URL` in the backend `.env` file is set to `http://localhost:3000`
    - Check browser console for any error messages during the authentication flow
+   - Verify that the callback URLs in your Auth0 dashboard match those in your application
 
 3. **Role-Based Access Issues**
    - Ensure roles are properly set up in Auth0
    - Check that permissions are correctly assigned to roles
    - Verify that the user has the appropriate role assigned
+   - For detailed instructions on setting up roles and permissions, see the [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md#step-4-create-and-configure-roles)
 
 ---
 
