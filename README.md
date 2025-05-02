@@ -31,6 +31,8 @@ tfcloud-marketplace/
 
 ## Documentation
 
+- [Setup Guide](docs/SETUP_GUIDE.md): Comprehensive guide for setting up and testing the project
+- [Testing Guide](docs/TESTING_GUIDE.md): Detailed instructions for testing all components of the project
 - [Backend Documentation](backend/README.md): Detailed instructions on setting up and using the backend
 - [Frontend Documentation](frontend/README.md): Instructions for integrating with the backend API
 - [Usage Guide](USAGE_GUIDE.md): Comprehensive guide covering both frontend and backend usage
@@ -52,6 +54,8 @@ tfcloud-marketplace/
 **Note**: The Cloud Operator role should only be assigned to trusted administrators who deploy the marketplace. This role has full administrative access to the platform and controls which users can become cloud providers.
 
 ## Getting Started
+
+For a comprehensive setup guide including detailed instructions on environment configuration, Auth0 setup, FaunaDB setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md).
 
 ### Prerequisites
 
@@ -75,7 +79,7 @@ tfcloud-marketplace/
    cd backend
    npm install
    cp .env.example .env
-   # Edit .env with your credentials
+   # Edit .env with your credentials (see Setup Guide for details)
    npm run setup:fauna
    npm run dev
    ```
@@ -85,7 +89,7 @@ tfcloud-marketplace/
    cd ../frontend
    npm install
    cp .env.example .env
-   # Edit .env with your credentials
+   # Edit .env with your credentials (see Setup Guide for details)
    npm run dev
    ```
 
@@ -95,7 +99,7 @@ tfcloud-marketplace/
 
 ## Development
 
-See the [Usage Guide](USAGE_GUIDE.md) for detailed development instructions.
+See the [Usage Guide](USAGE_GUIDE.md) for detailed development instructions and the [Setup Guide](docs/SETUP_GUIDE.md) for comprehensive setup instructions.
 
 ## Deployment
 
