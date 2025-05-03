@@ -2,6 +2,13 @@
 
 FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enabling users to deploy cloud apps via fiat payments, co-op collaborations, and automated TFT top-ups.
 
+## Basic UX/UI Template
+
+We have a basic UX/UI template (main branch) and we will work in parallel on setting a proper backend (development branch).
+
+- UX/UI template: https://threefold.store
+- Backend work: TBD
+
 ## Features
 
 - **Dashboard User**:
