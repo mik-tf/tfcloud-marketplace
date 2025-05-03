@@ -7,7 +7,7 @@ This guide provides detailed information about the backend environment variables
 The backend of the ThreeFold Cloud Marketplace uses environment variables to configure various aspects of the application, including:
 
 - Auth0 authentication
-- FaunaDB database connection
+- MongoDB Atlas database connection
 - Stripe payment processing
 - Application settings
 
@@ -32,16 +32,16 @@ AUTH0_AUDIENCE=https://your-api-identifier
 | `AUTH0_CALLBACK_URL` | URL Auth0 redirects to after login | **DO NOT CHANGE** for local development | **MUST CHANGE** to your production callback URL (e.g., `https://your-domain.com/api/auth/callback`) |
 | `AUTH0_AUDIENCE` | Identifier for your Auth0 API | **MUST CHANGE** to your Auth0 API identifier | **MUST CHANGE** to your Auth0 API identifier |
 
-### FaunaDB Configuration
+### MongoDB Atlas Configuration
 
 ```
-# FaunaDB Configuration
-FAUNADB_SECRET=your-faunadb-secret-key
+# MongoDB Configuration
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
 ```
 
 | Variable | Description | Local Development | Production |
 |----------|-------------|-------------------|------------|
-| `FAUNADB_SECRET` | Secret key for FaunaDB access | **MUST CHANGE** to your FaunaDB secret key | **MUST CHANGE** to your production FaunaDB secret key |
+| `MONGODB_URI` | Connection string for MongoDB Atlas | **MUST CHANGE** to your MongoDB Atlas connection string | **MUST CHANGE** to your production MongoDB Atlas connection string |
 
 ### Stripe Configuration
 
@@ -117,9 +117,10 @@ If you encounter issues related to environment variables:
    - Check that the callback URL in your Auth0 dashboard matches the `AUTH0_CALLBACK_URL` in your `.env` file
    - Ensure that your Auth0 API identifier matches the `AUTH0_AUDIENCE` in your `.env` file
 
-2. **FaunaDB Connection Issues**:
-   - Verify that your FaunaDB secret key is correct
-   - Check that the key has the necessary permissions for your database
+2. **MongoDB Connection Issues**:
+   - Verify that your MongoDB Atlas connection string is correct
+   - Check that the database user has the necessary permissions for your database
+   - Ensure your IP address is whitelisted in the MongoDB Atlas network access settings
 
 3. **Stripe Integration Issues**:
    - Verify that your Stripe API keys are correct

@@ -11,7 +11,7 @@ This guide provides comprehensive instructions for setting up and testing the Th
   - [Backend Setup](#backend-setup)
     - [Backend Environment Variables](#backend-environment-variables)
     - [Auth0 Configuration](#auth0-configuration)
-    - [FaunaDB Setup](#faunadb-setup)
+    - [MongoDB Atlas Setup](#mongodb-atlas-setup)
     - [Stripe Setup](#stripe-setup)
     - [Starting the Backend](#starting-the-backend)
     - [Testing the Backend](#testing-the-backend)
@@ -37,7 +37,7 @@ Before you begin, ensure you have the following installed:
 You'll also need accounts with the following services:
 
 - [Auth0](https://auth0.com/) - For authentication
-- [FaunaDB](https://fauna.com/) - For database
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - For database
 - [Stripe](https://stripe.com/) - For payment processing (optional if you're not implementing payments)
 
 ## Cloning the Repository
@@ -75,8 +75,8 @@ AUTH0_CLIENT_SECRET=your-auth0-client-secret      # CHANGE: Your Auth0 client se
 AUTH0_CALLBACK_URL=http://localhost:8888/api/auth/callback  # DO NOT CHANGE for local development
 AUTH0_AUDIENCE=https://your-api-identifier        # CHANGE: Your Auth0 API identifier
 
-# FaunaDB Configuration
-FAUNADB_SECRET=your-faunadb-secret-key            # CHANGE: Your FaunaDB secret key
+# MongoDB Configuration
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority            # CHANGE: Your MongoDB Atlas connection string
 
 # Stripe Configuration
 STRIPE_SECRET_KEY=your-stripe-secret-key          # CHANGE: Your Stripe secret key
@@ -126,28 +126,38 @@ FRONTEND_URL=http://localhost:3000                # DO NOT CHANGE for local deve
 
 > **For Cloud Operators**: For a more comprehensive guide on Auth0 configuration, including detailed steps for setting up roles, permissions, and automatic role assignment, please refer to the [Auth0 Configuration Guide](AUTH0_CONFIGURATION.md). This guide provides step-by-step instructions with screenshots and code examples specifically tailored for cloud operators.
 
-### FaunaDB Setup
+### MongoDB Atlas Setup
 
-1. Create a new database in FaunaDB:
-   - Log in to your FaunaDB account
-   - Click "New Database"
-   - Name it "tfcloud-marketplace"
-   - Select your preferred region
+1. Create a new MongoDB Atlas cluster:
+   - Sign up or log in to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Create a new project named "tfcloud-marketplace"
+   - Build a new cluster (you can use the free tier for development)
+   - Select your preferred cloud provider and region
 
-2. Generate a server key:
-   - Go to "Security" > "Keys"
-   - Click "New Key"
-   - Select "Server" role
-   - Name it "tfcloud-marketplace-key"
-   - Copy the secret key
+2. Create a database user:
+   - In the Security tab, go to "Database Access"
+   - Click "Add New Database User"
+   - Create a username and password
+   - Set appropriate privileges (readWrite to the database)
 
-3. Update your `.env` file with the FaunaDB secret key:
-   - `FAUNADB_SECRET`: Your FaunaDB server key
+3. Whitelist your IP address:
+   - In the Security tab, go to "Network Access"
+   - Click "Add IP Address"
+   - Add your current IP address or use "Allow Access from Anywhere" for development
 
-4. Run the setup script to create collections and indexes:
+4. Get your connection string:
+   - Click "Connect" on your cluster
+   - Select "Connect your application"
+   - Copy the connection string
+   - Replace `<username>`, `<password>`, and `<database-name>` with your actual values
+
+5. Update your `.env` file with the MongoDB connection string:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string
+
+6. Run the setup script to create collections and indexes:
 
 ```bash
-npm run setup:fauna
+npm run setup:mongodb
 ```
 
 ### Stripe Setup
@@ -282,10 +292,12 @@ For more detailed smoke testing procedures and additional testing strategies, se
    - Check the terminal for any error messages
    - Ensure the `API_URL` in both backend and frontend `.env` files is set to `http://localhost:8888/api`
 
-2. **FaunaDB Connection Issues**
-   - Verify your FaunaDB secret key in the `.env` file
+2. **MongoDB Connection Issues**
+   - Verify your MongoDB Atlas connection string in the `.env` file
    - Check if collections and indexes are created correctly
-   - Run `npm run setup:fauna` to recreate collections and indexes
+   - Ensure your IP address is whitelisted in MongoDB Atlas Network Access
+   - Verify the database user has the correct permissions
+   - Run `npm run setup:mongodb` to recreate collections and indexes
 
 3. **Netlify Function Errors**
    - Check the terminal for function logs

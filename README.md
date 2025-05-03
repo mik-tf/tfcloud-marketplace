@@ -6,7 +6,7 @@ A serverless marketplace application for deploying workloads to the ThreeFold Gr
 
 The ThreeFold Cloud Marketplace is a complete solution that enables users to deploy workloads to the ThreeFold Grid. It consists of:
 
-- **Backend**: A serverless API built with Netlify Functions, Auth0, FaunaDB, and Stripe
+- **Backend**: A serverless API built with Netlify Functions, Auth0, MongoDB Atlas, and Stripe
 - **Frontend**: A React-based web application that interacts with the backend API
 
 ## Repository Structure
@@ -56,7 +56,7 @@ tfcloud-marketplace/
 
 ## Getting Started
 
-For a comprehensive setup guide including detailed instructions on environment configuration, FaunaDB setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md). For detailed Auth0 configuration instructions specifically for cloud operators, see the [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md).
+For a comprehensive setup guide including detailed instructions on environment configuration, MongoDB Atlas setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md). For detailed Auth0 configuration instructions specifically for cloud operators, see the [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md).
 
 ### Prerequisites
 
@@ -64,7 +64,7 @@ For a comprehensive setup guide including detailed instructions on environment c
 - npm or yarn
 - Netlify CLI
 - Auth0 account
-- FaunaDB account
+- MongoDB Atlas account
 - Stripe account (for payment processing)
 
 ### Quick Start
@@ -81,7 +81,7 @@ For a comprehensive setup guide including detailed instructions on environment c
    npm install
    cp .env.example .env
    # Edit .env with your credentials (see Setup Guide for details)
-   npm run setup:fauna
+   npm run setup:mongodb
    npm run dev
    ```
 

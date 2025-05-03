@@ -40,7 +40,7 @@ tfcloud-marketplace/
 
 The ThreeFold Cloud Marketplace is a serverless application that enables users to deploy workloads to the ThreeFold Grid. It consists of:
 
-- **Backend**: A serverless API built with Netlify Functions, Auth0, FaunaDB, and Stripe
+- **Backend**: A serverless API built with Netlify Functions, Auth0, MongoDB Atlas, and Stripe
 - **Frontend**: A React-based web application that interacts with the backend API
 
 The application supports three user roles:
@@ -56,7 +56,7 @@ The application supports three user roles:
 - npm or yarn
 - Netlify CLI
 - Auth0 account
-- FaunaDB account
+- MongoDB Atlas account
 - Stripe account (for payment processing)
 
 ### Quick Start
@@ -73,7 +73,7 @@ The application supports three user roles:
    npm install
    cp .env.example .env
    # Edit .env with your credentials
-   npm run setup:fauna
+   npm run setup:mongodb
    npm run dev
    ```
 
@@ -137,10 +137,12 @@ Cloud Operators can:
      - `cloud-operator`: For marketplace administrators (manually assigned to trusted admins only)
    - Assign appropriate permissions to each role
 
-2. **FaunaDB Setup**:
-   - Create a new database
-   - Generate a server key
-   - Run the setup script: `npm run setup:fauna`
+2. **MongoDB Atlas Setup**:
+   - Create a new MongoDB Atlas cluster
+   - Create a database user
+   - Whitelist your IP address
+   - Get your connection string
+   - Run the setup script: `npm run setup:mongodb`
 
 3. **Stripe Setup**:
    - Create a Stripe account
@@ -149,7 +151,7 @@ Cloud Operators can:
 
 4. **Environment Variables**:
    - Copy `.env.example` to `.env`
-   - Fill in Auth0, FaunaDB, and Stripe credentials
+   - Fill in Auth0, MongoDB Atlas, and Stripe credentials
 
 ### Frontend Setup
 
@@ -370,7 +372,7 @@ const processPayment = async (amount, description) => {
 3. User completes registration form
 4. User is redirected back to the application
 5. Frontend stores authentication state
-6. Backend creates user profile in FaunaDB
+6. Backend creates user profile in MongoDB Atlas
 
 ### Creating a Deployment
 
@@ -379,7 +381,7 @@ const processPayment = async (amount, description) => {
 3. User fills out deployment form
 4. User submits form
 5. Frontend sends request to backend
-6. Backend creates deployment in FaunaDB
+6. Backend creates deployment in MongoDB Atlas
 7. Backend returns deployment details
 8. Frontend displays success message
 
@@ -400,7 +402,7 @@ const processPayment = async (amount, description) => {
 2. User fills out provider registration form
 3. User submits form
 4. Frontend sends request to backend
-5. Backend creates provider request in FaunaDB
+5. Backend creates provider request in MongoDB Atlas
 6. Cloud operator reviews request through the cloud operator dashboard
 7. Cloud operator approves or rejects request
 8. If approved, user is automatically assigned the cloud-provider role in Auth0
@@ -417,7 +419,7 @@ The project includes GitHub Actions workflows for continuous integration and dep
    - Triggered by changes to backend files
    - Runs tests and linting
    - Deploys to Netlify on successful merge to main branch
-   - Sets up FaunaDB collections and indexes
+   - Sets up MongoDB Atlas collections and indexes
 
 2. **Frontend Workflow** (`.github/workflows/frontend-ci-cd.yml`):
    - Triggered by changes to frontend files on both main and dev branches
@@ -436,11 +438,11 @@ The project includes GitHub Actions workflows for continuous integration and dep
      - Publish directory: `backend/functions`
    - Configure environment variables in Netlify dashboard
 
-2. **FaunaDB Setup**:
+2. **MongoDB Atlas Setup**:
    - Run the setup script to create collections and indexes:
-     ```bash
-     FAUNADB_SECRET=your-secret node backend/scripts/setup-fauna.js
-     ```
+      ```bash
+      MONGODB_URI=your-connection-string node backend/scripts/setup-mongodb.js
+      ```
 
 3. **Auth0 Configuration**:
    - Update callback URLs, logout URLs, and web origins with production URLs
