@@ -1,6 +1,8 @@
 # ThreeFold Cloud Marketplace Frontend
 
-This is the frontend for the ThreeFold Cloud Marketplace, designed to work with the serverless backend implemented with Netlify Functions, Auth0, FaunaDB, and Stripe.
+This is the frontend for the ThreeFold Cloud Marketplace, designed to work with the serverless backend implemented with Netlify Functions, Auth0, MongoDB Atlas, and Stripe.
+
+> **Note**: This frontend is currently in early development. The UI components and basic structure have been implemented, but the integration with backend services and third-party providers (Auth0, Stripe, etc.) is still in progress.
 
 ## Table of Contents
 
@@ -20,11 +22,11 @@ This is the frontend for the ThreeFold Cloud Marketplace, designed to work with 
 
 ## Technology Stack
 
-- **Frontend Framework**: React
+- **Frontend Framework**: React with TypeScript
 - **State Management**: React Context API
-- **Styling**: CSS Modules / Styled Components
-- **Authentication**: Auth0
-- **Payment Processing**: Stripe Elements
+- **Styling**: Tailwind CSS
+- **Authentication**: Auth0 (planned)
+- **Payment Processing**: Stripe Elements (planned)
 - **Build Tool**: Vite
 
 ## Prerequisites
@@ -63,8 +65,9 @@ VITE_API_URL=http://localhost:8888/api
 VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com
 VITE_AUTH0_CLIENT_ID=your-auth0-client-id
 VITE_AUTH0_AUDIENCE=https://your-api-identifier
-VITE_STRIPE_PUBLIC_KEY=your-stripe-public-key
 ```
+
+> **Note**: These environment variables are set up in anticipation of future development phases when the frontend will be integrated with the backend and third-party services. They are not currently being used by the code.
 
 ## Development
 
@@ -88,281 +91,55 @@ npm run build
 npm run preview
 ```
 
-## Backend Integration
+## Current Development Status
 
-The frontend integrates with the backend using the provided integration examples in `backend/examples/frontend-integration`. These examples have been adapted and implemented in the frontend codebase.
+The frontend is currently in the first phase of development:
 
-### Integration Files
+1. **Interface & Flow Integration** (Current Phase)
+   - Core UI/UX interface has been implemented
+   - End-to-end workflow for mock deployments is in place
+   - Components are modular for easy extension
 
-The following files handle backend integration:
+The following phases are planned but not yet implemented:
+
+2. **Connect to TFChain** (Next Phase)
+3. **Stripe Integration** (Planned)
+4. **Backend Integration** (Planned)
+5. **Documentation & CI** (Ongoing)
+6. **Deployment** (Planned)
+
+## Planned Backend Integration
+
+The backend provides example code for frontend integration in `backend/examples/frontend-integration`. These examples will be adapted and implemented in the frontend codebase in future development phases.
+
+### Planned Integration Files
+
+The following files will handle backend integration:
 
 - `src/services/auth.js`: Authentication service for Auth0 integration
 - `src/services/api.js`: API client for making requests to the backend
 - `src/services/payment.js`: Service for Stripe payment integration
 
-## Authentication
+## Planned Authentication
 
-The frontend uses Auth0 for authentication. The authentication flow is as follows:
+The frontend will use Auth0 for authentication in future development phases. The authentication flow will be implemented following the examples provided in the backend integration examples.
 
-### 1. Setup Auth0Provider in your main application
+Currently, the frontend uses a mock authentication system with hardcoded credentials for demonstration purposes. The actual Auth0 integration will be implemented in the "Backend Integration" phase of development.
 
-```jsx
-// src/main.jsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Auth0Provider } from './contexts/Auth0Context';
-import App from './App';
-import './index.css';
+The planned authentication implementation will include:
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Auth0Provider>
-      <App />
-    </Auth0Provider>
-  </React.StrictMode>
-);
-```
+1. An Auth0Provider component to manage authentication state
+2. Context API for sharing authentication state across components
+3. Protected routes that require authentication
+4. Role-based access control for different user types (Cloud User, Cloud Provider, Cloud Operator)
 
-### 2. Create an Auth0 Context
+## Planned API Client
 
-```jsx
-// src/contexts/Auth0Context.jsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import authService from '../services/auth';
+An API client will be implemented in future development phases to handle communication with the backend API. It will automatically include authentication tokens in requests.
 
-const Auth0Context = createContext();
+## Planned Payment Processing
 
-export const useAuth0 = () => useContext(Auth0Context);
-
-export const Auth0Provider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const initAuth = async () => {
-      if (authService.isAuthenticated()) {
-        setIsAuthenticated(true);
-        setUser(authService.getUser());
-      }
-      
-      setIsLoading(false);
-    };
-
-    initAuth();
-    
-    // Handle authentication callback
-    if (window.location.search.includes('access_token=')) {
-      authService.handleCallback();
-    }
-    
-    // Listen for auth events
-    window.addEventListener('auth:login', (e) => {
-      setIsAuthenticated(true);
-      setUser(e.detail.user);
-    });
-    
-    window.addEventListener('auth:unauthorized', () => {
-      setIsAuthenticated(false);
-      setUser(null);
-    });
-    
-    return () => {
-      window.removeEventListener('auth:login', () => {});
-      window.removeEventListener('auth:unauthorized', () => {});
-    };
-  }, []);
-
-  const login = () => authService.login();
-  const logout = () => authService.logout();
-
-  const value = {
-    isAuthenticated,
-    user,
-    isLoading,
-    login,
-    logout
-  };
-
-  return (
-    <Auth0Context.Provider value={value}>
-      {children}
-    </Auth0Context.Provider>
-  );
-};
-```
-
-### 3. Use the Auth0 Context in Components
-
-```jsx
-// src/components/LoginButton.jsx
-import { useAuth0 } from '../contexts/Auth0Context';
-
-const LoginButton = () => {
-  const { isAuthenticated, login, logout } = useAuth0();
-
-  return isAuthenticated ? (
-    <button onClick={logout}>Log Out</button>
-  ) : (
-    <button onClick={login}>Log In</button>
-  );
-};
-
-export default LoginButton;
-```
-
-### 4. Protect Routes
-
-```jsx
-// src/components/ProtectedRoute.jsx
-import { Navigate } from 'react-router-dom';
-import { useAuth0 } from '../contexts/Auth0Context';
-
-const ProtectedRoute = ({ children, requiredRole }) => {
-  const { isAuthenticated, user, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-
-  if (requiredRole && (!user.permissions || !user.permissions.includes(requiredRole))) {
-    return <Navigate to="/unauthorized" />;
-  }
-
-  return children;
-};
-
-export default ProtectedRoute;
-```
-
-## API Client
-
-The API client handles communication with the backend API. It automatically includes authentication tokens in requests.
-
-### Usage Example
-
-```jsx
-import { useState, useEffect } from 'react';
-import apiClient from '../services/api';
-
-const DeploymentsList = () => {
-  const [deployments, setDeployments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchDeployments = async () => {
-      try {
-        const response = await apiClient.getUserDeployments();
-        setDeployments(response.deployments);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchDeployments();
-  }, []);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div>
-      <h2>Your Deployments</h2>
-      {deployments.length === 0 ? (
-        <p>No deployments found.</p>
-      ) : (
-        <ul>
-          {deployments.map(deployment => (
-            <li key={deployment.id}>
-              <h3>{deployment.name}</h3>
-              <p>{deployment.description}</p>
-              <p>Status: {deployment.status}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-export default DeploymentsList;
-```
-
-## Payment Processing
-
-The payment service integrates with Stripe for payment processing.
-
-### 1. Set up Stripe Elements
-
-```jsx
-import { useState, useEffect } from 'react';
-import paymentService from '../services/payment';
-
-const PaymentForm = () => {
-  const [isStripeReady, setIsStripeReady] = useState(false);
-  
-  useEffect(() => {
-    const initStripe = async () => {
-      try {
-        await paymentService.initialize(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-        setIsStripeReady(true);
-      } catch (error) {
-        console.error('Failed to initialize Stripe:', error);
-      }
-    };
-    
-    initStripe();
-  }, []);
-  
-  useEffect(() => {
-    if (isStripeReady) {
-      paymentService.mountCardElement('card-element');
-    }
-  }, [isStripeReady]);
-  
-  return (
-    <div>
-      <h2>Payment Information</h2>
-      <div id="card-element" className="card-element"></div>
-      <div id="card-errors" className="card-errors" role="alert"></div>
-    </div>
-  );
-};
-
-export default PaymentForm;
-```
-
-### 2. Process Payment
-
-```jsx
-const handlePayment = async () => {
-  try {
-    // Create payment method
-    await paymentService.createPaymentMethod({
-      name: user.name,
-      email: user.email
-    });
-    
-    // Process payment
-    const result = await paymentService.processPayment(
-      amount,
-      'usd',
-      `Payment for ${deploymentName}`
-    );
-    
-    console.log('Payment successful:', result);
-  } catch (error) {
-    console.error('Payment failed:', error);
-  }
-};
-```
+Stripe integration for payment processing will be implemented in future development phases.
 
 ## Deployment
 
@@ -405,7 +182,7 @@ npm run deploy
    - Publish directory: `dist`
 3. Configure environment variables in Netlify dashboard
 
-## Project Structure
+## Current Project Structure
 
 ```
 frontend/
@@ -416,62 +193,108 @@ frontend/
 │   │   ├── common/      # Common UI components
 │   │   ├── layout/      # Layout components
 │   │   └── forms/       # Form components
-│   ├── contexts/        # React contexts
-│   ├── hooks/           # Custom React hooks
+│   ├── context/         # React contexts
+│   ├── docs/            # Documentation
 │   ├── pages/           # Page components
-│   ├── services/        # API and service integrations
 │   ├── styles/          # Global styles
-│   ├── utils/           # Utility functions
-│   ├── App.jsx          # Main App component
-│   ├── main.jsx         # Entry point
-│   └── routes.jsx       # Route definitions
+│   ├── App.tsx          # Main App component
+│   ├── index.tsx        # Entry point
+│   ├── index.css        # Global CSS
+│   └── global.d.ts      # TypeScript declarations
+├── .env                 # Environment variables
 ├── .env.example         # Example environment variables
 ├── index.html           # HTML template
 ├── package.json         # Dependencies and scripts
-├── vite.config.js       # Vite configuration
+├── vite.config.ts       # Vite configuration
+├── tsconfig.json        # TypeScript configuration
+├── tailwind.config.js   # Tailwind CSS configuration
 └── README.md            # This file
 ```
 
-## Available Components
+## Current Available Components
 
-The frontend includes several pre-built components for common functionality:
+The frontend currently includes several pre-built UI components for the planned functionality:
 
-### Authentication Components
+### Layout Components
 
-- `LoginButton`: Button for login/logout
-- `UserProfile`: Display user profile information
-- `ProtectedRoute`: Route that requires authentication
+- `NavBar`: Navigation bar component
+- `Footer`: Footer component
+- `DashboardLayout`: Layout for dashboard pages
+- `DocsLayout`: Layout for documentation pages
 
-### Deployment Components
+### User Interface Components
 
-- `DeploymentsList`: List of user deployments
-- `DeploymentDetail`: Detailed view of a deployment
-- `DeploymentForm`: Form for creating/editing deployments
+- `DeploymentsList`: Mock list of user deployments
+- `DeploymentDetail`: Mock detailed view of a deployment
+- `DeploymentForm`: Mock form for creating deployments
+- `NodeDetail`: Mock node details view
+- `OperatorDetail`: Mock operator details view
+- `Settings`: Mock settings page
 
-### Payment Components
+### Page Components
 
-- `PaymentForm`: Form for payment information
-- `PaymentMethodsList`: List of saved payment methods
-- `TransactionHistory`: Display transaction history
+- `Home`: Homepage component
+- `Login`: Login page component (mock)
+- `Signup`: Signup page component (mock)
+- `Dashboard`: Dashboard page component
+- `Nodes`: Nodes management page
+- `Ops`: Operator dashboard page
+
+## Development Roadmap
+
+The frontend development follows a phased approach:
+
+1. **Interface & Flow Integration** ✅ (Current Phase)
+   - Design and implement the core UI/UX interface
+   - Create end-to-end workflow for mock deployments
+   - Ensure components are modular for easy extension
+
+2. **Connect to TFChain** 🔄 (Next Phase)
+   - Integrate TFChain SDK for real deployments
+   - Implement wallet management
+   - Issue deployment transactions on TFChain
+
+3. **Stripe Integration** 🔄 (Planned)
+   - Set up Stripe SDK for fiat payments
+   - Implement payment flow
+   - Link payments to TFChain deployment credits
+
+4. **Backend Integration** 🔄 (Planned)
+   - Connect frontend with backend services
+   - Implement authentication with Auth0
+   - Set up database interactions
+
+5. **Documentation & CI** 🔄 (Ongoing)
+   - Update documentation at each milestone
+   - Set up linting and formatting
+   - Configure CI pipeline for tests and builds
+
+6. **Deployment** 🔄 (Planned)
+   - Configure GitHub Pages deployment
+   - Set up multi-environment support (dev/prod)
+   - Implement DNS and HTTPS configuration
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Authentication Issues**
-   - Check Auth0 configuration in `.env` file
-   - Verify callback URLs are correctly set up in Auth0 dashboard
-   - Check browser console for CORS errors
+1. **Development Server Issues**
+   - Ensure Node.js version 16 or later is installed
+   - Verify all dependencies are installed with `npm install`
+   - Check for port conflicts (default port is 3000)
+   - Review terminal output for error messages
 
-2. **API Connection Issues**
-   - Verify the backend API is running
-   - Check API URL in `.env` file
-   - Check browser console for network errors
+2. **Build Issues**
+   - Ensure all dependencies are installed
+   - Check for TypeScript errors
+   - Verify environment variables are properly set
+   - Review build logs for detailed error information
 
-3. **Stripe Payment Issues**
-   - Check Stripe public key in `.env` file
-   - Verify the card element is mounted correctly
-   - Check browser console for Stripe Elements errors
+3. **UI Rendering Issues**
+   - Check browser console for JavaScript errors
+   - Verify CSS is loading correctly
+   - Test in different browsers to identify browser-specific issues
+   - Check for responsive design issues at different screen sizes
 
 ### Getting Help
 

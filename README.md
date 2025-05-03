@@ -7,7 +7,11 @@ A serverless marketplace application for deploying workloads to the ThreeFold Gr
 The ThreeFold Cloud Marketplace is a complete solution that enables users to deploy workloads to the ThreeFold Grid. It consists of:
 
 - **Backend**: A serverless API built with Netlify Functions, Auth0, MongoDB Atlas, and Stripe
-- **Frontend**: A React-based web application that interacts with the backend API
+- **Frontend**: A React-based web application built with Vite and TypeScript that interacts with the backend API
+
+## Current Development Status
+
+This project is currently in early development. The frontend UI components and basic structure have been implemented, but the integration with backend services and third-party providers (Auth0, Stripe, etc.) is still in progress.
 
 ## Repository Structure
 
@@ -31,12 +35,10 @@ tfcloud-marketplace/
 
 ## Documentation
 
-- [Setup Guide](docs/SETUP_GUIDE.md): Comprehensive guide for setting up and testing the project
-- [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md): Detailed instructions for setting up Auth0 authentication for cloud operators
-- [Testing Guide](docs/TESTING_GUIDE.md): Detailed instructions for testing all components of the project
+- [Project Overview](docs/overview.md): Comprehensive overview of the project goals, architecture, and roadmap
+- [Development Steps](docs/steps.md): Detailed development roadmap and current status
 - [Backend Documentation](backend/README.md): Detailed instructions on setting up and using the backend
 - [Frontend Documentation](frontend/README.md): Instructions for integrating with the backend API
-- [Usage Guide](USAGE_GUIDE.md): Comprehensive guide covering both frontend and backend usage
 
 ## Features
 
@@ -52,20 +54,39 @@ tfcloud-marketplace/
 - **Cloud Providers**: Node operators providing infrastructure
 - **Cloud Operators**: Marketplace administrators who deploy and manage the platform
 
-## Project Roadmap
+## Development Roadmap
 
-- Phase 1:
-  - Frontend UX and components
-- Phase 2:
-  - Backend setup
-- Phase 3:
-  - Frontend Organized into Usable Templates
-- Phase 4:
-  - Backend connection with frontend for test/dev environment
-- Phase 5
-  - Frontend and backend for test/dev environment
-- Phase 6
-  - Frontend and backend minimal production environment
+The project follows a modular, phased approach to development:
+
+1. **Interface & Flow Integration** ✅ (Current Phase)
+   - Design and implement the core UI/UX interface
+   - Create end-to-end workflow for mock deployments
+   - Ensure components are modular for easy extension
+
+2. **Connect to TFChain** 🔄 (Next Phase)
+   - Integrate TFChain SDK for real deployments
+   - Implement wallet management
+   - Issue deployment transactions on TFChain
+
+3. **Stripe Integration** 🔄 (Planned)
+   - Set up Stripe SDK for fiat payments
+   - Implement payment flow
+   - Link payments to TFChain deployment credits
+
+4. **Backend Integration** 🔄 (Planned)
+   - Connect frontend with backend services
+   - Implement authentication with Auth0
+   - Set up database interactions
+
+5. **Documentation & CI** 🔄 (Ongoing)
+   - Update documentation at each milestone
+   - Set up linting and formatting
+   - Configure CI pipeline for tests and builds
+
+6. **Deployment** 🔄 (Planned)
+   - Configure GitHub Pages deployment
+   - Set up multi-environment support (dev/prod)
+   - Implement DNS and HTTPS configuration
 
 ## Cloud Product Offering
 
@@ -89,7 +110,7 @@ The Cloud product offering is as follows:
 
 ## Getting Started
 
-For a comprehensive setup guide including detailed instructions on environment configuration, MongoDB Atlas setup, and Stripe integration, see the [Setup Guide](docs/SETUP_GUIDE.md). For detailed Auth0 configuration instructions specifically for cloud operators, see the [Auth0 Configuration Guide](docs/AUTH0_CONFIGURATION.md).
+For a comprehensive overview of the project, see the [Project Overview](docs/overview.md). For detailed development steps and current status, see the [Development Steps](docs/steps.md).
 
 ### Prerequisites
 
@@ -132,7 +153,7 @@ For a comprehensive setup guide including detailed instructions on environment c
 
 ## Development
 
-See the [Usage Guide](USAGE_GUIDE.md) for detailed development instructions and the [Setup Guide](docs/SETUP_GUIDE.md) for comprehensive setup instructions.
+See the [Development Steps](docs/steps.md) for detailed development instructions and current project status.
 
 ## Deployment
 
@@ -145,12 +166,43 @@ The project includes GitHub Actions workflows for continuous integration and dep
 
 This multi-domain setup allows for testing features in a development environment before deploying to production, including testing integrations like Stripe webhooks with a dedicated development domain.
 
-See the [Usage Guide](USAGE_GUIDE.md) for detailed deployment instructions, including DNS configuration and GitHub Pages setup.
+## Environment Setup
 
-## Implementation Status
+### Backend Environment
 
-- **Phase 1**: ✅ Completed - Core infrastructure and standard integrations
-- **Phase 2**: 🔄 Planned - ThreeFold-specific integrations
+The backend requires a `.env` file in the `backend/` directory with the following variables:
+
+```
+# Auth0 Configuration
+AUTH0_DOMAIN=your-auth0-domain.auth0.com
+AUTH0_CLIENT_ID=your-auth0-client-id
+AUTH0_CLIENT_SECRET=your-auth0-client-secret
+AUTH0_CALLBACK_URL=http://localhost:8888/api/auth/callback
+AUTH0_AUDIENCE=https://your-api-identifier
+
+# MongoDB Configuration
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
+
+# Stripe Configuration
+STRIPE_SECRET_KEY=your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
+
+# Application Settings
+NODE_ENV=development
+API_URL=http://localhost:8888/api
+FRONTEND_URL=http://localhost:3000
+```
+
+### Frontend Environment
+
+The frontend has a `.env` file in the `frontend/` directory, but it's not currently being used by the code. It's set up in anticipation of future development phases when the frontend will be integrated with the backend and third-party services. The expected variables are:
+
+```
+VITE_API_URL=http://localhost:8888/api
+VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com
+VITE_AUTH0_CLIENT_ID=your-auth0-client-id
+VITE_AUTH0_AUDIENCE=https://your-api-identifier
+```
 
 ## License
 
