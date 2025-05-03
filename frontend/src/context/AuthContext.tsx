@@ -34,14 +34,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await new Promise(resolve => setTimeout(resolve, 500));
     
     // Check for cloud operator credentials
-    if (email === 'admin@example.com' && password === 'password') {
+    if (email === 'operator@example.com' && password === 'password') {
       setRoles(['user', 'cloud-provider', 'cloud-operator']);
       setIsAuthenticated(true);
       return true;
     }
     
     // Check for cloud provider credentials
-    if (email === 'nodeoperator@example.com' && password === 'password') {
+    if (email === 'provider@example.com' && password === 'password') {
       setRoles(['user', 'cloud-provider']);
       setIsAuthenticated(true);
       return true;
