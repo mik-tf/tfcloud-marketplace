@@ -76,22 +76,20 @@ For a comprehensive setup guide including detailed instructions on environment c
    cd tfcloud-marketplace
    ```
 
-2. Set up the backend:
+2. Set up the frontend:
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
+
+3. Set up the backend:
    ```bash
    cd backend
    npm install
    cp .env.example .env
    # Edit .env with your credentials (see Setup Guide for details)
    npm run setup:mongodb
-   npm run dev
-   ```
-
-3. Set up the frontend:
-   ```bash
-   cd ../frontend
-   npm install
-   cp .env.example .env
-   # Edit .env with your credentials (see Setup Guide for details)
    npm run dev
    ```
 
