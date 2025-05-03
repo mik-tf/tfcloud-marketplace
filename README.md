@@ -19,10 +19,38 @@ FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enab
   - Opt into dashboard pools
   - Earn 50% of TFChain deployment cost
 
-## App Roadmap
+## Project Roadmap
 
-- Phase 1: Virtual Machines (with backup options)
-- Future: Kubernetes, Nextcloud, LiveKit, Open WebUI AI chat
+- Phase 1:
+  - Frontend UX and components
+- Phase 2:
+  - Backend setup
+- Phase 3:
+  - Frontend Organized into Usable Templates
+- Phase 4:
+  - Backend connection with frontend for test/dev environment
+- Phase 5
+  - Frontend and backend for test/dev environment
+- Phase 6
+  - Frontend and backend minimal production environment
+
+## Cloud Product Offering
+
+The Cloud product offering is as follows:
+
+- Virtual machine
+  - Full virtual machine
+- Orchestrator
+  - Kubernetes
+- Apps
+  - Nextcloud
+  - Livekit
+  - Open WebUI
+- Storage
+  - Basic storage
+    - SSD storage
+  - Quantum safe file system storage
+    - HDD storage
 
 ## Architecture & Docs
 

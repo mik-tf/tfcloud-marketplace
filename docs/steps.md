@@ -172,7 +172,7 @@ To create a fine-grained PAT for fully automated Pages deployment:
    | A Record     | @    | 185.199.109.153   | Automatic |
    | A Record     | @    | 185.199.110.153   | Automatic |
    | A Record     | @    | 185.199.111.153   | Automatic |
-   | CNAME Record | www  | mik-tf.github.io. | Automatic |
+   | CNAME Record | www  | \<username>.github.io. | Automatic |
 
    > **Note:** Point the CNAME value to `<username>.github.io` without `/repo-name`.
 
