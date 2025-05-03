@@ -107,9 +107,13 @@ See the [Usage Guide](USAGE_GUIDE.md) for detailed development instructions and 
 The project includes GitHub Actions workflows for continuous integration and deployment:
 
 - Backend is deployed to Netlify
-- Frontend is deployed to GitHub Pages
+- Frontend is deployed to GitHub Pages with multi-domain support:
+  - Production environment (main branch) → threefold.store
+  - Development environment (dev branch) → dev.threefold.store
 
-See the [Usage Guide](USAGE_GUIDE.md) for detailed deployment instructions.
+This multi-domain setup allows for testing features in a development environment before deploying to production, including testing integrations like Stripe webhooks with a dedicated development domain.
+
+See the [Usage Guide](USAGE_GUIDE.md) for detailed deployment instructions, including DNS configuration and GitHub Pages setup.
 
 ## Implementation Status
 

@@ -2,12 +2,12 @@ name: Frontend CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
     paths:
       - 'frontend/**'
       - '.github/workflows/frontend-ci-cd.yml'
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
     paths:
       - 'frontend/**'
       - '.github/workflows/frontend-ci-cd.yml'
@@ -94,8 +94,8 @@ jobs:
           name: frontend-build
           path: frontend/dist
 
-  deploy:
-    name: Deploy Frontend
+  deploy-main:
+    name: Deploy Frontend (Production)
     needs: [test, lint, build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -110,11 +110,15 @@ jobs:
           name: frontend-build
           path: frontend/dist
       
-      - name: Deploy to GitHub Pages
+      - name: Create CNAME file
+        run: echo "threefold.store" > frontend/dist/CNAME
+      
+      - name: Deploy to GitHub Pages (Production)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: frontend/dist
           branch: gh-pages
+          target-folder: production
       
       - name: Notify deployment status
         uses: rtCamp/action-slack-notify@v2
@@ -122,6 +126,42 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: deployments
           SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: Frontend Deployment
-          SLACK_MESSAGE: 'Frontend deployed to GitHub Pages :rocket:'
+          SLACK_TITLE: Production Frontend Deployment
+          SLACK_MESSAGE: 'Frontend deployed to threefold.store :rocket:'
+          SLACK_FOOTER: 'ThreeFold Cloud Marketplace'
+
+  deploy-dev:
+    name: Deploy Frontend (Development)
+    needs: [test, lint, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-build
+          path: frontend/dist
+      
+      - name: Create CNAME file
+        run: echo "dev.threefold.store" > frontend/dist/CNAME
+      
+      - name: Deploy to GitHub Pages (Development)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: frontend/dist
+          branch: gh-pages
+          target-folder: development
+      
+      - name: Notify deployment status
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: deployments
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: Development Frontend Deployment
+          SLACK_MESSAGE: 'Frontend deployed to dev.threefold.store :rocket:'
           SLACK_FOOTER: 'ThreeFold Cloud Marketplace'

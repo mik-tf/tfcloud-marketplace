@@ -56,3 +56,6 @@ Thumbs.db
 
 # AI Files
 all_files_text.txt
+
+# Local Netlify folder
+.netlify

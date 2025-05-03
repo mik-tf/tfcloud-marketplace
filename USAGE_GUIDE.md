@@ -420,10 +420,12 @@ The project includes GitHub Actions workflows for continuous integration and dep
    - Sets up FaunaDB collections and indexes
 
 2. **Frontend Workflow** (`.github/workflows/frontend-ci-cd.yml`):
-   - Triggered by changes to frontend files
+   - Triggered by changes to frontend files on both main and dev branches
    - Runs tests and linting
    - Builds the frontend application
-   - Deploys to GitHub Pages on successful merge to main branch
+   - Deploys to GitHub Pages with different domains based on branch:
+     - main branch → threefold.store (production environment)
+     - dev branch → dev.threefold.store (development environment)
 
 ### Backend Deployment
 
@@ -448,23 +450,56 @@ The project includes GitHub Actions workflows for continuous integration and dep
 
 ### Frontend Deployment
 
-1. **Build the Frontend**:
+#### Multi-Domain GitHub Pages Setup
+
+The project is configured to deploy to different domains based on the branch:
+
+- **Production Environment (main branch)**: deployed to `threefold.store`
+- **Development Environment (dev branch)**: deployed to `dev.threefold.store`
+
+This setup allows for testing features in a development environment before deploying to production, including testing integrations like Stripe webhooks with a dedicated development domain.
+
+To set up this multi-domain deployment:
+
+1. **DNS Configuration**:
+   - Add A records for both domains pointing to GitHub Pages IP addresses:
+     ```
+     185.199.108.153
+     185.199.109.153
+     185.199.110.153
+     185.199.111.153
+     ```
+   - Add CNAME records for www subdomains if needed
+
+2. **GitHub Repository Settings**:
+   - Go to repository Settings > Pages
+   - Add and verify both custom domains
+
+3. **CI/CD Workflow**:
+   The GitHub Actions workflow (`.github/workflows/frontend-ci-cd.yml`) is already configured to:
+   - Deploy main branch to the production environment
+   - Deploy dev branch to the development environment
+   - Create appropriate CNAME files for each domain
+   - Use separate target folders in the gh-pages branch
+
+4. **Manual Deployment (if needed)**:
    ```bash
    cd frontend
    npm run build
-   ```
-
-2. **Deploy to GitHub Pages**:
-   ```bash
+   # For production
+   echo "threefold.store" > dist/CNAME
+   # For development
+   # echo "dev.threefold.store" > dist/CNAME
    npm run deploy
    ```
 
-3. **Or Deploy to Netlify**:
+5. **Alternative: Deploy to Netlify**:
    - Connect your GitHub repository to Netlify
    - Configure build settings:
      - Build command: `cd frontend && npm install && npm run build`
      - Publish directory: `frontend/dist`
    - Configure environment variables in Netlify dashboard
+   - Set up branch deploys for different domains in Netlify
 
 ## Troubleshooting
 
