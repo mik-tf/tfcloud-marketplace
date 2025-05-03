@@ -1,11 +1,9 @@
-# ThreeFold Cloud Marketplace Overview
-
-A serverless marketplace application for deploying workloads to the ThreeFold Grid, enabling users to deploy cloud apps via fiat payments, co-op collaborations, and automated TFT top-ups.
+# ThreeFold Cloud Marketplace
+FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enabling users to deploy cloud apps via fiat payments, co-op collaborations, and automated TFT top-ups.
 
 ---
 
 ## 1. Goals & MVP  
-
 1. Public GitHub repo, Apache 2.0 license  
 2. Dashboard User can:  
    - Sign up / log in  
@@ -59,7 +57,7 @@ A serverless marketplace application for deploying workloads to the ThreeFold Gr
 ## 3. User Flows
 
 ### 3.1 Dashboard User  
-1. Browse → "Deploy Apps"  
+1. Browse → “Deploy Apps"  
 2. Sign up / log in  
 3. Add card via Stripe Elements  
 4. VM form: name, OS image, size, default vs advanced (pick Node IDs), backup options (none / simple backup VM / QSFS backup storage swarm)  
@@ -76,89 +74,60 @@ A serverless marketplace application for deploying workloads to the ThreeFold Gr
 ### 3.3 Node Operator  
 1. Login as Node Operator  
 2. **My Nodes**: register new node (ID, metadata)  
-3. Toggle "Expose on Dashboard" per dashboard  
+3. Toggle “Expose on Dashboard” per dashboard  
 
 ---
 
-## 4. Current Tech Stack & Architecture  
-
+## 4. Tech Stack & Architecture  
 **Frontend**  
-- Vite + React + TypeScript  
+- Create React App + TypeScript  
 - React Router for navigation  
 - Tailwind CSS + React Icons  
 - Context API (AuthContext) for roles & settings  
-- Planned: Stripe Elements & ethers.js for deployments & TFT interactions  
+- Stripe Elements & ethers.js for deployments & TFT interactions  
 
 **Backend (Serverless)**  
-- Netlify Functions for API endpoints
-- Auth0 for authentication
-- MongoDB Atlas for database
-- Planned: Stripe integration for payments
-- Planned: TF Connect integration for TFT interactions
+- AWS Lambda / Vercel Functions for API endpoints (`/me`, `/request-node-operator`, `/approve-request`)  
+- JWT auth for stateless sessions & roles  
+- Database (DynamoDB / Fauna) for users, roles, requests  
+- Stripe webhooks & TF Connect integration  
 
 **Infrastructure & CI**  
+- Docker & docker-compose for local dev  
 - GitHub Actions for build, lint, test  
-- HTTPS (Let's Encrypt) & env-vars for secrets  
+- HTTPS (Let’s Encrypt) & env-vars for secrets  
 
 ---
 
-## 5. Current Repository Structure
+## 5. Repo Structure
 
 ```
-tfcloud-marketplace/
-├── .github/                # GitHub configuration
-│   └── workflows/          # GitHub Actions workflows
-│       ├── backend-ci-cd.yml   # Backend CI/CD workflow
-│       └── frontend-ci-cd.yml  # Frontend CI/CD workflow
-├── backend/                # Backend code
-│   ├── functions/          # Netlify Functions
-│   ├── scripts/            # Setup scripts
-│   ├── src/                # Source code
-│   └── tests/              # Test files
-├── frontend/               # Frontend code
-│   ├── public/             # Static assets
-│   └── src/                # Source code
-├── docs/                   # Documentation
-│   ├── archive/            # Archived documentation
-│   ├── overview.md         # This file
-│   └── steps.md            # Development steps
-└── README.md               # Project README
+fiatdashboard/
+├─ frontend/             
+│   ├─ pages/            
+│   ├─ components/       
+│   └─ styles/           
+├─ backend/              
+│   ├─ src/              
+│   │   ├─ auth/         
+│   │   ├─ billing/      
+│   │   ├─ deploy/       
+│   │   └─ node-pool/    
+│   ├─ prisma/│migrations/ 
+│   └─ tests/            
+├─ docs/                
+│   └─ overview.md       ← this file  
+├─ docker-compose.yml    
+├─ LICENSE               
+├─ README.md             
+└─ .github/              
+    └─ workflows/        
 ```
 
 ---
 
-## 6. Development Roadmap  
-
-1. **Interface & Flow Integration** ✅ (Current Phase)
-   - Design and implement the core UI/UX interface
-   - Create end-to-end workflow for mock deployments
-   - Ensure components are modular for easy extension
-
-2. **Connect to TFChain** 🔄 (Next Phase)
-   - Integrate TFChain SDK for real deployments
-   - Implement wallet management
-   - Issue deployment transactions on TFChain
-
-3. **Stripe Integration** 🔄 (Planned)
-   - Set up Stripe SDK for fiat payments
-   - Implement payment flow
-   - Link payments to TFChain deployment credits
-
-4. **Backend Integration** 🔄 (Planned)
-   - Connect frontend with backend services
-   - Implement authentication with Auth0
-   - Set up database interactions
-
-5. **Documentation & CI** 🔄 (Ongoing)
-   - Update documentation at each milestone
-   - Set up linting and formatting
-   - Configure CI pipeline for tests and builds
-
-6. **Deployment** 🔄 (Planned)
-   - Configure GitHub Pages deployment
-   - Set up multi-environment support (dev/prod)
-   - Implement DNS and HTTPS configuration
-
----
-
-*Last updated: 2025-05-03*
+## 6. Next Steps  
+1. Lock in MVP & flows  
+2. Choose UI framework (Next.js vs CRA), backend framework  
+3. Scaffold repo, add CI, auth & Stripe boilerplate  
+4. Implement TF Connect integration & deploy tests  

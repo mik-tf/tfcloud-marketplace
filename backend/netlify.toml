@@ -1,0 +1,23 @@
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "public"
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 3000
+  publish = "public"
+  jwtSecret = "secret"
+  jwtRolePath = "app_metadata.authorization.roles"
+  autoLaunch = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["express"]

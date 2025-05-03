@@ -1,8 +1,8 @@
 # Development Steps
 
-This document outlines the modular and evolutive roadmap for the **tfcloud-platform** project.
+This document outlines the modular and evolutive roadmap for the **ThreeFold Cloud Marketplace** project.
 
-## 1. Interface & Flow Integration
+## 1. Interface & Flow Integration (Current Phase)
 
 - Design and implement the core UI/UX interface.
 - Integrate the end-to-end workflow for a mock deployment:
@@ -11,7 +11,9 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
   - Display status and logs.
 - Ensure components are modular to allow easy extension.
 
-## 2. Connect to TFChain
+**Status**: ✅ In progress - Frontend UI components and basic structure have been implemented, but integration with backend services is still pending.
+
+## 2. Connect to TFChain (Next Phase)
 
 - Integrate TFChain SDK for real deployments.
 - Implement wallet management:
@@ -20,7 +22,9 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
 - Issue deployment transactions on TFChain.
 - Handle transaction confirmation and errors.
 
-## 3. Stripe Integration
+**Status**: 🔄 Planned - Will be implemented after completing the Interface & Flow Integration phase.
+
+## 3. Stripe Integration (Planned)
 
 - Set up Stripe SDK for fiat payments.
 - Implement payment flow:
@@ -29,30 +33,31 @@ This document outlines the modular and evolutive roadmap for the **tfcloud-platf
   - Handle webhooks for payment success/failure.
 - Link payments to TFChain deployment credits.
 
-## 4. Architecture Breakdown
+**Status**: 🔄 Planned - Will be implemented after completing the Connect to TFChain phase.
 
-### Frontend
+## 4. Backend Integration (Planned)
 
-- Framework: React/Vue (TBD).
-- Component library setup.
-- Routing and state management.
-- API client abstraction.
+- Connect frontend with backend services:
+  - Implement API client for backend communication.
+  - Set up authentication with Auth0.
+  - Integrate with MongoDB for data storage.
+- Implement full backend functionality:
+  - User management and authentication.
+  - Deployment creation and management.
+  - Payment processing with Stripe.
+  - Node operator registration and approval.
 
-### Backend
+**Status**: 🔄 Planned - Backend structure has been set up, but full integration with the frontend is pending.
 
-- Framework: Node.js/Express (TBD).
-- RESTful API endpoints:
-  - Auth, projects, deployments, payments.
-- Database schema design (e.g., PostgreSQL).
-- Integration adapters:
-  - TFChain service.
-  - Stripe service.
-
-## 5. Documentation & CI
+## 5. Documentation & CI (Ongoing)
 
 - Update documentation at each milestone.
 - Set up linting and formatting.
 - Configure CI pipeline for automatic tests and builds.
+
+**Status**: 🔄 Ongoing - Documentation is being updated as the project progresses.
+
+## 6. Deployment (Planned)
 
 ## 6. Deployment
 
@@ -184,4 +189,4 @@ To create a fine-grained PAT for fully automated Pages deployment:
 Enjoy automated CI/CD and custom-domain hosting!  
 
 ---
-*Last updated: 2025-04-27*
+*Last updated: 2025-05-03*
