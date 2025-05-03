@@ -1,128 +1,17 @@
 # ThreeFold Cloud Marketplace
 
-A serverless marketplace application for deploying workloads to the ThreeFold Grid.
+A marketplace for ThreeFold Cloud services.
 
-## Overview
-
-The ThreeFold Cloud Marketplace is a complete solution that enables users to deploy workloads to the ThreeFold Grid. It consists of:
-
-- **Backend**: A serverless API built with Netlify Functions, Auth0, MongoDB Atlas, and Stripe
-- **Frontend**: A React-based web application built with Vite and TypeScript that interacts with the backend API
-
-## Current Development Status
-
-This project is currently in early development. The frontend UI components and basic structure have been implemented, but the integration with backend services and third-party providers (Auth0, Stripe, etc.) is still in progress.
-
-## Repository Structure
-
-```
-tfcloud-marketplace/
-├── .github/                # GitHub configuration
-│   └── workflows/          # GitHub Actions workflows
-│       ├── backend-ci-cd.yml   # Backend CI/CD workflow
-│       └── frontend-ci-cd.yml  # Frontend CI/CD workflow
-├── backend/                # Backend code
-│   ├── functions/          # Netlify Functions
-│   ├── scripts/            # Setup scripts
-│   ├── src/                # Source code
-│   └── tests/              # Test files
-├── frontend/               # Frontend code
-│   ├── public/             # Static assets
-│   └── src/                # Source code
-├── USAGE_GUIDE.md          # Comprehensive usage guide
-└── README.md               # This file
-```
-
-## Documentation
-
-- [Project Overview](docs/overview.md): Comprehensive overview of the project goals, architecture, and roadmap
-- [Development Steps](docs/steps.md): Detailed development roadmap and current status
-- [Backend Documentation](backend/README.md): Detailed instructions on setting up and using the backend
-- [Frontend Documentation](frontend/README.md): Instructions for integrating with the backend API
-
-## Features
-
-- **Authentication**: User registration and login with role-based access control
-- **Deployment Management**: Create, view, update, and delete deployments
-- **Provider Management**: Register as a provider and manage nodes
-- **Operator Dashboard**: Manage marketplace settings and monitor system health
-- **Payment Processing**: Secure payment handling with Stripe
-
-## User Roles
-
-- **Cloud Users**: End users deploying applications
-- **Cloud Providers**: Node operators providing infrastructure
-- **Cloud Operators**: Marketplace administrators who deploy and manage the platform
-
-## Development Roadmap
-
-The project follows a modular, phased approach to development:
-
-1. **Interface & Flow Integration** ✅ (Current Phase)
-   - Design and implement the core UI/UX interface
-   - Create end-to-end workflow for mock deployments
-   - Ensure components are modular for easy extension
-
-2. **Connect to TFChain** 🔄 (Next Phase)
-   - Integrate TFChain SDK for real deployments
-   - Implement wallet management
-   - Issue deployment transactions on TFChain
-
-3. **Stripe Integration** 🔄 (Planned)
-   - Set up Stripe SDK for fiat payments
-   - Implement payment flow
-   - Link payments to TFChain deployment credits
-
-4. **Backend Integration** 🔄 (Planned)
-   - Connect frontend with backend services
-   - Implement authentication with Auth0
-   - Set up database interactions
-
-5. **Documentation & CI** 🔄 (Ongoing)
-   - Update documentation at each milestone
-   - Set up linting and formatting
-   - Configure CI pipeline for tests and builds
-
-6. **Deployment** 🔄 (Planned)
-   - Configure GitHub Pages deployment
-   - Set up multi-environment support (dev/prod)
-   - Implement DNS and HTTPS configuration
-
-## Cloud Product Offering
-
-The Cloud product offering is as follows:
-
-- Virtual machine
-  - Full virtual machine
-- Orchestrator
-  - Kubernetes
-- Apps
-  - Nextcloud
-  - Livekit
-  - Open WebUI
-- Storage
-  - Basic storage
-    - SSD storage
-  - Quantum safe file system storage
-    - HDD storage
-
-**Note**: The Cloud Operator role should only be assigned to trusted administrators who deploy the marketplace. This role has full administrative access to the platform and controls which users can become cloud providers.
-
-## Getting Started
-
-For a comprehensive overview of the project, see the [Project Overview](docs/overview.md). For detailed development steps and current status, see the [Development Steps](docs/steps.md).
+## Development Setup
 
 ### Prerequisites
 
-- Node.js (v16 or later)
+- Node.js (v18 or later)
 - npm or yarn
-- Netlify CLI
-  - `npm install -g netlify-cli`
+- Netlify CLI (`npm install -g netlify-cli`)
 - Auth0 account
-- MongoDB Atlas account
-- Stripe account (for payment processing)
 
-### Quick Start
+### Local Development
 
 1. Clone the repository:
    ```bash
@@ -130,80 +19,119 @@ For a comprehensive overview of the project, see the [Project Overview](docs/ove
    cd tfcloud-marketplace
    ```
 
-2. Set up the frontend:
+2. Install dependencies for both frontend and backend:
    ```bash
-   cd ../frontend
+   # Install frontend dependencies
+   cd frontend
    npm install
-   npm run dev
+   
+   # Install backend dependencies
+   cd ../backend
+   npm install
    ```
 
-3. Set up the backend:
+3. Set up environment variables:
+   - Copy `.env.example` to `.env` in both frontend and backend directories
+   - Update the values with your Auth0 credentials and other configuration
+
+4. Start the development server:
    ```bash
-   cd backend
-   npm install
-   cp .env.example .env
-   # Edit .env with your credentials (see Setup Guide for details)
-   npm run setup:mongodb
-   npm run dev
+   # From the root directory
+   netlify dev
    ```
 
-4. Access the application:
-   - Backend API: http://localhost:8888/.netlify/functions/api
-   - Frontend: http://localhost:3000
+   This will start both the frontend and backend servers.
 
-## Development
+## Auth0 Setup
 
-See the [Development Steps](docs/steps.md) for detailed development instructions and current project status.
+1. Create a new Auth0 application:
+   - Go to [Auth0 Dashboard](https://manage.auth0.com/)
+   - Create a new Application (Regular Web Application)
+   - Configure the following settings:
+     - Allowed Callback URLs: `http://localhost:3000, https://dev.threefold.store, https://threefold.store`
+     - Allowed Logout URLs: `http://localhost:3000, https://dev.threefold.store, https://threefold.store`
+     - Allowed Web Origins: `http://localhost:3000, https://dev.threefold.store, https://threefold.store`
 
-## Deployment
+2. Create an API:
+   - Go to APIs in the Auth0 Dashboard
+   - Create a new API with the following settings:
+     - Name: ThreeFold Cloud Marketplace API
+     - Identifier: `https://api.threefold.store`
+     - Signing Algorithm: RS256
 
-The project includes GitHub Actions workflows for continuous integration and deployment:
+3. Set up roles and permissions:
+   - Go to User Management > Roles
+   - Create the following roles:
+     - cloud-user
+     - cloud-provider
+     - cloud-operator
 
-- Backend is deployed to Netlify
-- Frontend is deployed to GitHub Pages with multi-domain support:
-  - Production environment (main branch) → threefold.store
-  - Development environment (dev branch) → dev.threefold.store
+4. Update your environment variables with the Auth0 credentials.
 
-This multi-domain setup allows for testing features in a development environment before deploying to production, including testing integrations like Stripe webhooks with a dedicated development domain.
+## Netlify Deployment
 
-## Environment Setup
+### Manual Deployment
 
-### Backend Environment
+1. Build the project:
+   ```bash
+   # Build frontend
+   cd frontend
+   npm run build
+   
+   # Build backend
+   cd ../backend
+   npm run build
+   ```
 
-The backend requires a `.env` file in the `backend/` directory with the following variables:
+2. Deploy to Netlify:
+   ```bash
+   netlify deploy --prod
+   ```
+
+### Continuous Deployment
+
+1. Connect your GitHub repository to Netlify:
+   - Go to [Netlify](https://app.netlify.com/)
+   - Click "New site from Git"
+   - Select your repository
+   - Configure build settings:
+     - Build command: `cd frontend && npm install && npm run build`
+     - Publish directory: `frontend/dist`
+     - Functions directory: `backend/functions`
+
+2. Configure environment variables in Netlify:
+   - Go to Site settings > Build & deploy > Environment
+   - Add the environment variables from your `.env` files
+
+3. Set up branch deploys:
+   - Go to Site settings > Build & deploy > Continuous Deployment
+   - Configure branch deploys:
+     - Production branch: `main` (deploys to threefold.store)
+     - Branch deploys: `development` (deploys to dev.threefold.store)
+
+4. Set up custom domains:
+   - Go to Site settings > Domain management
+   - Add custom domains:
+     - threefold.store (for production)
+     - dev.threefold.store (for development)
+
+## Project Structure
 
 ```
-# Auth0 Configuration
-AUTH0_DOMAIN=your-auth0-domain.auth0.com
-AUTH0_CLIENT_ID=your-auth0-client-id
-AUTH0_CLIENT_SECRET=your-auth0-client-secret
-AUTH0_CALLBACK_URL=http://localhost:8888/api/auth/callback
-AUTH0_AUDIENCE=https://your-api-identifier
-
-# MongoDB Configuration
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
-
-# Stripe Configuration
-STRIPE_SECRET_KEY=your-stripe-secret-key
-STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
-
-# Application Settings
-NODE_ENV=development
-API_URL=http://localhost:8888/api
-FRONTEND_URL=http://localhost:3000
-```
-
-### Frontend Environment
-
-The frontend has a `.env` file in the `frontend/` directory, but it's not currently being used by the code. It's set up in anticipation of future development phases when the frontend will be integrated with the backend and third-party services. The expected variables are:
-
-```
-VITE_API_URL=http://localhost:8888/api
-VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com
-VITE_AUTH0_CLIENT_ID=your-auth0-client-id
-VITE_AUTH0_AUDIENCE=https://your-api-identifier
+tfcloud-marketplace/
+├── .github/            # GitHub Actions workflows
+├── backend/            # Backend code
+│   ├── functions/      # Netlify serverless functions
+│   ├── src/            # Backend source code
+│   └── netlify.toml    # Backend Netlify configuration
+├── frontend/           # Frontend code
+│   ├── public/         # Static assets
+│   ├── src/            # Frontend source code
+│   └── netlify.toml    # Frontend Netlify configuration
+├── netlify.toml        # Main Netlify configuration
+└── README.md           # Project documentation
 ```
 
 ## License
 
-This project is licensed under the Apache 2.0 License.
+[Apache 2.0](LICENSE)

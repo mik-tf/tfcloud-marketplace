@@ -1,0 +1,81 @@
+# Main Netlify configuration file
+# This file configures both frontend and backend deployment
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+  functions = "backend/functions"
+  
+  # Use custom build plugin for environment variables
+  [[build.plugins]]
+    package = "./netlify-build-plugin.js"
+
+# Production context (main branch)
+[context.production]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_ENV = "production" }
+
+# Development context (development branch)
+[context.development]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_ENV = "development" }
+
+# Branch deploy context (any other branch)
+[context.branch-deploy]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_ENV = "staging" }
+
+# Deploy preview context (pull requests)
+[context.deploy-preview]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_ENV = "staging" }
+
+# Development environment
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 3000
+  publish = "dist"
+  framework = "#custom"
+  autoLaunch = true
+
+# API redirects
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Functions configuration
+[functions]
+  directory = "backend/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["express"]
+
+# Custom domain configuration
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Custom headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
