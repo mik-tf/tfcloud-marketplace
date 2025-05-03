@@ -7,7 +7,7 @@ FOSS GitHub repo for a three-layer Cloud Marketplace on the ThreeFold Grid, enab
 We have a basic UX/UI template (main branch) and we will work in parallel on setting a proper backend (development branch).
 
 - UX/UI template: https://threefold.store
-- Backend work: TBD...
+- Backend work: TBD
 
 ## Features
 
