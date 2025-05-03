@@ -63,6 +63,7 @@ For a comprehensive setup guide including detailed instructions on environment c
 - Node.js (v16 or later)
 - npm or yarn
 - Netlify CLI
+  - `npm install -g netlify-cli`
 - Auth0 account
 - MongoDB Atlas account
 - Stripe account (for payment processing)
