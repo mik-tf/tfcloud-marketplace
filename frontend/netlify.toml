@@ -1,10 +1,23 @@
 # Frontend Netlify configuration
 
+# Functions configuration
+[functions]
+  directory = "../backend/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "serverless-http", "dotenv", "auth0", "express-jwt", "rate-limiter-flexible", "express-jwt-authz", "jwks-rsa", "mongodb", "mongoose", "stripe", "winston", "faunadb"]
+
 # SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# API redirects
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
 
 # Cache control for static assets
 [[headers]]
