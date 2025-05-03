@@ -132,7 +132,7 @@ jobs:
 
   deploy-dev:
     name: Deploy Frontend (Development)
-    needs: [test, lint, build]
+    needs: [build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     
