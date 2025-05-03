@@ -65,7 +65,7 @@
 [functions]
   directory = "backend/functions"
   node_bundler = "esbuild"
-  external_node_modules = ["express"]
+  external_node_modules = ["express", "serverless-http", "dotenv", "auth0", "express-jwt", "rate-limiter-flexible", "express-jwt-authz", "jwks-rsa", "mongodb", "mongoose", "stripe", "winston", "faunadb"]
 
 # Custom domain configuration
 [[plugins]]
