@@ -43,6 +43,19 @@ MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?re
 |----------|-------------|-------------------|------------|
 | `MONGODB_URI` | Connection string for MongoDB Atlas | **MUST CHANGE** to your MongoDB Atlas connection string | **MUST CHANGE** to your production MongoDB Atlas connection string |
 
+**Important Note on MongoDB Connection String Format:**
+The `<cluster-url>` portion of your MongoDB connection string MUST be a valid domain name with a top-level domain (TLD).
+A typical MongoDB Atlas cluster URL looks like: `cluster0.abc123.mongodb.net`
+
+Example of a valid connection string:
+```
+mongodb+srv://myusername:mypassword@cluster0.abc123.mongodb.net/tfcloud-marketplace?retryWrites=true&w=majority
+```
+
+Invalid formats (will cause connection errors):
+- `mongodb+srv://username:password@mycluster/dbname?retryWrites=true&w=majority` (missing domain and TLD)
+- `mongodb+srv://username:password@tfcloudclusterurl/dbname?retryWrites=true&w=majority` (not a valid domain)
+
 ### Stripe Configuration
 
 ```
@@ -119,6 +132,8 @@ If you encounter issues related to environment variables:
 
 2. **MongoDB Connection Issues**:
    - Verify that your MongoDB Atlas connection string is correct
+   - Ensure the cluster URL portion is a valid domain with TLD (e.g., `cluster0.abc123.mongodb.net`)
+   - If you see an error like `MongoAPIError: URI must include hostname, domain name, and tld`, check your connection string format
    - Check that the database user has the necessary permissions for your database
    - Ensure your IP address is whitelisted in the MongoDB Atlas network access settings
 

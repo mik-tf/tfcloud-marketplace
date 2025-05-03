@@ -151,6 +151,11 @@ FRONTEND_URL=http://localhost:3000                # DO NOT CHANGE for local deve
    - Copy the connection string
    - Replace `<username>`, `<password>`, and `<database-name>` with your actual values
 
+   **IMPORTANT**: The connection string must contain a valid cluster URL with a domain name and TLD.
+   For example: `mongodb+srv://username:password@cluster0.abc123.mongodb.net/database-name?retryWrites=true&w=majority`
+   
+   The cluster URL portion (after the @ and before the /) must be a valid domain like `cluster0.abc123.mongodb.net`
+
 5. Update your `.env` file with the MongoDB connection string:
    - `MONGODB_URI`: Your MongoDB Atlas connection string
 
@@ -294,6 +299,8 @@ For more detailed smoke testing procedures and additional testing strategies, se
 
 2. **MongoDB Connection Issues**
    - Verify your MongoDB Atlas connection string in the `.env` file
+   - Ensure the cluster URL in your connection string is a valid domain with TLD (e.g., `cluster0.abc123.mongodb.net`)
+   - If you see an error like `MongoAPIError: URI must include hostname, domain name, and tld`, check your connection string format
    - Check if collections and indexes are created correctly
    - Ensure your IP address is whitelisted in MongoDB Atlas Network Access
    - Verify the database user has the correct permissions

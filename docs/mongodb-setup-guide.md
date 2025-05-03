@@ -79,6 +79,18 @@ Your connection string should look like this:
 mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
 ```
 
+**IMPORTANT**: The `<cluster-url>` portion MUST be a valid domain name with a top-level domain (TLD). For example:
+- ✅ CORRECT: `cluster0.abc123.mongodb.net`
+- ❌ INCORRECT: `mycluster` or `tfcloudclusterurl` (missing domain and TLD)
+
+A valid MongoDB Atlas cluster URL typically follows this format:
+`cluster0.xxxxx.mongodb.net` where `xxxxx` is a unique identifier for your cluster.
+
+Example of a complete, valid connection string:
+```
+mongodb+srv://myusername:mypassword@cluster0.abc123.mongodb.net/tfcloud-marketplace?retryWrites=true&w=majority
+```
+
 ## Setting Up Collections and Indexes
 
 The ThreeFold Cloud Marketplace uses several collections to store data. You can set these up automatically using the provided setup script:
@@ -115,10 +127,18 @@ If you encounter issues connecting to your MongoDB Atlas cluster:
 
 1. **Connection String Issues**:
    - Verify that you've replaced `<username>`, `<password>`, and `<dbname>` in the connection string
+   - Ensure the `<cluster-url>` is a valid domain name with a TLD (e.g., `cluster0.abc123.mongodb.net`)
+   - If you see an error like `MongoAPIError: URI must include hostname, domain name, and tld`, this means your cluster URL is not properly formatted
    - Check for any special characters in your password that might need URL encoding
 
 2. **Network Access Issues**:
-   - Ensure your IP address is whitelisted in the Network Access settings
+   - If you see this error: `Error connecting to MongoDB Atlas: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/`
+   - To whitelist your IP address:
+     1. Log in to your MongoDB Atlas account
+     2. Navigate to the "Network Access" section in the left sidebar
+     3. Click "Add IP Address"
+     4. Enter your server's IP address (or use "Allow Access from Anywhere" for development)
+     5. Click "Confirm"
    - If using a VPN or changing networks, you may need to update the IP whitelist
 
 3. **Authentication Issues**:

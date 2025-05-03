@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "netlify dev",
+    "server": "node server.js",
     "build": "netlify build",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -29,6 +30,7 @@
     "express-validator": "^7.0.1",
     "faunadb": "^4.8.0",
     "jwks-rsa": "^3.0.1",
+    "mongodb": "^6.16.0",
     "mongoose": "^7.5.0",
     "rate-limiter-flexible": "^2.4.1",
     "serverless-http": "^3.2.0",
