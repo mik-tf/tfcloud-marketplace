@@ -52,6 +52,39 @@ tfcloud-marketplace/
 - **Cloud Providers**: Node operators providing infrastructure
 - **Cloud Operators**: Marketplace administrators who deploy and manage the platform
 
+## Project Roadmap
+
+- Phase 1:
+  - Frontend UX and components
+- Phase 2:
+  - Backend setup
+- Phase 3:
+  - Frontend Organized into Usable Templates
+- Phase 4:
+  - Backend connection with frontend for test/dev environment
+- Phase 5
+  - Frontend and backend for test/dev environment
+- Phase 6
+  - Frontend and backend minimal production environment
+
+## Cloud Product Offering
+
+The Cloud product offering is as follows:
+
+- Virtual machine
+  - Full virtual machine
+- Orchestrator
+  - Kubernetes
+- Apps
+  - Nextcloud
+  - Livekit
+  - Open WebUI
+- Storage
+  - Basic storage
+    - SSD storage
+  - Quantum safe file system storage
+    - HDD storage
+
 **Note**: The Cloud Operator role should only be assigned to trusted administrators who deploy the marketplace. This role has full administrative access to the platform and controls which users can become cloud providers.
 
 ## Getting Started
